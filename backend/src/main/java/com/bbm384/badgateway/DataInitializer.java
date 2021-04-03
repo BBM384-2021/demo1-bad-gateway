@@ -1,6 +1,9 @@
 package com.bbm384.badgateway;
 
+import com.bbm384.badgateway.model.Role;
 import com.bbm384.badgateway.model.User;
+import com.bbm384.badgateway.model.constants.UserRole;
+import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.repository.MessageRepository;
 import com.bbm384.badgateway.repository.RoleRepository;
 import com.bbm384.badgateway.repository.UserRepository;
@@ -16,17 +19,23 @@ public class DataInitializer implements CommandLineRunner {
     UserRepository userRepository;
 
     @Autowired
-    RoleRepository roles;
+    RoleRepository roleRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
-        User admin = new User();
-        admin.setUsername("admin");
-        admin.setPassword(passwordEncoder.encode("admin"));
-        userRepository.save(admin);
+        if(false){
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("admin"));
+            admin.setUserType(UserType.ADMIN);
+            Role role = new Role(UserRole.ADMIN);
+            role.setUser(admin);
+            userRepository.save(admin);
+            roleRepository.save(role);
+        }
 
     }
 }
