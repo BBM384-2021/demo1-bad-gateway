@@ -27,7 +27,6 @@ export function reducer(state, action) {
         ...state,
         isLogged: true,
         userInfo: action.payload.data,
-        groups: { isB2B: action.payload.isB2B },
         isLoading: false,
       };
     case actionTypes.LOGIN_FAIL:
