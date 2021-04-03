@@ -1,0 +1,28 @@
+
+
+server:
+  servlet:
+    context-path: '/'
+
+app:
+  api_path: '/api'
+  jwtSecret: 'asdfg'
+  jwtExpirationInMs: 43200000
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/badgateway
+    username: root
+    password: 11223344
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+
+  flyway:
+    baseline-on-migrate: false
+    enabled: false
+    schemas: badgateway
