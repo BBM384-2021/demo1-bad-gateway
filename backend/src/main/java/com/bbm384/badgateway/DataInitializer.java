@@ -1,10 +1,8 @@
 package com.bbm384.badgateway;
 
 import com.bbm384.badgateway.model.User;
-import com.bbm384.badgateway.repository.MessageRepository;
 import com.bbm384.badgateway.repository.RoleRepository;
 import com.bbm384.badgateway.repository.UserRepository;
-import com.bbm384.badgateway.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,10 +21,11 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        User admin = new User();
-        admin.setUsername("admin");
-        admin.setPassword(passwordEncoder.encode("admin"));
-        userRepository.save(admin);
-
+        if(false){
+            User admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("admin"));
+            userRepository.save(admin);
+        }
     }
 }
