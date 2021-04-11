@@ -11,9 +11,9 @@ app:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/badgateway
-    username: root
-    password: 11223344
+    url: jdbc:mysql://localhost:3306/badgateway?allowPublicKeyRetrieval=true&&useSSL=false&serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
+    username: admin
+    password: admin
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
