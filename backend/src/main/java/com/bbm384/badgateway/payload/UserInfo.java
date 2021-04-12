@@ -7,8 +7,9 @@ public class UserInfo {
     private Long id;
     private String username;
     private String name;
-    private boolean isCentral;
     private UserStatus status;
+    private String phone;
+    private String email;
 
     public Long getId() {
         return id;
@@ -34,16 +35,23 @@ public class UserInfo {
         this.name = name;
     }
 
-    public boolean isCentral() {
-        return isCentral;
-    }
-
-    public void setCentral(boolean central) {
-        isCentral = central;
-    }
-
     public UserStatus getStatus() { return status; }
 
     public void setStatus(UserStatus status) { this.status = status; }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

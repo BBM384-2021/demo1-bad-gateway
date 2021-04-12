@@ -2,6 +2,7 @@ package com.bbm384.badgateway.model;
 
 import com.bbm384.badgateway.model.audit.DateAudit;
 import com.bbm384.badgateway.model.constants.UserStatus;
+import com.bbm384.badgateway.model.constants.UserType;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -9,12 +10,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "KULLANICI", uniqueConstraints = {
+@Table(name = "USER", uniqueConstraints = {
         @UniqueConstraint(columnNames = {
-                "KULLANICI"
+                "USERNAME",
+                "EMAIL"
         })
 })
 public class User extends DateAudit {
@@ -23,45 +26,46 @@ public class User extends DateAudit {
     private Long id;
 
     @Size(max = 40)
-    @Column(name = "AD")
     private String name;
 
     @NotBlank
-    @Column(name = "KULLANICI")
+    @Column(name = "USERNAME")
     private String username;
 
-    @Column(name = "TELEFON")
+    @Column(name = "PHONE")
+    @Size(min = 10, max = 10)
     private String phone;
 
     @Size(max = 40)
     @Email
-    @Column(name = "EPOSTA")
+    @Column(name = "EMAIL")
     private String email;
 
     @NotBlank
     @Size(max = 100)
-    @Column(name = "SIFRE")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "KULLANICI_ROLLERI",
-            joinColumns = @JoinColumn(name = "KULLANICI_ID"),
-            inverseJoinColumns = @JoinColumn(name = "ROL_ID"))
-    private Set<Role> roles = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Role> userRoles;
+
+    @Column(name = "USER_TYPE")
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
 
     @NotNull
-    @Column(name = "SIFRE_SIFIRLANSIN_MI")
+    @Column(name = "IS_PASSWORD_RESET")
     private boolean isPasswordReset;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "DURUM")
+    @Column(name = "STATUS")
     private UserStatus status;
+
 
     public User() {
 
     }
 
-    public static String getUserDefaultPassword(){
+    public static String getUserDefaultPassword() {
         return ".";
     }
 
@@ -99,14 +103,6 @@ public class User extends DateAudit {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -138,4 +134,12 @@ public class User extends DateAudit {
     public void setStatus(UserStatus status) {
         this.status = status;
     }
+
+    public List<Role> getUserRoles() { return userRoles; }
+
+    public void setUserRoles(List<Role> userRoles) { this.userRoles = userRoles; }
+
+    public UserType getUserType() { return userType; }
+
+    public void setUserType(UserType userType) { this.userType = userType; }
 }

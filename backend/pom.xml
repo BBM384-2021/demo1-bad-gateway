@@ -51,6 +51,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+    <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 
 		<!--MySQL database driver -->
 		<dependency>
@@ -73,7 +77,6 @@
 			<version>5.2.4</version>
 		</dependency>
 
-		<!--  -->
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-core</artifactId>
@@ -89,7 +92,7 @@
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
 			<version>4.4.0</version>
-		</dependency>
+    </dependency>
 
 	</dependencies>
 

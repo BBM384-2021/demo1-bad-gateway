@@ -1,55 +1,28 @@
-package com.bbm384.badgateway.model;
+package com.bbm384.badgateway.payload;
 
-
+import com.bbm384.badgateway.model.User;
 import com.bbm384.badgateway.model.audit.UpdatedAudit;
 import com.bbm384.badgateway.model.constants.ClubStatus;
-import com.querydsl.core.annotations.QueryEntity;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Set;
 
-@QueryEntity
-@Entity
-@Table(name = "CLUBS", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {
-                "NAME"
-        })
-})
-public class Club extends UpdatedAudit {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ClubPayload extends UpdatedAudit {
     private Long id;
-
-    @NotNull
-    @Size(max = 255)
-    @Column(name = "NAME")
     private String name;
-
-    @Size(max = 512)
-    @Column(name = "DESCRIPTION")
     private String description;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "CATEGORY_ID")
-    @NotNull
-    private Category category;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "MEMBERS")
+    private String category;
     private Set<User> members;
+    private ClubStatus status;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "STATUS")
-    private ClubStatus status = ClubStatus.ACTIVE;
-
-    public Club() {
+    public ClubPayload(String name, String description, String category, Set<User> members, ClubStatus status) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.members = members;
+        this.status = status;
     }
 
-    public Club(@NotNull @Size(max = 255) String name, @NotNull Category category) {
-        this.name = name;
-        this.category = category;
+    public ClubPayload() {
     }
 
     public Long getId() {
@@ -76,11 +49,11 @@ public class Club extends UpdatedAudit {
         this.description = description;
     }
 
-    public Category getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -99,6 +72,4 @@ public class Club extends UpdatedAudit {
     public void setStatus(ClubStatus status) {
         this.status = status;
     }
-
-
 }
