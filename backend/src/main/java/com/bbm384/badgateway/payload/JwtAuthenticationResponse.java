@@ -1,21 +1,21 @@
 package com.bbm384.badgateway.payload;
 
 public class JwtAuthenticationResponse {
-    private String accessToken;
+    private String token;
     private String tokenType = "Bearer";
-    private String roleName;
+    private String[] roles;
 
-    public JwtAuthenticationResponse(String accessToken, String roleName) {
-        this.accessToken = accessToken;
-        this.roleName = roleName;
+    public JwtAuthenticationResponse(String token, String[] roles) {
+        this.token = token;
+        this.roles = roles;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getToken() {
+        return token;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getTokenType() {
@@ -26,11 +26,11 @@ public class JwtAuthenticationResponse {
         this.tokenType = tokenType;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String[] getRoles() {
+        return roles;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setRoles(String[] roles) {
+        this.roles = roles;
     }
 }

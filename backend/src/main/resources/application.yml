@@ -26,3 +26,15 @@ spring:
     baseline-on-migrate: false
     enabled: false
     schemas: badgateway
+
+  mail:
+    host: smtp.elasticemail.com
+    port: 2525
+    username: "noreply@spiritsup.com"
+    password: "F1CB28C69BEC3C8DDC81326C6A07363C4165"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true

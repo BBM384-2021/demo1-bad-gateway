@@ -1,9 +1,10 @@
 package com.bbm384.badgateway.model;
 
-import com.bbm384.badgateway.model.constants.RoleName;
+import com.bbm384.badgateway.model.constants.UserRole;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "ROLES")
@@ -12,17 +13,26 @@ public class Role {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "USER_ID")
+  @NotNull
+  private User user;
+
   @Enumerated(EnumType.STRING)
   @NaturalId
   @Column(length = 60)
-  private RoleName name;
+  private UserRole userRole;
+
+  public User getUser() {
+    return user;
+  }
 
   public Role() {
 
   }
 
-  public Role(RoleName name) {
-    this.name = name;
+  public Role(UserRole userRole) {
+    this.userRole = userRole;
   }
 
   public Long getId() {
@@ -33,12 +43,15 @@ public class Role {
     this.id = id;
   }
 
-  public RoleName getName() {
-    return name;
+  public void setUser(User user) {
+    this.user = user;
   }
 
-  public void setName(RoleName name) {
-    this.name = name;
+  public UserRole getUserRole() {
+    return userRole;
   }
 
+  public void setUserRole(UserRole userRole) {
+    this.userRole = userRole;
+  }
 }
