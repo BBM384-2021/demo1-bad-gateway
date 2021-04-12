@@ -52,6 +52,10 @@ public class Club extends UpdatedAudit {
         this.category = category;
     }
 
+    public Club(Long id) {
+        super();
+    }
+
     public Long getId() {
         return id;
     }
