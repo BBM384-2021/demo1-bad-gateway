@@ -6,7 +6,7 @@ import {useAuthContext} from "../../context/Auth";
 const { Content } = Layout;
 
 const Login = () => {
-  const { control, register, handleSubmit, setValue } = useForm();
+  const { control, register, handleSubmit, setValue,formState: { errors } } = useForm();
 	const {userLogin,authState} = useAuthContext();
 
   const onSubmit = (data) => {
@@ -20,37 +20,30 @@ const Login = () => {
                     name="username"
                     control={control}
                     defaultValue=""
+                    rules={{ required: true }}
                     render={({ field }) => (
                         <Form.Item
                             label="Username"
                             name="username"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your username!',
-                                },
-                            ]}
                         >
                             <Input {...field}/>
+                            {errors.username && <p style={{color:"red",marginBottom:0}}>*Username is required</p>}
                         </Form.Item>
+
                     )}
                 />
                 <Controller
                     name="password"
                     control={control}
                     defaultValue=""
+                    rules={{ required: true }}
                     render={({ field }) => (
                         <Form.Item
                             label="Password"
                             name="password"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your password!',
-                                },
-                            ]}
                         >
                             <Input.Password {...field}/>
+                            {errors.password && <p style={{color:"red"}}>*Password is required</p>}
                         </Form.Item>
                     )}
                 />
