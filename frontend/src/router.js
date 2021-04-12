@@ -19,6 +19,26 @@ const routes=[
 		exact: true,
 		routeGroup: PUBLIC_ROUTE,
 		header: true,
+	},
+	{
+		path: PATHS.LOGIN,
+		component: Loadable({
+			loader: () => import('./pages/Auth/Login'),
+			loading: Loading,
+		}),
+		exact: true,
+		routeGroup: PUBLIC_ROUTE,
+		header: true,
+	},
+	{
+		path: PATHS.REGISTER,
+		component: Loadable({
+			loader: () => import('./pages/Auth/Register'),
+			loading: Loading,
+		}),
+		exact: true,
+		routeGroup: PUBLIC_ROUTE,
+		header: true,
 	}
 ]
 
@@ -47,14 +67,12 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
 	const { authState } = useContext(AuthContext);
 	return (
 		<>
-			{authState.isChecked && (
-				<Route
-					render={(props) =>
-						authState.isLogged ? <Component {...props} /> : <Redirect to={PATHS.LOGIN} />
-					}
-					{...rest}
-				/>
-			)}
+			<Route
+				render={(props) =>
+					authState.isLogged ? <Component {...props} /> : <Redirect to={PATHS.LOGIN} />
+				}
+				{...rest}
+			/>
 		</>
 	);
 };
