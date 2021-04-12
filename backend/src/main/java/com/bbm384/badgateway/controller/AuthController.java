@@ -1,8 +1,11 @@
 package com.bbm384.badgateway.controller;
 
+import com.bbm384.badgateway.service.*;
 import com.bbm384.badgateway.model.Role;
 import com.bbm384.badgateway.model.constants.UserRole;
 import com.bbm384.badgateway.model.constants.UserStatus;
+import com.bbm384.badgateway.payload.ApiResponse;
+import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.repository.RoleRepository;
@@ -12,6 +15,7 @@ import com.bbm384.badgateway.model.User;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.JwtTokenProvider;
 import com.bbm384.badgateway.security.UserPrincipal;
+import com.bbm384.badgateway.util.PasswordValidator;
 import com.bbm384.badgateway.service.EmailService;
 import com.bbm384.badgateway.service.PasswordService;
 import com.bbm384.badgateway.util.PasswordValidator;
@@ -37,6 +41,9 @@ import static com.bbm384.badgateway.model.User.getUserDefaultPassword;
 @RequestMapping("${app.api_path}")
 public class AuthController {
     @Autowired
+    PasswordService passwordService;
+
+    @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
@@ -54,8 +61,6 @@ public class AuthController {
     @Autowired
     EmailService emailService;
 
-    @Autowired
-    PasswordService passwordService;
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -105,6 +110,31 @@ public class AuthController {
         String jwt = tokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, rolesArray));
     }
+
+    @PostMapping("/auth/forgot-password")
+    public ApiResponse forgotPassword(@Valid @RequestBody ForgotPasswordRequest forgotPasswordRequest){
+        String email = forgotPasswordRequest.getEmail();
+        return passwordService.forgotPassword(email);
+    }
+
+    @GetMapping("/auth/forgot-password/{token}")
+    public ApiResponse checkToken(@PathVariable(value = "token") String token){
+        return passwordService.checkToken(token);
+    }
+
+    @PostMapping("/auth/forgot-password/{token}")
+    public ApiResponse setPassword(@PathVariable(value = "token") String token, @RequestBody SetPasswordRequest setPasswordRequest){
+        String newPassword = setPasswordRequest.getPassword();
+        String newPasswordAgain = setPasswordRequest.getPasswordAgain();
+        PasswordValidator passwordValidator = new PasswordValidator();
+
+        if(newPassword.equals(newPasswordAgain) && passwordValidator.validate(newPassword)){
+            return passwordService.setPassword(token, newPassword);
+        }
+
+        return new ApiResponse(false, "Passwords don't match.");
+    }
+
 
     @PostMapping("/auth/signup")
     public ApiResponse signup(@Valid @RequestBody SignUpRequest signUpRequest) {
