@@ -1,10 +1,10 @@
 package com.bbm384.badgateway.controller;
 
-import com.bbm384.badgateway.payload.PagedResponse;
-import com.bbm384.badgateway.payload.SubClubPayload;
+import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.repository.*;
 import com.bbm384.badgateway.security.CurrentUser;
-import com.bbm384.badgateway.service.SubClubService;
+import com.bbm384.badgateway.security.UserPrincipal;
+import com.bbm384.badgateway.service.*;
 import com.bbm384.badgateway.util.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,8 +35,8 @@ public class SubClubController {
     }
 
     @PostMapping("/create")
-    public SubClubPayload createSubClub(@RequestBody SubClubPayload subClubPayload){
-        return subClubService.createSubClub(subClubPayload);
+    public SubClubPayload createSubClub(@CurrentUser UserPrincipal currentUser, @RequestBody SubClubPayload subClubPayload){
+        return subClubService.createSubClub(currentUser, subClubPayload);
     }
 
     @PutMapping("/update")

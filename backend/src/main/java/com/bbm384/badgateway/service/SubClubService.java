@@ -6,6 +6,8 @@ import com.bbm384.badgateway.model.QSubClub;
 import com.bbm384.badgateway.model.*;
 import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.repository.*;
+import com.bbm384.badgateway.security.CurrentUser;
+import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.AppConstants;
 import com.bbm384.badgateway.util.ModelMapper;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,14 +31,15 @@ public class SubClubService {
     @Autowired
     private UserRepository userRepository;
 
-    public SubClubPayload createSubClub(SubClubPayload subClubPayload){
+    public SubClubPayload createSubClub(@CurrentUser UserPrincipal currentUser, SubClubPayload subClubPayload){
         SubClub subClub = new SubClub(subClubPayload.getName(),
                                       subClubPayload.getParentClub(),
                                       subClubPayload.getDescription(),
                                       subClubPayload.getCategory(),
                                       subClubPayload.getMembers(),
                                       subClubPayload.getAdmin());
-
+        //subClub.setCreatedBy(currentUser.getId());
+        subClub.setCreatedAt(Instant.now());
         subClubRepository.save(subClub);
         return ModelMapper.mapToSubClubInfoResponse(subClub);
     }
@@ -88,7 +92,7 @@ public class SubClubService {
                 -> ModelMapper.mapToSubClubInfoResponse(subClub)).getContent();
 
 
-        return new PagedResponse<>(SubClubInfoResponse,
+        return new PagedResponse<SubClubPayload>(SubClubInfoResponse,
                 subClubs.getNumber(),
                 subClubs.getSize(),
                 subClubs.getTotalElements(),

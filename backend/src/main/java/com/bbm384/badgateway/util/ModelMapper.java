@@ -50,12 +50,13 @@ public class ModelMapper {
 
     public static SubClubPayload mapToSubClubInfoResponse(SubClub subClub) {
         SubClubPayload subClubPayload = new SubClubPayload();
-        subClubPayload.setId(subClub.getId());
         subClubPayload.setName(subClub.getName());
         subClubPayload.setParentClub(subClub.getParentClub());
         subClubPayload.setCategory(subClub.getCategory());
         subClubPayload.setMembers(subClub.getMembers());
         subClubPayload.setAdmin(subClub.getAdmin());
+        subClub.setCreatedAt(subClub.getCreatedAt());
+        subClub.setCreatedBy(subClub.getCreatedBy());
         return subClubPayload;
     }
 }
