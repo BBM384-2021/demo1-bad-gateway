@@ -3,14 +3,14 @@ import { reducer } from './reducer';
 import * as actionTypes from './actionTypes';
 import { useHistory } from 'react-router-dom';
 import * as PATHS from '../../constants/paths';
-
-
+import axiosInstance from '../../utils/getAxiosInstance'
 const initialState = {
   isLogged: false,
   isLoading: false,
   error: null,
   userInfo: {},
-  role:null
+  role:null,
+  token:null
 };
 
 export const AuthContext = createContext(initialState);
@@ -20,12 +20,29 @@ const AuthSystem = ({ children }) => {
   const history = useHistory();
 
   const userRegister = async (req) => {
+    console.log("req: ",req)
     try {
       dispatch({ type: actionTypes.REGISTER_START });
-      dispatch({ type: actionTypes.REGISTER_SUCCESS });
+      const body = {
+        email:req.email || "",
+        username:req.username || "",
+        password:req.password || "",
+        passwordRepeat:req.passwordConfirm || ""
+      }
+      console.log("before")
+      await axiosInstance.post('/api/auth/signup',body).then((res)=> {
+        console.log("signup success")
+        console.log(res)
+        // dispatch({ type: actionTypes.REGISTER_SUCCESS });
+        //
+        // //success notification here
+        // history.push({ pathname: PATHS.HOME });
+      }).catch((error)=>{
+        console.log("signup error")
+        console.log(error)
+      })
+      console.log("after")
 
-      //success notification here
-      history.push({ pathname: PATHS.HOME });
     } catch (error) {
       //error message
       dispatch({ type: actionTypes.REGISTER_FAIL, payload: { error: error } });
@@ -40,12 +57,24 @@ const AuthSystem = ({ children }) => {
 
   const userLogin = async (req) => {
     try {
+      console.log(req)
       dispatch({ type: actionTypes.LOGIN_START });
-      dispatch({
+      const body = {
+        username: req.username,
+        password: req.password
+      }
+      await axiosInstance.post('/api/auth/login',body).then((res)=>{
+        console.log("login success")
+        console.log(res)
+        console.log("after res")
+        dispatch({
           type: actionTypes.LOGIN_SUCCESS,
-          payload: { data:""},
+          payload: { data:res.data},
         });
         history.push(PATHS.HOME);
+      }).catch((error)=> {
+        console.log("login error: ",error)
+      })
 
     } catch (error) {
       console.log(error);
