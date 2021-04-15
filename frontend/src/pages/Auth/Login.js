@@ -21,7 +21,6 @@ const Login = () => {
   };
   return (
     <Row justify="center" align={'middle'}>
-      {/*<div style={{maxWidth:width/3,textAlign:"right",margin:"0 auto",position: "relative",backgroundColor:"white",padding:30,borderRadius:10,marginTop:height/5}} >*/}
       {authState.isLoading ? (
         <div
           style={{

@@ -20,7 +20,6 @@ const Register = () => {
   const onSubmit = (data) => {
     if(data.password===data.passwordConfirm){
       setPasswordMatch(true);
-      //console.log('data: ', data);
       userRegister(data);
     }
     setPasswordMatch(false);
