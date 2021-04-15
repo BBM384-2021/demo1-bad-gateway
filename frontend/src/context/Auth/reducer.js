@@ -26,6 +26,8 @@ export function reducer(state, action) {
       return {
         ...state,
         isLogged: true,
+        token:action.payload.data.token,
+        role:action.payload.data.roles,
         userInfo: action.payload.data,
         isLoading: false,
       };
