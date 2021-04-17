@@ -5,6 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { useAuthContext } from '../../context/Auth';
 import background from './pexels-photo-207896.jpeg';
 import Text from 'antd/es/typography/Text';
+import { checkPassword } from '../../utils/checkPassword';
 
 
 
@@ -21,7 +22,7 @@ const Register = () => {
   const [form] = Form.useForm();
 
   const onSubmit = (data) => {
-    if(data.password===data.passwordConfirm){
+    if(data.password===data.passwordConfirm && checkPassword(data.password)){
       setPasswordMatch(true);
       userRegister(data);
     }
