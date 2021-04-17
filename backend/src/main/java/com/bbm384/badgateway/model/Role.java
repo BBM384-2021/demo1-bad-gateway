@@ -19,8 +19,7 @@ public class Role {
   private User user;
 
   @Enumerated(EnumType.STRING)
-  @NaturalId
-  @Column(length = 60)
+  @Column(name = "USER_ROLE")
   private UserRole userRole;
 
   public User getUser() {
@@ -31,7 +30,8 @@ public class Role {
 
   }
 
-  public Role(UserRole userRole) {
+  public Role(User user, UserRole userRole) {
+    this.user = user;
     this.userRole = userRole;
   }
 
