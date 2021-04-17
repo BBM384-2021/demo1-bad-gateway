@@ -24,6 +24,7 @@ public class ModelMapper {
 
     public static ClubInfoResponse mapToClubInfoResponse(Club club) {
         ClubInfoResponse clubInfoResponse = new ClubInfoResponse();
+        clubInfoResponse.setId(club.getId());
         clubInfoResponse.setName(club.getName());
         clubInfoResponse.setCategory(club.getCategory());
         clubInfoResponse.setDescription(club.getDescription());
