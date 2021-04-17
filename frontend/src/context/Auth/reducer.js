@@ -23,6 +23,7 @@ export function reducer(state, action) {
         isLoading: true,
       };
     case actionTypes.LOGIN_SUCCESS:
+      localStorage.setItem("token",action.payload.data.token)
       return {
         ...state,
         isLogged: true,

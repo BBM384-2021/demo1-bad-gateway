@@ -19,6 +19,7 @@ const routes=[
 		exact: true,
 		routeGroup: PUBLIC_ROUTE,
 		header: true,
+		full:false
 	},
 	{
 		path: PATHS.LOGIN,
@@ -29,6 +30,7 @@ const routes=[
 		exact: true,
 		routeGroup: PUBLIC_ROUTE,
 		header: true,
+		full:true
 	},
 	{
 		path: PATHS.REGISTER,
@@ -39,6 +41,7 @@ const routes=[
 		exact: true,
 		routeGroup: PUBLIC_ROUTE,
 		header: true,
+		full:true
 	}
 ]
 
@@ -48,7 +51,7 @@ const Router = () => {
 	const location = useLocation().pathname;
 
 	return (
-		<LayoutComponent header={routes.find((route) => route.path === location)?.header}>
+		<LayoutComponent header={routes.find((route) => route.path === location)?.header} full={routes.find((route) => route.path === location)?.full}>
 			<Switch>
 				{routes.map(({ routeGroup, path, component, exact = false }) =>
 					routeGroup === PROTECTED_ROUTE ? (

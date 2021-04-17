@@ -1,10 +1,13 @@
 import React from 'react';
 import Auth from './Auth';
+import ClubSystem from "./Club";
 
 const index = ({ children }) => {
 	return (
 			<Auth>
-				{children}
+				<ClubSystem>
+					{children}
+				</ClubSystem>
 			</Auth>
 	);
 };
