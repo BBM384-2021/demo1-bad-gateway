@@ -33,10 +33,8 @@ const AuthSystem = ({ children }) => {
       await axiosInstance.post('/api/auth/signup',body).then((res)=> {
         console.log("signup success")
         console.log(res)
-        // dispatch({ type: actionTypes.REGISTER_SUCCESS });
-        //
-        // //success notification here
-        // history.push({ pathname: PATHS.HOME });
+        dispatch({ type: actionTypes.REGISTER_SUCCESS });
+        history.push({ pathname: PATHS.LOGIN });
       }).catch((error)=>{
         console.log("signup error")
         console.log(error)
