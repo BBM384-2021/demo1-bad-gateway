@@ -142,11 +142,13 @@ public class AuthController {
         if (!(signUpRequest.getPassword().equals(signUpRequest.getPasswordRepeat()))){
             apiResponse.setSuccess(false);
             apiResponse.setMessage("The passwords you entered do not match.");
+            return apiResponse;
         }
         PasswordValidator passwordValidator = new PasswordValidator();
         if(!passwordValidator.validate(signUpRequest.getPassword())){
             apiResponse.setSuccess(false);
             apiResponse.setMessage("Password must contain at least a letter, a number and a special character.");
+            return apiResponse;
         }
 
         User user = new User();
@@ -154,8 +156,9 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setEmail(signUpRequest.getEmail());
         user.setUsername(signUpRequest.getUsername());
-        Role role = new Role(UserRole.MEMBER);
-        role.setUser(user);
+
+        Role role = new Role(user, UserRole.MEMBER);
+
         userRepository.save(user);
         roleRepository.save(role);
 

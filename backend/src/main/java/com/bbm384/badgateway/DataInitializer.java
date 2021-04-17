@@ -62,8 +62,7 @@ public class DataInitializer implements CommandLineRunner {
             club_2.setCategory(sport);
             clubRepository.save(club_2);
 
-            Role role = new Role(UserRole.ADMIN);
-            role.setUser(admin);
+            Role role = new Role(admin, UserRole.ADMIN);
             roleRepository.save(role);
 
         }

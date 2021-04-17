@@ -32,8 +32,8 @@ public class ClubController {
     @GetMapping("/list")
     public PagedResponse<ClubInfoResponse> listClubs(@RequestParam(value = "page",
                                         defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-                                         @RequestParam(value = "leaveReason") Optional<String> name,
-                                         @RequestParam(value = "transferStatus") Optional<Category> category){
+                                         @RequestParam(value = "name") Optional<String> name,
+                                         @RequestParam(value = "category") Optional<Category> category){
         return clubService.getClubList(page, name, category);
     }
 
