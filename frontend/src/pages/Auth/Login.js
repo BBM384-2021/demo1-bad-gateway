@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Layout, Form, Input, Button, Checkbox, Row, Col, Divider } from 'antd';
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { useForm, Controller } from 'react-hook-form';
 import { useAuthContext } from '../../context/Auth';
+import Text from 'antd/es/typography/Text';
 const { Content } = Layout;
 
 const Login = () => {
@@ -20,7 +21,11 @@ const Login = () => {
     userLogin(data);
   };
   return (
-    <Row justify="center" align={'middle'}>
+    <Row justify="center" align={'middle'} style={{
+      alignItems: 'center',
+      textAlign: 'center',
+      marginTop: '100px'
+    }}>
       {authState.isLoading ? (
         <div
           style={{
@@ -34,14 +39,16 @@ const Login = () => {
         </div>
       ) : (
         <Form form={form} onFinish={handleSubmit(onSubmit)}>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"/>
+          <Text style={{ color: "black" , fontSize: "30px", fontFamily: 'Ubuntu Mono' }}>LOGIN</Text>
           <Controller
             name="username"
             control={control}
             defaultValue=""
             rules={{ required: true }}
             render={({ field }) => (
-              <Form.Item label="Username" name="username">
-                <Input {...field} />
+              <Form.Item>
+                <Input {...field}  prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username"/>
                 {errors.username && (
                   <p style={{ color: 'red', marginBottom: 0 }}>*Username is required</p>
                 )}
@@ -54,15 +61,17 @@ const Login = () => {
             defaultValue=""
             rules={{ required: true }}
             render={({ field }) => (
-              <Form.Item label="Password" name="password">
-                <Input.Password {...field} />
+              <Form.Item>
+                <Input.Password {...field} prefix={<LockOutlined className="site-form-item-icon" />}
+                                type="password"
+                                placeholder="Password"/>
                 {errors.password && <p style={{ color: 'red' }}>*Password is required</p>}
               </Form.Item>
             )}
           />
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" style={{ width: '300px', backgroundColor:'#48C2C6',  fontFamily: 'Ubuntu Mono'  }} >
               Login
             </Button>
           </Form.Item>
