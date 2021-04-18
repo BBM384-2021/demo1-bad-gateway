@@ -69,12 +69,11 @@ const ClubSystem = ({ children }) => {
     }
   };
 
-  const deleteClub = async (req) => {
+  const deleteClub = async (id) => {
     try {
       dispatch({ type: actionTypes.DELETE_CLUB_START });
-      const id = BigInt(3);
       await axiosInstance
-          .get('/api/club/delete',null, { params:{id:id}} )
+          .get(`/api/club/delete?id=${id}` )
           .then((res) => {
             console.log("inside delete clubs")
             console.log(res)

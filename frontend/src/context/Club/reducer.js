@@ -10,7 +10,7 @@ export function reducer(state, action) {
     case actionTypes.GET_CLUBS_SUCCESS:
       return {
         ...state,
-        clubs: action.payload.data.content,
+        clubs: action.payload.data.content.filter((club)=> club.status === "ACTIVE"),
         isLoading: false,
       };
     case actionTypes.GET_CLUBS_FAIL:

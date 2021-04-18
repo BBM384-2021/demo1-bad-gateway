@@ -72,11 +72,12 @@ const AuthSystem = ({ children }) => {
         history.push(PATHS.HOME);
       }).catch((error)=> {
         console.log("login error: ",error)
+        dispatch({ type: actionTypes.LOGIN_FAIL, payload: { error: true } });
       })
 
     } catch (error) {
       console.log(error);
-      dispatch({ type: actionTypes.LOGIN_FAIL, payload: { error: error } });
+      dispatch({ type: actionTypes.LOGIN_FAIL, payload: { error: true } });
     }
   };
   /**
