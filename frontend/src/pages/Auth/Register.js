@@ -1,9 +1,9 @@
 import React, { useEffect,useState } from 'react';
-import { Layout, Form, Input, Button, Checkbox, Row, Col, Divider } from 'antd';
+import { Layout, Form, Input, Button, Checkbox, Row, Col, Divider, Image } from 'antd';
 import { LoadingOutlined, LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { useForm, Controller } from 'react-hook-form';
 import { useAuthContext } from '../../context/Auth';
-import background from './pexels-photo-207896.jpeg';
+import background from '../../static/registerback.jpg';
 import Text from 'antd/es/typography/Text';
 import { checkPassword } from '../../utils/checkPassword';
 
@@ -28,15 +28,16 @@ const Register = () => {
     }
     setPasswordMatch(false);
   };
+
+  {/* <div className="row" data-aos="fade-up">
+        <img src={background} alt="Norway" style={{width:"100%"}}/>
+       </div>*/}
+
   return (
-    <div style={{
-      backgroundImage: 'url(${background})'
-    }}>>
+    <div style={{ backgroundImage: `url(${background})`, height: "100%"}}>
       <Row justify="left" align={'middle'}  style={{
         alignItems: 'center',
         textAlign: 'center',
-        marginTop: '200px',
-        marginLeft: "900px",
       }}>
         {authState.isLoading ? (
           <div
@@ -50,6 +51,7 @@ const Register = () => {
             <LoadingOutlined style={{ fontSize: '60px' }} />
           </div>
         ) : (
+          <div style={{marginTop: "200px", marginLeft: "1200px",  opacity: .9, color: '#fff'}}>
           <Form form={form} onFinish={handleSubmit(onSubmit)}>
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"/>
             <Text style={{ color: "black" , fontSize: "30px", fontFamily: 'Ubuntu Mono' }}>JOIN US</Text>
@@ -116,6 +118,7 @@ const Register = () => {
               </Button>
             </Form.Item>
           </Form>
+          </div>
         )}
       </Row>
     </div>

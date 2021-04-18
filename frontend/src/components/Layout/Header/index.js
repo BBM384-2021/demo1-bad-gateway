@@ -4,7 +4,7 @@ import { Layout, Menu, Button, Row, Col, Avatar } from "antd";
 import { useAuthContext } from "../../../context/Auth";
 import { UserOutlined, HomeOutlined } from "@ant-design/icons";
 import * as PATHS from '../../../constants/paths';
-import logo from './canva-chat-icon-MADhH4WiC_A.png'
+import logo from '../../../static/canva-chat-icon-MADhH4WiC_A.png'
 import Text from 'antd/es/typography/Text';
 
 
