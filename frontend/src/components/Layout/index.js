@@ -9,8 +9,6 @@ const LayoutComponent = ({header=true,children,full=false}) => {
 		<Layout style={{height:"100% !important"}}>
 			{header && <HeaderComponent/>}
 			<main style={{
-				padding: '0 250px',
-				marginTop: 80,
 				overflow: 'auto',
 				height:finalHeight
 			}}>
