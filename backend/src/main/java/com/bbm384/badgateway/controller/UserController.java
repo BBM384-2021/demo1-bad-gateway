@@ -15,16 +15,16 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("info")
+    @GetMapping("")
     public UserFullInfo getSelfUserInfo(@CurrentUser UserPrincipal currentUser) {
         return userService.getUserFullInfo(currentUser.getUser().getId());
     }
 
-    @GetMapping("/")
-    public UserFullInfo getUserInfo(@RequestParam(value = "userId") long userId) {
-
-        return userService.getUserFullInfo(userId);
-    }
+//    @GetMapping("")
+//    public UserFullInfo getUserInfo(@RequestParam(value = "userId") long userId) {
+//
+//        return userService.getUserFullInfo(userId);
+//    }
 
     @PostMapping("/disable")
     public ApiResponse disableUser(@CurrentUser UserPrincipal currentUser, @RequestParam("userId") Long userId) {
