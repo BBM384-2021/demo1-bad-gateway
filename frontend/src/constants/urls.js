@@ -16,3 +16,9 @@ export const API_USER_VIEW_URL= urljoin(API_BASE, 'user', 'info');
 export const API_USER_EDIT_URL= urljoin(API_BASE, 'user', 'update');
 export const API_USER_CREATE_URL= urljoin(API_BASE, 'user', 'create');
 export const API_USER_STATUS_TOGGLE_URL= urljoin(API_BASE, 'user', 'toggle');
+
+export const API_CLUB_LIST_URL = urljoin(API_BASE, 'club', 'list');
+export const API_CLUB_INFO_URL = urljoin(API_BASE, 'club', 'info');
+export const API_CLUB_CREATE_URL = urljoin(API_BASE, 'club', 'create');
+export const API_CLUB_UPDATE_URL = urljoin(API_BASE, 'club', 'update');
+export const API_CLUB_DELETE_URL = urljoin(API_BASE, 'club', 'delete');
