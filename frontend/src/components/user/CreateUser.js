@@ -81,16 +81,16 @@ class CreateUser extends Component {
                         <Form onSubmit={this.handleSubmit}>
                             <Form.Group widths={"equal"}>
                                 <Form.Input id={"name"}
-                                            placeholder='Ad'
-                                            label='Ad'
+                                            placeholder='Name'
+                                            label='Name'
                                             value={this.state.userInfo.name}
                                             onChange={this.handleInputChange}
                                             maxLength="40"
                                             required
                                 />
                                 <Form.Input id={"username"}
-                                            placeholder='Kullanıcı Adı'
-                                            label='Kullanıcı Adı'
+                                            placeholder='Username'
+                                            label='Username'
                                             value={this.state.userInfo.username}
                                             onChange={this.handleInputChange}
                                             required
@@ -98,16 +98,16 @@ class CreateUser extends Component {
                             </Form.Group>
                             <Form.Group widths={"equal"}>
                                 <Form.Input id={"phone"}
-                                            placeholder='Telefon Numarası'
-                                            label='Telefon Numarası'
+                                            placeholder='Phone Number'
+                                            label='Phone Number'
                                             value={this.state.userInfo.phone}
                                             onChange={this.handleInputChange}
                                             maxLength="10"
                                             required
                                 />
                                 <Form.Input id={"email"}
-                                            placeholder='Mail Adresi'
-                                            label='Mail Adresi'
+                                            placeholder='Email'
+                                            label='Email'
                                             value={this.state.userInfo.email}
                                             onChange={this.handleInputChange}
                                             maxLength="40"
@@ -116,8 +116,8 @@ class CreateUser extends Component {
                             </Form.Group>
                             <Form.Group widths={"equal"}>
                                 <Form.Dropdown id={"status"}
-                                               placeholder="Durum"
-                                               label='Durum'
+                                               placeholder="Status"
+                                               label='Status'
                                                value={this.state.userInfo.status}
                                                onChange={this.handleStatusChange}
                                                control={Select}
@@ -134,7 +134,7 @@ class CreateUser extends Component {
                         <Icon name='checkmark'/>
                         <Message.Content>
                             <Message.Header>
-                                Kullanıcı başarıyla oluşturulmuştur.
+                                User created successfully.
                             </Message.Header>
                         </Message.Content>
                     </Message>
