@@ -4,7 +4,6 @@ import {Segment, Icon, Loader, Form, Message, Button} from "semantic-ui-react";
 import {LoadingStates} from "../../constants/common";
 import {connect} from "react-redux";
 import * as userActions from "../../api/actions/user";
-
 import Page from "../base/Page";
 
 

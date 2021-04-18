@@ -2,11 +2,12 @@ let urljoin = require('url-join');
 
 const URL = 'http://localhost:8080';
 
-export const BASE = '/';
+export const BASE = '';
 
 export const API_BASE = urljoin(URL, 'api');
 
 export const API_AUTH_LOGIN_URL = urljoin(API_BASE, 'auth', 'login');
+export const API_AUTH_SIGNUP_URL = urljoin(API_BASE, 'auth', 'signup');
 export const API_AUTH_PASSWORD_RESET_URL = urljoin(API_BASE, 'auth', 'reset-password');
 export const API_AUTH_FORGOT_PASSWORD_URL= urljoin(API_BASE, 'auth', 'forgot-password');
 

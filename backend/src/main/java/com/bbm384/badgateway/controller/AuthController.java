@@ -138,6 +138,7 @@ public class AuthController {
 
     @PostMapping("/auth/signup")
     public ApiResponse signup(@Valid @RequestBody SignUpRequest signUpRequest) {
+        System.out.println("here");
         ApiResponse apiResponse = new ApiResponse();
         if (!(signUpRequest.getPassword().equals(signUpRequest.getPasswordRepeat()))){
             apiResponse.setSuccess(false);

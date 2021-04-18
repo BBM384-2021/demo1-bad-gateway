@@ -58,6 +58,19 @@ export const loginAction = (data, callback) => {
     }
 };
 
+export const signupAction = (data, callback) => {
+    return (dispatch, getState) => {
+        console.log("here");
+        return authorizeService.signupService(data).then((result) => {
+                if(callback){
+                    callback(result.data);
+                }
+            },
+            (error) =>{
+            });
+    }
+};
+
 export const logoutAction = () => {
     return (dispatch, getState) => {
 
