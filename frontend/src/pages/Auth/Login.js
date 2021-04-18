@@ -71,6 +71,7 @@ const Login = () => {
           />
 
           <Form.Item>
+            {authState.error && <p style={{color:"red"}}>Login Failed</p>}
             <Button type="primary" htmlType="submit" style={{ width: '300px', backgroundColor:'#48C2C6',  fontFamily: 'Ubuntu Mono'  }} >
               Login
             </Button>

@@ -26,6 +26,7 @@ export function reducer(state, action) {
       localStorage.setItem("token",action.payload.data.token)
       return {
         ...state,
+        error:false,
         isLogged: true,
         token:action.payload.data.token,
         role:action.payload.data.roles,
@@ -36,6 +37,7 @@ export function reducer(state, action) {
       return {
         ...state,
         isLoading: false,
+        error:true
       };
 
     case actionTypes.LOGOUT_START:

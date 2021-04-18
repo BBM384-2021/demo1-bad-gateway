@@ -12,19 +12,21 @@ const Home = () => {
   }, []);
   return (
     <div style={{ padding:25, backgroundColor: 'white !important' }}>
+
       {clubState.clubs ? (
         <PageHeader
           className="site-page-header-responsive"
           //onBack={() => window.history.back()}
           title="Clubs"
         >
-          {clubState.clubs.map((club,index) => {
+          {clubState.clubs.map((club) => {
             return <ClubComponent
                 clubName={club.name}
                 clubDescription={club.description}
                 category={club.category}
                 members={club.members}
-                key={index}
+                key={club.id}
+                club={club}
             />;
           })}
         </PageHeader>
