@@ -12,6 +12,7 @@ import {
 import CreateUser from "../../components/user/CreateUser";
 import PasswordReset from "../../components/auth/PasswordReset";
 import ChangePassword from "../../components/auth/ChangePassword";
+import Clubs from '../../components/club/Clubs';
 
 
 const roleMapping = [
@@ -73,6 +74,15 @@ const roleMapping = [
         menu: false,
         menuIcon: "password",
         permission: [],
+    },
+    {
+        component: Clubs,
+        path: '/club/list',
+        title: 'Clubs',
+        menu: true,
+        permission: [
+            Roles.ADMIN.key,
+        ],
     }
 ];
 
