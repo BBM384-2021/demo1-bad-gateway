@@ -2,6 +2,7 @@
 import Login from "../../components/auth/Login";
 import {ForgotPassword, SetPassword} from "../../components/auth";
 import PasswordReset from "../../components/auth/PasswordReset";
+import SignUp from "../../components/auth/SignUp";
 
 
 const routes = [
@@ -14,6 +15,13 @@ const routes = [
         component: SetPassword,
         path: '/forgot-password/:token',
         title: 'Token Kontrolü',
+    },
+    {
+        component: SignUp,
+        path: '/signup',
+        title: 'SignUp',
+        menu: false,
+        permission: [],
     },
     {
         component: ForgotPassword,

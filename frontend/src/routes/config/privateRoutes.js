@@ -12,6 +12,7 @@ import {
 import CreateUser from "../../components/user/CreateUser";
 import PasswordReset from "../../components/auth/PasswordReset";
 import ChangePassword from "../../components/auth/ChangePassword";
+import SignUp from "../../components/auth/SignUp";
 
 
 const roleMapping = [

@@ -12,7 +12,6 @@ import '../../static/css/common/Header.css';
 import {AuthStates} from "../../constants/common";
 
 import {getAllowedMenuRoutes} from "../../routes/Routes";
-import Context from "react-redux/lib/components/Context";
 
 
 class Header extends Component {
