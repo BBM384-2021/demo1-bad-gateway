@@ -41,7 +41,7 @@ class UserInfo extends Component {
         if (status !== LoadingStates.LOADED) {
             return (
                 <Loader active>
-                    Yükleniyor...
+                    Loading...
                 </Loader>
             )
         }
@@ -49,14 +49,14 @@ class UserInfo extends Component {
         return (
             <Page>
                 <Page.Header>
-                    <Page.Header.Item>Kullanıcı</Page.Header.Item>
-                    <Page.Header.Item>Görüntüle ({this.state.user.username})</Page.Header.Item>
+                    <Page.Header.Item>User</Page.Header.Item>
+                    <Page.Header.Item>View ({this.state.user.username})</Page.Header.Item>
                 </Page.Header>
                 <Page.Operation>
                     <Page.Operation.Buttons>
                         <Button compact size={"small"} as={Link} to={"/user/update/" + this.state.user.id}>
                             <Icon name='edit' color={"blue"}/>
-                            Düzenle
+                            Edit
                         </Button>
                     </Page.Operation.Buttons>
                 </Page.Operation>
@@ -69,25 +69,25 @@ class UserInfo extends Component {
                             <Table.Body>
                                 <Table.Row>
                                     <Table.Cell collapsing>
-                                        Ad/Soyad
+                                        Name/Surname
                                     </Table.Cell>
                                     <Table.Cell>{this.state.user.name}</Table.Cell>
                                 </Table.Row>
                                 <Table.Row>
                                     <Table.Cell collapsing>
-                                        Kullanıcı
+                                        User
                                     </Table.Cell>
                                     <Table.Cell>{this.state.user.username}</Table.Cell>
                                 </Table.Row>
                                 <Table.Row>
                                     <Table.Cell collapsing>
-                                        Mail Adresi
+                                        Email
                                     </Table.Cell>
                                     <Table.Cell>{this.state.user.email}</Table.Cell>
                                 </Table.Row>
                                 <Table.Row>
                                     <Table.Cell collapsing>
-                                        Telefon
+                                        Phone Number
                                     </Table.Cell>
                                     <Table.Cell>{this.state.user.phone}</Table.Cell>
                                 </Table.Row>

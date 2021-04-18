@@ -12,19 +12,20 @@ import {
 import CreateUser from "../../components/user/CreateUser";
 import PasswordReset from "../../components/auth/PasswordReset";
 import ChangePassword from "../../components/auth/ChangePassword";
+import ClubInfo from "../../components/club/ClubInfo";
 
 
 const roleMapping = [
     {
         component: Profile,
         path: '/user/profile',
-        title: 'Profil',
+        title: 'Profile',
         menu: false,
     },
     {
         component: Users,
         path: '/user/list',
-        title: 'Kullanıcılar',
+        title: 'Users',
         menu: true,
         menuIcon: "user",
         menuOrderPoint: 1000,
@@ -35,16 +36,17 @@ const roleMapping = [
     {
         component: UserInfo,
         path: '/user/info/:id',
-        title: 'Kullanıcı Bilgileri',
+        title: 'User Info',
         menu: false,
         permission: [
             Roles.ADMIN.key,
+
         ],
     },
     {
         component: EditUser,
         path: '/user/update/:userId',
-        title: 'Kullanıcı Bilgilerini Güncelle',
+        title: 'Update User Info',
         menu: false,
         permission: [
             Roles.ADMIN.key,
@@ -53,7 +55,7 @@ const roleMapping = [
     {
         component: CreateUser,
         path: '/user/create/',
-        title: 'Kullanıcı Oluştur',
+        title: 'Create User',
         menu: false,
         permission: [
             Roles.ADMIN.key,
@@ -62,18 +64,29 @@ const roleMapping = [
     {
         component: PasswordReset,
         path: '/auth/password-reset',
-        title: 'Şifre Sıfırlama',
+        title: 'Reset Password',
         menu: false,
         permission: [],
     },
     {
         component: ChangePassword,
         path: '/user/change-password',
-        title: 'Şifre Değiştirme',
+        title: 'Change Password',
         menu: false,
         menuIcon: "password",
         permission: [],
-    }
+    },
+    {
+        component: ClubInfo,
+        path: '/club/info/:id',
+        title: 'Club Info',
+        menu: false,
+        permission: [
+            Roles.ADMIN.key,
+            Roles.SUB_CLUB_ADMIN.key,
+            Roles.MEMBER.key
+        ],
+    },
 ];
 
 export default roleMapping;
