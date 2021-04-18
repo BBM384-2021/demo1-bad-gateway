@@ -1,0 +1,27 @@
+.auth-wrapper{
+    max-width: 500px;
+}
+
+.auth-container-wrapper{
+    padding-top: 60px;
+}
+
+.auth-container{
+    padding: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px
+}
+
+.no-space{
+    padding: 0;
+}
+
+.no-space .auth-container{
+    padding-top: 0;
+}
+
+.message-auth{
+    margin-top: 15px !important;
+}
