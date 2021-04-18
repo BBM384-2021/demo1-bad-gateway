@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Button, Icon, Table, Card, Image } from 'semantic-ui-react';
 import defaultClub from '../../static/image/common/club.png';
 import '../../static/css/common/Application.css'
+import { Link } from 'react-router-dom';
 
 
 class ClubsItem extends Component{
@@ -16,7 +17,11 @@ class ClubsItem extends Component{
 
         <Image src={defaultClub}/>
         <Card.Content>
-          <Card.Header>{club.name}</Card.Header>
+          <Card.Header>
+            <Link to={"/club/info/" + club.id}>
+              {club.name}
+            </Link>
+          </Card.Header>
           <Card.Meta>
             <span className='date'>{club.category.name}</span>
           </Card.Meta>

@@ -14,3 +14,15 @@ export const clubListAction = (page, name, category, callback) => {
       });
   }
 };
+
+export const clubInfoAction = (id, callback) => {
+    return (dispatch, getStatus) => {
+        return clubService.clubInfoService(id).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
+}
