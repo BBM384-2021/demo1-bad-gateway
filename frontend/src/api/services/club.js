@@ -59,3 +59,15 @@ export const updateClubService = (data) => {
             });
     }));
 }
+export const deleteClubService = (id) => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_CLUB_DELETE_URL+"?id="+id),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
+}
