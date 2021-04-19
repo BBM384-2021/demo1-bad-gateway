@@ -1,7 +1,6 @@
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import React, {Component} from "react";
-import {LoadingStates} from "../../constants/common";
 import '../../static/css/auth/auth.css'
 import Page from "../base/Page";
 import * as clubActions from "../../api/actions/club";
@@ -12,10 +11,6 @@ import {Button, Container, Divider, Form, Select, Dropdown, Segment, Header, Mes
 const statusOptions = [
 	{ key: 'a', text: 'Active', value: 'ACTIVE' },
 	{ key: 'p', text: 'Passive', value: 'PASSIVE' },
-]
-const categoryOptions = [
-	{ key: 'm', text: 'Music', value: 'Music' },
-	{ key: 's', text: 'Sport', value: 'Sport' },
 ]
 
 class CreateClub extends Component{
