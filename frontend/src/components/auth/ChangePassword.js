@@ -205,7 +205,7 @@ class ChangePassword extends Component{
                                         <List.Item>
                                             {ruleIcon((val)=>val===this.state.passwordInputRepeat, this.state.passwordInput)}
                                             <List.Content>
-                                                Password and password confirm must match
+                                                Password and password repeat must match
                                             </List.Content>
                                         </List.Item>
                                     </List>
