@@ -142,7 +142,7 @@ class UpdateClub extends Component{
 						content={this.state.messageForm}
 					/>
 					<Segment  >
-						<Header className={"loginHeader"} size={"large"} >Update Club</Header>
+						<Header className={"loginHeader"} size={"large"} >Update {club? club.name : "Club"}</Header>
 						<Form onSubmit={this.submitForm}>
 							<Form.Field>
 								<Form.Input
