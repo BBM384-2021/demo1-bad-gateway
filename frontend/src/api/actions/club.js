@@ -42,3 +42,15 @@ export const clubCreateAction = (data,callback) => {
             });
     }
 }
+
+export const updateClubAction = (data,callback) => {
+    return (dispatch, getStatus) => {
+        return clubService.updateClubService(data).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
+}

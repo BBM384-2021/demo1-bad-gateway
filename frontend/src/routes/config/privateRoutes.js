@@ -17,7 +17,7 @@ import Clubs from '../../components/club/Clubs';
 import SignUp from "../../components/auth/SignUp";
 import ClubInfo from "../../components/club/ClubInfo";
 import CreateClub from "../../components/club/CreateClub";
-
+import UpdateClub from "../../components/club/UpdateClub";
 
 const roleMapping = [
     {
@@ -92,6 +92,12 @@ const roleMapping = [
         component: CreateClub,
         path: '/club/create',
         title: 'Create Club',
+        permission: [Roles.ADMIN.key]
+    },
+    {
+        component: UpdateClub,
+        path: '/club/update/:id',
+        title: 'Update Club',
         permission: [Roles.ADMIN.key]
     },
 ];
