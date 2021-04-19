@@ -37,7 +37,7 @@ export const clubInfoService = (id, callback) => {
 
 export const clubCreateService = (data) => {
     return new Promise(((resolve, reject) => {
-        axios.post(encodeURI(API_CLUB_CREATE_URL),
+        axios.post(encodeURI(API_CLUB_CREATE_URL), data,
             getHeaderWithToken())
             .then(function (response) {
                 resolve(response);
