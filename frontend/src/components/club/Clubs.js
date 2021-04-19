@@ -66,9 +66,11 @@ class Clubs extends Component {
     }
 
     return (
+
       <Page>
         <Page.Header>
-          <Page.Header.Item>Clubs List</Page.Header.Item>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"/>
+          <Page.Header.Item><p style={{color: "black", fontFamily: 'Ubuntu Mono ', fontSize: "30px"}}>Club List</p></Page.Header.Item>
         </Page.Header>
         <Page.Operation>
           <Page.Operation.Filter>

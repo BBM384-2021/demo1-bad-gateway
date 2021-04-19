@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Icon, Menu, Dropdown} from 'semantic-ui-react'
+import {Icon, Menu, Dropdown, Button, Grid} from 'semantic-ui-react'
 
 import {connect} from "react-redux";
 
@@ -42,46 +42,24 @@ class Header extends Component {
                     </div>
                     {
                         auth.loginStatus === AuthStates.VALID?
-                            <div className={"top-menu-right"}>
-                                <Menu secondary>
-                                    <Menu.Menu position='right'>
-                                        <Menu.Item
-                                            as={ Dropdown }
-                                            text={<React.Fragment><Icon name='user' /> {auth.username}</React.Fragment>}
-                                        >
-                                            <Dropdown.Menu>
-                                                <Dropdown.Item as={Link} to={'/user/profile'}><Icon name='user circle' /> Profil</Dropdown.Item>
-                                                <Dropdown.Item as={Link} to={'/user/change-password'}><Icon name='edit' /> Şifre Değiştirme</Dropdown.Item>
-                                                <Dropdown.Item onClick={this.props.logout}><Icon name='sign-out' /> Çıkış</Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Menu.Item>
-                                    </Menu.Menu>
-                                </Menu>
-                            </div> : null
+                            <Grid>
+                                <Grid.Column style={{marginTop:"45px"}}>
+                                    <Link to={"/club/list"} style={{color:"white", marginLeft:"1000px"}}>Clubs</Link>
+                                </Grid.Column>
+
+                                <Grid.Column style={{marginTop:"45px"}} >
+                                   <Dropdown text={auth.username} style={{width: "100px", color:"white", marginLeft:"1100px"}}>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item as={Link} to={'/user/profile'}><Icon name='user circle' /> Profile</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to={'/user/change-password'}><Icon name='edit' /> Change Password</Dropdown.Item>
+                                            <Dropdown.Item onClick={this.props.logout}><Icon name='sign-out' /> Logout</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                   </Dropdown>
+                                </Grid.Column>
+
+                            </Grid> : null
                     }
-
-
                 </div>
-                {
-                    auth.loginStatus === AuthStates.VALID ?
-                        <React.Fragment>
-                            <div className={"nav-menu"}>
-                                <Menu secondary>
-                                    {
-                                        routes.map((route) => {
-                                            let randomKey = btoa(route.path);
-
-                                            return(
-                                                <Menu.Item key={randomKey} name={randomKey} as={Link} to={route.path} active={activeItem === randomKey} onClick={this.handleMenuClick}>
-                                                    <Icon name={route.menuIcon || "list"} color={"blue"} /> <span> </span> {route.title}
-                                                </Menu.Item>
-                                            );
-                                        })
-                                    }
-                                </Menu>
-                            </div>
-                        </React.Fragment>: null
-                }
             </div>
         )
     }

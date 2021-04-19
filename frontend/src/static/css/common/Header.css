@@ -3,7 +3,7 @@
     display: flex;
     border-bottom: solid 1px #333;
     padding: 0 50px;
-    height: 100px;
+    height: 110px;
 }
 
 .top-menu-logo{
@@ -61,5 +61,6 @@
 }
 
 .body-public {
+    background-color: #EFF8F9;
     padding-top: 110px;
 }
