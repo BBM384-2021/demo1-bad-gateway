@@ -29,6 +29,8 @@ class ClubInfo extends Component {
 
     componentDidMount() {
         const {id} = this.props.match.params;
+        const {auth} = this.props;
+        console.log(auth)
         this.props.getClubInfo(id, this.handleClubInfo);
     }
 
@@ -43,7 +45,7 @@ class ClubInfo extends Component {
     render() {
 
         const {status} = this.state;
-
+        const {auth} = this.props;
         if (status !== LoadingStates.LOADED) {
             return (
                 <Loader active>
@@ -65,7 +67,7 @@ class ClubInfo extends Component {
 
                     </Grid.Column>
                     <Grid.Column width={8}>
-
+                        {auth && console.log(auth.roles)}
                         <Header as='h2' icon textAlign='center' color="violet">
                             <Icon name='users' circular/>
                             <Header.Content>{this.state.club.name} Club</Header.Content>

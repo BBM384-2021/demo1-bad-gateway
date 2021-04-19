@@ -34,3 +34,16 @@ export const clubInfoService = (id, callback) => {
             });
     }));
 }
+
+export const clubCreateService = (data) => {
+    return new Promise(((resolve, reject) => {
+        axios.post(encodeURI(API_CLUB_CREATE_URL),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
+}

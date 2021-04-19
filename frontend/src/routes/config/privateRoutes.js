@@ -16,6 +16,7 @@ import ChangePassword from "../../components/auth/ChangePassword";
 import Clubs from '../../components/club/Clubs';
 import SignUp from "../../components/auth/SignUp";
 import ClubInfo from "../../components/club/ClubInfo";
+import CreateClub from "../../components/club/CreateClub";
 
 
 const roleMapping = [
@@ -86,6 +87,12 @@ const roleMapping = [
             Roles.SUB_CLUB_ADMIN.key,
             Roles.MEMBER.key
         ],
+    },
+    {
+        component: CreateClub,
+        path: '/club/create',
+        title: 'Create Club',
+        permission: [Roles.ADMIN.key]
     },
 ];
 
