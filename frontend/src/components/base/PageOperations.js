@@ -128,14 +128,14 @@ class PageOperation extends Component{
                                     <Divider horizontal className={"filter-divider"}>
                                         <Label color={"red"} as={"a"} icon onClick={this.toggleFilters}>
                                             <Icon name={"filter"}/>
-                                            Filtrele
+                                            Filter
                                             <span> </span>
                                             <Icon name={this.state.showFilters ? "up chevron":"down chevron"} fitted/>
                                         </Label>
                                     </Divider>:
-                                    <Label color="red" as={"a"} ribbon onClick={this.toggleFilters}>
+                                    <Label color="orange" as={"a"} ribbon onClick={this.toggleFilters}>
                                         <Icon name={"filter"}/>
-                                        Filtrele
+                                        Filter
                                         <span> </span>
                                         <Icon name={this.state.showFilters ? "up chevron":"down chevron"} fitted/>
                                     </Label>
