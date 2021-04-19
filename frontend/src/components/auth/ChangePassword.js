@@ -33,19 +33,19 @@ class ChangePassword extends Component{
 
     passwordRules = [
         {
-            title: "Şifreniz en az 8 karakter olmalıdır.",
+            title: "Password must contain at least 8 characters",
             rule: (val)=>val.length>=8
         },
         {
-            title: "Şifreniz en az 1 rakam içermelidir.",
+            title: "Password must contain at least 1 number",
             rule: (val)=>val.match(".*\\d.*")
         },
         {
-            title: "Şifreniz en az 1 karakter içermelidir.",
+            title: "Password must contain at least 1 character",
             rule: (val)=>val.match(".*[a-zA-Z].*")
         },
         {
-            title: "Şifreniz &lt; &gt; ' ( ) \" özel karakterlerini içermemelidir.",
+            title: "Password must not include one of the &lt; &gt; ' ( ) \" special characters.",
             rule: (val)=>!val.match(".*[<>'()\"].*")
         },
     ];
@@ -91,7 +91,7 @@ class ChangePassword extends Component{
             this.setState({
                 isHidden: false,
                 messageHeader: "",
-                messageForm: "Lütfen en az 1 harf 1 rakam ve 1 karakter içeren 8 karakterli şifre oluşturunuz.",
+                messageForm: "Please enter an 8-digit password that contains 1 letter 1 number and 1 special character",
                 isSuccess: false,
                 isError: true,
             })
@@ -122,14 +122,14 @@ class ChangePassword extends Component{
 
             <Page>
                 <Page.Header>
-                    <Page.Header.Item>Profil</Page.Header.Item>
-                    <Page.Header.Item>Şifre Değiştir</Page.Header.Item>
+                    <Page.Header.Item>Profile</Page.Header.Item>
+                    <Page.Header.Item>Change Password</Page.Header.Item>
                 </Page.Header>
                 <Page.Operation>
                     <Page.Operation.Buttons>
                         <Button compact size={"small"} onClick={this.submitForm} disabled={!buttonEnabled}>
                             <Icon name='save' color={"blue"}/>
-                            Kaydet
+                            Save
                         </Button>
                     </Page.Operation.Buttons>
                 </Page.Operation>
@@ -148,8 +148,8 @@ class ChangePassword extends Component{
                                 <Form onSubmit={this.submitForm}>
                                     <Form.Field>
                                         <Form.Input
-                                            label={"Mevcut Şifre"}
-                                            placeholder='Mevcut şifrenizi giriniz.'
+                                            label={"Current Password"}
+                                            placeholder='Enter your current password'
                                             type='password'
                                             value={this.state.currentPassword}
                                             required
@@ -160,7 +160,7 @@ class ChangePassword extends Component{
                                     </Form.Field>
                                     <Form.Field>
                                         <Form.Input
-                                            label={"Yeni Şifre"}
+                                            label={"New Password"}
                                             placeholder='********'
                                             type='password'
                                             value={this.state.passwordInput}
@@ -171,7 +171,7 @@ class ChangePassword extends Component{
                                     </Form.Field>
                                     <Form.Field>
                                         <Form.Input
-                                            label={"Yeni Şifre Tekrar"}
+                                            label={"New Password Confirm"}
                                             placeholder='********'
                                             type='password'
                                             value={this.state.passwordInputRepeat}
@@ -189,7 +189,7 @@ class ChangePassword extends Component{
                                         <List.Item>
                                             {ruleIcon(()=>this.state.currentPassword.length>0, this.state.passwordInput)}
                                             <List.Content>
-                                                Mevcut Şifre boş olmamalıdır.
+                                                Current password must not be empty.
                                             </List.Content>
                                         </List.Item>
                                         <Divider/>
@@ -205,7 +205,7 @@ class ChangePassword extends Component{
                                         <List.Item>
                                             {ruleIcon((val)=>val===this.state.passwordInputRepeat, this.state.passwordInput)}
                                             <List.Content>
-                                                Şifre ve tekrarı aynı olmalıdır.
+                                                Password and password repeat must match
                                             </List.Content>
                                         </List.Item>
                                     </List>
