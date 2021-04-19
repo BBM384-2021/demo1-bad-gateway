@@ -37,7 +37,19 @@ export const clubInfoService = (id, callback) => {
 
 export const clubCreateService = (data) => {
     return new Promise(((resolve, reject) => {
-        axios.post(encodeURI(API_CLUB_CREATE_URL),
+        axios.post(encodeURI(API_CLUB_CREATE_URL),data,
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
+}
+export const updateClubService = (data) => {
+    return new Promise(((resolve, reject) => {
+        axios.put(encodeURI(API_CLUB_UPDATE_URL),data,
             getHeaderWithToken())
             .then(function (response) {
                 resolve(response);
