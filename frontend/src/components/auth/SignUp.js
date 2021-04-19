@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Redirect, Route, withRouter} from "react-router";
+import {Redirect, Route, useHistory, withRouter} from "react-router";
 import {Button, Segment, Form, Message, Container, Grid, Divider, Icon} from 'semantic-ui-react'
 import {connect, ReactReduxContext} from "react-redux";
 import * as authActions from "../../api/actions/auth";
@@ -46,19 +46,19 @@ class SignUp extends Component{
         })
     }
 
-    submitFormCallback = (error) => {
-        this.setState({
-            isHidden: false,
-            messageHeader: "",
-            messageForm: error,
-            isSuccess: false,
-            isError: true,
-        })
-        if(error.success){
+    submitFormCallback = (response) => {
+        if(response.success){
+            this.props.history.push("/login");
             console.log("hello");
-            return <Route>
-                <Redirect to={"/login"} />
-            </Route>
+            // return <Route render={() => <Redirect to={{pathname: "/login"}} />} />
+        }else{
+            this.setState({
+                isHidden: false,
+                messageHeader: "",
+                messageForm: response,
+                isSuccess: false,
+                isError: true,
+            })
         }
     };
 

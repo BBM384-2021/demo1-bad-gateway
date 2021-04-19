@@ -23,15 +23,11 @@ const roleMapping = [
         component: Profile,
         path: '/user/profile',
         title: 'Profile',
-        menu: false,
     },
     {
         component: Users,
         path: '/user/list',
         title: 'Users',
-        menu: true,
-        menuIcon: "user",
-        menuOrderPoint: 1000,
         permission: [
             Roles.ADMIN.key,
         ],
@@ -40,7 +36,6 @@ const roleMapping = [
         component: UserInfo,
         path: '/user/info/:id',
         title: 'User Info',
-        menu: false,
         permission: [
             Roles.ADMIN.key,
 
@@ -50,7 +45,6 @@ const roleMapping = [
         component: EditUser,
         path: '/user/update/:userId',
         title: 'Update User Info',
-        menu: false,
         permission: [
             Roles.ADMIN.key,
         ],
@@ -59,7 +53,6 @@ const roleMapping = [
         component: CreateUser,
         path: '/user/create/',
         title: 'Create User',
-        menu: false,
         permission: [
             Roles.ADMIN.key,
         ],
@@ -68,22 +61,18 @@ const roleMapping = [
         component: PasswordReset,
         path: '/auth/password-reset',
         title: 'Reset Password',
-        menu: false,
         permission: [],
     },
     {
         component: ChangePassword,
         path: '/user/change-password',
         title: 'Change Password',
-        menu: false,
-        menuIcon: "password",
         permission: [],
     },
     {
         component: Clubs,
         path: '/club/list',
         title: 'Clubs',
-        menu: true,
         permission: [
             Roles.ADMIN.key,
         ],
@@ -92,7 +81,6 @@ const roleMapping = [
         component: ClubInfo,
         path: '/club/info/:id',
         title: 'Club Info',
-        menu: false,
         permission: [
             Roles.ADMIN.key,
             Roles.SUB_CLUB_ADMIN.key,

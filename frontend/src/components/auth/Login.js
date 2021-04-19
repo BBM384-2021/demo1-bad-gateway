@@ -132,32 +132,30 @@ class Login extends Component{
                                                     id={"passwordInput"}
                                                     onChange={this.handleInputChange}/>
                                             </Form.Field>
-                                            <Button color='blue' type='submit'>LogIn</Button>
+                                            <Button color='violet' type='submit'>LogIn</Button>
                                             <Link to={"/forgot-password"}>
-                                                <Button inverted color='blue'>Forgot Password</Button>
+                                                <Button color='twitter'>Forgot Password</Button>
                                             </Link>
                                         </Form>
                                     </Page.Content>
                                     <div style={{ marginLeft:"180px"}}>
                                         <text>If you don't have an account yet  </text>
-                                        <Link to={"/signup"}>
-                                            <Button inverted color='blue'>Sign Up</Button>
+                                        <Link to={"/signup"} style={{color: "#702BBA"}}>
+                                           Sign Up
                                         </Link>
                                     </div>
                                 </Page>
                             </Segment>
                     </Grid.Column>
-                    <Grid.Column width={5} style={{borderColor:"white"}}>
-                        <div>
-                            <Carousel
-                                elements  =  {  elements  }
-                                duration  = {6000}
-                                animation  ='slide left'
-                                showNextPrev  =  {false}
-                                showIndicators  ={true}
-                            />
-                        </div>
-                    </Grid.Column>
+                    <div style={{backgroundColor: "#EFF8F9", marginTop: "10px"}}>
+                        <Carousel
+                            background-color = "#EFF8F9"
+                            elements  =  {  elements  }
+                            duration  = {6000}
+                            animation  ='slide left'
+                            showNextPrev  =  {false}
+                        />
+                    </div>
                     <Grid.Column width={1}></Grid.Column>
                 </Grid.Row>
             </Grid>
