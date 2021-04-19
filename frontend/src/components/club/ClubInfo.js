@@ -14,17 +14,22 @@ import {
 } from "semantic-ui-react";
 import defaultClubImage from '../../static/image/white-image.png'
 import Page from "../base/Page";
+import {Link} from "react-router-dom";
+import {getRoles} from "../../utils/auth";
 
 class ClubInfo extends Component {
 
     state = {
         status: LoadingStates.NOT_LOADED,
         club: {},
+        roles:[]
     };
 
     constructor(props) {
         super(props);
         this.handleClubInfo = this.handleClubInfo.bind(this);
+        this.sendDeleteRequest = this.sendDeleteRequest.bind(this);
+        this.handleDeleteInfo = this.handleDeleteInfo.bind(this);
     }
 
     componentDidMount() {
@@ -35,16 +40,32 @@ class ClubInfo extends Component {
     }
 
     handleClubInfo(data) {
+        let roles = getRoles();
+        console.log(roles)
         this.setState({
                 club: data,
-                status: LoadingStates.LOADED
+                status: LoadingStates.LOADED,
+                roles:roles
             }
         )
+    }
+    handleDeleteInfo(data) {
+        console.log("delete")
+        console.log(data)
+        this.setState({
+            club: data,
+            status: LoadingStates.LOADED
+        })
+        this.props.history.push("/club/list")
+    }
+    sendDeleteRequest(){
+        this.props.deleteClub(this.state.club.id,this.handleDeleteInfo)
+
     }
 
     render() {
 
-        const {status} = this.state;
+        const {status,roles} = this.state;
         const {auth} = this.props;
         if (status !== LoadingStates.LOADED) {
             return (
@@ -57,6 +78,19 @@ class ClubInfo extends Component {
 
         return (
             <Page>
+                {roles ? roles.find((item)=> item==="ADMIN") && <div style={{display:"flex",justifyContent:"flex-end",paddingBottom:"2rem"}}>
+                    <Link to={`/club/update/${this.state.club.id}`} style={{color: "#702BBA"}}>
+                        <Button primary>
+                            Update Club
+                        </Button>
+                    </Link>
+                    <Button basic color='red' onClick={this.sendDeleteRequest}>
+                        Delete Club
+                    </Button>
+
+                </div> : null}
+
+
                 <Grid divided centered padded="vertically">
                     <Grid.Column width={4}>
                         <Image
@@ -117,6 +151,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         getClubInfo: (id, callback) => {
             dispatch(clubActions.clubInfoAction(id, callback));
+        },
+        deleteClub: (id, callback) => {
+            dispatch(clubActions.deleteClubAction(id, callback));
         },
     }
 };

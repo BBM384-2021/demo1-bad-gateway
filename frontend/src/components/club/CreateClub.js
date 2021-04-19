@@ -59,10 +59,10 @@ class CreateClub extends Component{
 		console.log(this.state.usernameInput)
 		this.setState({
 			isHidden: false,
-			messageHeader: "",
+			messageHeader: "Club Created",
 			messageForm: error,
-			isSuccess: false,
-			isError: true,
+			isSuccess: true,
+			isError: false,
 		})
 	};
 

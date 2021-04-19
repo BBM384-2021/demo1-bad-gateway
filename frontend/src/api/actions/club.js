@@ -54,3 +54,14 @@ export const updateClubAction = (data,callback) => {
             });
     }
 }
+export const deleteClubAction = (id,callback) => {
+    return (dispatch, getStatus) => {
+        return clubService.deleteClubService(id).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
+}
