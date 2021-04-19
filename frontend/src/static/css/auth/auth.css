@@ -25,3 +25,31 @@
 .message-auth{
     margin-top: 15px !important;
 }
+
+.loginHeader.ui.header {
+    font-family: "Ubuntu Mono" !important;
+}
+
+.carousel-container{
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.carousel-container .carousel {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0 !important;
+}
+
+.loginBox {
+    width: 50vw;
+    min-width: 500px;
+
+}
