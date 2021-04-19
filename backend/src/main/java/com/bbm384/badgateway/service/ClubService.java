@@ -23,7 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -114,7 +114,7 @@ public class ClubService {
         club.setCategory(categoryRepository.findByName(clubPayload.getCategory()).get());
         club.setUpdatedBy(currentUser.getUser().getId());
         club.setUpdatedAt(Instant.now());
-        club.setStatus(club.getStatus());
+        club.setStatus(clubPayload.getStatus());
         club.setMembers(club.getMembers());
         clubRepository.save(club);
 
