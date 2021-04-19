@@ -1,16 +1,9 @@
 package com.bbm384.badgateway.util;
 
 
-import com.bbm384.badgateway.model.Club;
-import com.bbm384.badgateway.model.Message;
-import com.bbm384.badgateway.model.Notification;
-import com.bbm384.badgateway.model.SubClub;
-import com.bbm384.badgateway.model.User;
-import com.bbm384.badgateway.payload.ClubInfoResponse;
-import com.bbm384.badgateway.payload.MessageResponse;
-import com.bbm384.badgateway.payload.NotificationResponse;
-import com.bbm384.badgateway.payload.SubClubPayload;
-import com.bbm384.badgateway.payload.UserInfo;
+import com.bbm384.badgateway.model.*;
+import com.bbm384.badgateway.payload.*;
+
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -35,6 +28,14 @@ public class ModelMapper {
 
 
         return clubInfoResponse;
+    }
+
+    public static CategoryPayload mapToCategoryResponse(Category category) {
+        CategoryPayload categoryPayload = new CategoryPayload();
+        categoryPayload.setId(category.getId());
+        categoryPayload.setName(category.getName());
+
+        return categoryPayload;
     }
 
     public static UserInfo mapToUserInfoResponse(User user) {

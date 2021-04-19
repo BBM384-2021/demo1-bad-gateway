@@ -6,7 +6,7 @@ import '../../static/css/auth/auth.css'
 import Page from "../base/Page";
 import * as clubActions from "../../api/actions/club";
 import {Button, Container, Divider, Form, Select, Dropdown, Segment, Header, Message} from "semantic-ui-react";
-import {Link} from "react-router-dom";
+
 
 const statusOptions = [
 	{ key: 'a', text: 'Active', value: 'ACTIVE' },
