@@ -7,11 +7,10 @@ import * as authActions from "../../api/actions/auth";
 import '../../static/css/auth/auth.css'
 import {Link} from "react-router-dom";
 import Page from "../base/Page";
-import logo from "../../static/image/common/logo.png";
-import people from '../../static/image/common/people.webp';
+import slide4 from "../../static/image/common/pexels-photo-4348401.jpeg";
+import slide3 from '../../static/image/common/pexels-photo-1116302.jpeg';
 import slide1 from '../../static/image/common/backpackers.jpg';
-import slide2 from '../../static/image/common/beach.jpg';
-import slide3 from '../../static/image/common/bg_4.jpg';
+import slide5 from '../../static/image/common/pexels-photo-2479312.jpeg';
 import  Carousel  from  'semantic-ui-carousel-react';
 
 
@@ -81,7 +80,17 @@ class Login extends Component{
             },
             {
                 render:()=>{
-                    return <img src={slide2} width={"100%"} alt={"SpiritsUp"}/>
+                    return <img src={slide4} width={"100%"} alt={"SpiritsUp"}/>
+                }
+            },
+            {
+                render:()=>{
+                    return <img src={slide5} width={"100%"} alt={"SpiritsUp"}/>
+                }
+            },
+            {
+                render:()=>{
+                    return <img src={slide3} width={"100%"} alt={"SpiritsUp"}/>
                 }
             },
 
