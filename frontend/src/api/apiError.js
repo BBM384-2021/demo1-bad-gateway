@@ -15,7 +15,7 @@ export const apiError = (error, reject, popup = true) => {
     }
 
     if(error.response === undefined){
-        response = "Bağlantı problemi oluştu. Lütfen ağ ayarlarınızı kontrol ediniz.";
+        response = "Connection problem occurred. Please check your network.";
         popup = true;
     } else if(error.response.data.status === 401){
         store.dispatch({
@@ -23,15 +23,16 @@ export const apiError = (error, reject, popup = true) => {
             payload: {}
         });
         if (response === "Full authentication is required to access this resource"){
-            response = "Oturumunuz sona ermiştir. Lütfen Tekrar Giriş Yapınız.";
+            response = "Your session has ended. Please log in again.";
         }
 
         popup = true;
     }
 
     if(popup) {
+        console.log(response);
         swal({
-            title: 'Hata',
+            title: 'ERROR',
             text: response,
             icon: 'error'
         });

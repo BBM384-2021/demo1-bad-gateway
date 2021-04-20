@@ -45,7 +45,7 @@ export const loginService = (data) => {
                 resolve(response);
             })
             .catch(function (error) {
-                apiError(error, reject);
+                // popup -> apiError(error, reject);
                 reject(error);
             });
     }));
@@ -60,7 +60,7 @@ export const signupService = (data) => {
                 resolve(response);
             })
             .catch(function (error) {
-                apiError(error, reject);
+                // popup -> apiError(error, reject);
                 reject(error);
             });
     }));

@@ -50,11 +50,10 @@ class Login extends Component{
     }
 
     submitFormCallback = (error) => {
-        console.log(this.state.usernameInput)
         this.setState({
             isHidden: false,
             messageHeader: "",
-            messageForm: error,
+            messageForm: "Username and/or password is wrong.",
             isSuccess: false,
             isError: true,
         })
@@ -99,17 +98,16 @@ class Login extends Component{
                 />
                 <Page>
                     <Page.Content>
-                        <Message
-                            hidden={this.state.isHidden}
-                            success={this.state.isSuccess}
-                            error={this.state.isError}
-                            header={this.state.messageHeader}
-                            content={this.state.messageForm}
-                            className={"message-auth"}
-                        />
                         <Segment className={"loginBox"} color='violet'>
                             <Header className={"loginHeader"} size={"huge"} textAlign={"center"}>LOGIN</Header>
-
+                            <Message
+                                hidden={this.state.isHidden}
+                                success={this.state.isSuccess}
+                                error={this.state.isError}
+                                header={this.state.messageHeader}
+                                content={this.state.messageForm}
+                                className={"message-auth"}
+                            />
                             <Form onSubmit={this.submitForm}>
                                 <Form.Field>
                                     <Form.Input
