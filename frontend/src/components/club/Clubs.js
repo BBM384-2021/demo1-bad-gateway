@@ -112,7 +112,7 @@ class Clubs extends Component {
             <Grid columns='equal'>
               <Grid.Row>
                 <Grid.Column></Grid.Column>
-                <Grid.Column>
+                <Grid.Column textAlign={'center'}>
                   <Button positive as={Link} to={"/club/create"}>
                     Create Club
                   </Button>
