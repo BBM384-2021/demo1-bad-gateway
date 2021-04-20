@@ -95,10 +95,12 @@ class UpdateClub extends Component{
 			isSuccess: true,
 			isError: false,
 		})
+
 		setTimeout(() => {
-			this.setState({ isHidden: true })
-		}, 3000)
+			this.props.history.push("/club/info/" + this.state.club.id);
+		},3000)
 	};
+
 
 	submitForm(event){
 		event.preventDefault();
