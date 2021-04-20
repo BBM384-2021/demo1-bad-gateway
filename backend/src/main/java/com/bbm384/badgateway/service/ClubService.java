@@ -68,6 +68,8 @@ public class ClubService {
             query = query.and(root.category.eq(category.get()));
         }
 
+        query = query.and(root.status.eq(ClubStatus.ACTIVE));
+
         clubs = clubRepository.findAll(query, pageable);
 
         List<ClubInfoResponse> clubResponse = clubs.map(club
