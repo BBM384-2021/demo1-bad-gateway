@@ -34,7 +34,7 @@ public class PasswordService {
 
     public ApiResponse forgotPassword(String email){
         User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new ResourceNotFoundException("Lütfen Sisteme Kayıtlı Email adresi giriniz.","User", "email", String.valueOf(email))
+                () -> new ResourceNotFoundException("Please enter the system registered email address.","User", "email", String.valueOf(email))
         );
 
         UUID uuid = UUID.randomUUID();
@@ -55,7 +55,7 @@ public class PasswordService {
 
     public ApiResponse checkToken(String token){
         ResetPassword resetPassword = resetPasswordRepository.findByToken(token).orElseThrow(
-                () -> new ResourceNotFoundException("Doğrulama kodunuz yanlış.", "ResetPassword", "token", String.valueOf(token))
+                () -> new ResourceNotFoundException("Verification code is wrong.", "ResetPassword", "token", String.valueOf(token))
         );
         if(Instant.now().compareTo(resetPassword.getExpiryDate()) < 0){
             return new ApiResponse(true, "ok");
@@ -77,20 +77,20 @@ public class PasswordService {
     public ApiResponse resetPassword(UserPrincipal currentUser, PasswordInfo passwordInfo){
         User user = currentUser.getUser();
         if(!passwordInfo.getNewPassword().equals(passwordInfo.getNewPasswordRepeat())){
-            return new ApiResponse(false, "Yeni şifreniz tekrarı ile eşleşmiyor.");
+            return new ApiResponse(false, "Password and password repeat must match.");
         }
         if(passwordInfo.getNewPassword().equals(passwordInfo.getCurrentPassword())){
-            return new ApiResponse(false, "Yeni şifreniz eski şifreniz ile aynı olamaz");
+            return new ApiResponse(false, "Your new password cannot be the same as your old password.");
         }
 
         PasswordValidator passwordValidator = new PasswordValidator();
         if(!passwordValidator.validate(passwordInfo.getNewPassword())){
-            return new ApiResponse(false, "Lütfen en az 1 harf 1 rakam ve 1 karakter içeren 8 karakterli şifre oluşturunuz.");
+            return new ApiResponse(false, "New password must contain at least 8 characters, 1 number and 1 special character.");
         }
 
         user.setPassword(passwordEncoder.encode(passwordInfo.getNewPassword()));
         user.setPasswordReset(false);
         userRepository.save(user);
-        return new ApiResponse(true, "Şifreniz başarıyla sıfırlandı.");
+        return new ApiResponse(true, "Password changed successfully!");
     }
 }

@@ -1,10 +1,11 @@
 import React, {Component} from "react";
 import {LoadingStates} from "../../constants/common";
 import {connect} from "react-redux";
-import { Button, Form, Loader, Segment, Table, Message, Icon, Card } from 'semantic-ui-react';
+import { Button, Form, Loader, Segment, Grid, Message, Icon, Card, GridColumn } from 'semantic-ui-react';
 import * as clubActions from "../../api/actions/club";
 import ClubsItem from "./ClubsItem";
 import Page from "../base/Page";
+import { Link } from 'react-router-dom';
 
 
 class Clubs extends Component {
@@ -108,6 +109,17 @@ class Clubs extends Component {
                   )
               }
             </Card.Group>
+            <Grid columns='equal'>
+              <Grid.Row>
+                <Grid.Column></Grid.Column>
+                <Grid.Column>
+                  <Button positive as={Link} to={"/club/create"}>
+                    Create Club
+                  </Button>
+                </Grid.Column>
+                <Grid.Column></Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Segment>
         </Page.Content>
       </Page>

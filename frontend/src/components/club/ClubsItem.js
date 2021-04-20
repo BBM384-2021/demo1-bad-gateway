@@ -10,10 +10,9 @@ class ClubsItem extends Component{
   render(){
 
     const {club} = this.props;
-    const extra = (<a><Icon name='user' /> 16 Friends</a>)
 
     return(
-      <Card >
+      <Card style={{"word-wrap": "break-word"}}>
 
         <Image src={defaultClub}/>
         <Card.Content>
