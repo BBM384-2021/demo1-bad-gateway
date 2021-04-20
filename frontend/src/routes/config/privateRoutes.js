@@ -29,18 +29,13 @@ const roleMapping = [
         component: Users,
         path: '/user/list',
         title: 'Users',
-        permission: [
-            Roles.ADMIN.key,
-        ],
+        permission: [],
     },
     {
         component: UserInfo,
         path: '/user/info/:id',
         title: 'User Info',
-        permission: [
-            Roles.ADMIN.key,
-
-        ],
+        permission: [],
     },
     {
         component: EditUser,
@@ -74,19 +69,13 @@ const roleMapping = [
         component: Clubs,
         path: '/club/list',
         title: 'Clubs',
-        permission: [
-            Roles.ADMIN.key,
-        ],
+        permission: [],
     },
     {
         component: ClubInfo,
         path: '/club/info/:id',
         title: 'Club Info',
-        permission: [
-            Roles.ADMIN.key,
-            Roles.SUB_CLUB_ADMIN.key,
-            Roles.MEMBER.key
-        ],
+        permission: [],
     },
     {
         component: CreateClub,
