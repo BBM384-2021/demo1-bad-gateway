@@ -18,10 +18,6 @@ public class CategoryService {
 
 
     public List<CategoryPayload> getAllCategories(){
-        System.out.println(categoryRepository.findAll().stream().map(
-                category -> ModelMapper.mapToCategoryResponse(category)
-        ).collect(Collectors.toList()));
-
         return  categoryRepository.findAll().stream().map(
                 category -> ModelMapper.mapToCategoryResponse(category)
         ).collect(Collectors.toList());

@@ -54,7 +54,7 @@ public class ClubService {
 
     }
 
-    public PagedResponse<ClubInfoResponse> getClubList(int page, Optional<String> name, Optional<Category> category){
+    public PagedResponse<ClubInfoResponse> getClubList(int page, Optional<String> name, Optional<String> categoryName){
         Pageable pageable = PageRequest.of(page, AppConstants.DEFAULT_PAGE_SIZE, Sort.Direction.DESC, "id");
         Page<Club> clubs;
 
@@ -64,9 +64,11 @@ public class ClubService {
         if(name.isPresent()) {
             query = query.and(root.name.startsWith(name.get()));
         }
-        if(category.isPresent()) {
-            query = query.and(root.category.eq(category.get()));
+        if(categoryName.isPresent()) {
+            query = query.and(root.category.name.eq(categoryName.get()));
         }
+
+        query = query.and(root.status.eq(ClubStatus.ACTIVE));
 
         clubs = clubRepository.findAll(query, pageable);
 

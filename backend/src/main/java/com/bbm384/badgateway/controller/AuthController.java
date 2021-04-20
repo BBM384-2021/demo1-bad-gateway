@@ -166,7 +166,7 @@ public class AuthController {
             return passwordService.resetPassword(currentUser, passwordInfo);
         }
         catch (BadCredentialsException ex){
-            return new ApiResponse(false, "Mevcut şifrenizi yanlış girdiniz.");
+            return new ApiResponse(false, "Current Password Incorrect!");
         }
     }
 

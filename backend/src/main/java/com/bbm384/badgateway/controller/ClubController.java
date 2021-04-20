@@ -33,7 +33,8 @@ public class ClubController {
     public PagedResponse<ClubInfoResponse> listClubs(@RequestParam(value = "page",
                                         defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
                                          @RequestParam(value = "name") Optional<String> name,
-                                         @RequestParam(value = "category") Optional<Category> category){
+                                         @RequestParam(value = "category") Optional<String> category){
+        System.out.println(category);
         return clubService.getClubList(page, name, category);
     }
 

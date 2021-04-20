@@ -11,7 +11,15 @@ import {apiError} from "../apiError";
 
 export const clubListService = (page, name, category) => {
   return new Promise(((resolve, reject) => {
-    axios.get(encodeURI(API_CLUB_LIST_URL + "?page="+page+"&name="+name + "&category="+category),
+      let query = "";
+      if(name !== null && name !== undefined && name !== ""){
+          query += `&name=${name}`;
+      }
+      if(category !== null && category !== undefined && category !== ""){
+          query += `&category=${category}`;
+      }
+
+    axios.get(encodeURI(API_CLUB_LIST_URL + "/?page="+page+query),
       getHeaderWithToken())
       .then(function (response) {
         resolve(response);

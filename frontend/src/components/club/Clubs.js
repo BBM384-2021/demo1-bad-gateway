@@ -1,10 +1,24 @@
 import React, {Component} from "react";
 import {LoadingStates} from "../../constants/common";
 import {connect} from "react-redux";
-import { Button, Form, Loader, Segment, Table, Message, Icon, Card } from 'semantic-ui-react';
+import {
+  Button,
+  Form,
+  Loader,
+  Segment,
+  Grid,
+  Message,
+  Icon,
+  Card,
+  GridColumn,
+  Dropdown,
+  Select
+} from 'semantic-ui-react';
 import * as clubActions from "../../api/actions/club";
 import ClubsItem from "./ClubsItem";
 import Page from "../base/Page";
+import { Link } from 'react-router-dom';
+import * as categoryActions from "../../api/actions/category";
 
 
 class Clubs extends Component {
@@ -14,19 +28,29 @@ class Clubs extends Component {
       name: "",
       category: "",
     },
-    nameInput: "",
-    categoryInput: "",
+    categories: []
   };
 
 
   constructor(props) {
     super(props);
     this.handleClubList = this.handleClubList.bind(this);
+    this.handleGetCategories = this.handleGetCategories.bind(this);
   }
 
   componentDidMount() {
     this.props.getClubList(0, this.state.filters.name, this.state.filters.category, this.handleClubList);
+    this.props.getCategories(this.handleGetCategories);
   }
+
+  handleGetCategories(data) {
+    this.setState({
+          ...this.state,
+          categories: data,
+        }
+    )
+  }
+
 
   handleClubList(data) {
     this.setState({
@@ -36,19 +60,29 @@ class Clubs extends Component {
   }
 
   handleInputChange = (event) => {
+    console.log(event.target.value);
     const value = event.target.value;
     const spaceCharacter = " ";
     const newLineCharacter = "\n";
+
     if (value.length && (value.startsWith(spaceCharacter) || value.startsWith(newLineCharacter)))
       return;
+
     this.setState({
       filters: {
         ...this.state.filters,
         [event.target.id]: value
       }
-
     })
+
   };
+
+  handleCategoryFilterChange= (e, { value }) => this.setState({
+    filters: {
+      ...this.state.filters,
+      category: value
+    }
+  });
 
   handleFiltering = (event) => {
     this.props.getClubList(0, this.state.filters.name, this.state.filters.category, this.handleClubList);
@@ -76,18 +110,25 @@ class Clubs extends Component {
           <Page.Operation.Filter>
             <Form onSubmit={this.handleFiltering}>
               <Form.Group>
-                <Form.Input id={"name"}
-                            label='Club Name'
-                            value={this.state.filters.name}
-                            onChange={this.handleInputChange}
-                            inline
-                />
-                <Form.Input id={"category"}
-                            label='Category'
-                            value={this.state.filters.category}
-                            onChange={this.handleInputChange}
-                            inline
-                />
+                <Form.Field>
+                  <Form.Input id={"name"}
+                              placeholder='Club Name'
+                              value={this.state.filters.name}
+                              onChange={this.handleInputChange}
+                              inline
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Dropdown
+                      selection
+                      id={"category"}
+                      options={this.state.categories.map((key) => ({text: key.name, value: key.name}))}
+                      placeholder={"Category"}
+                      value={this.state.filters.category}
+                      control={Select}
+                      onChange={this.handleCategoryFilterChange}
+                  />
+                </Form.Field>
                 <Form.Button content='Search'/>
               </Form.Group>
             </Form>
@@ -108,6 +149,17 @@ class Clubs extends Component {
                   )
               }
             </Card.Group>
+            <Grid columns='equal'>
+              <Grid.Row>
+                <Grid.Column></Grid.Column>
+                <Grid.Column textAlign={'center'}>
+                  <Button positive as={Link} to={"/club/create"}>
+                    Create Club
+                  </Button>
+                </Grid.Column>
+                <Grid.Column></Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Segment>
         </Page.Content>
       </Page>
@@ -120,6 +172,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getClubList: (page, name, category, callback) => {
       dispatch(clubActions.clubListAction(page, name, category, callback));
+    },
+    getCategories: (callback) => {
+      dispatch(categoryActions.getAllCategoriesAction(callback));
     },
   }
 };
