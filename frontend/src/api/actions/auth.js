@@ -54,6 +54,7 @@ export const loginAction = (data, callback) => {
                 dispatch(userInfoAction());
             },
             (error) =>{
+                callback(error);
             });
     }
 };
@@ -67,6 +68,7 @@ export const signupAction = (data, callback) => {
                 }
             },
             (error) =>{
+                callback(error);
             });
     }
 };

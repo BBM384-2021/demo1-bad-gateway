@@ -64,21 +64,6 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        String password = loginRequest.getPassword();
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(), loginRequest.getPassword());
-
-        try {
-            authenticationManager.authenticate(authenticationToken);
-        }
-        catch (BadCredentialsException ex){
-            User user = userRepository.findByUsername(loginRequest.getUsername())
-                    .orElseThrow(() -> new UsernameNotFoundException("The user does not exist : " +
-                            loginRequest.getUsername()));
-
-            if (!user.isPasswordReset())
-                password = getUserDefaultPassword();
-        }
 
         Authentication authentication = null;
 
@@ -86,13 +71,12 @@ public class AuthController {
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
-                            password
+                            loginRequest.getPassword()
                     )
             );
         }catch (BadCredentialsException e){
             throw new BadCredentialsException("Username or password wrong!");
         }
-
 
         UserPrincipal currentUser = (UserPrincipal) authentication.getPrincipal();
         if (currentUser.getUser().getStatus() == UserStatus.PASSIVE)
