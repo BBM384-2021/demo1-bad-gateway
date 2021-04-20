@@ -49,16 +49,26 @@ class SignUp extends Component{
     submitFormCallback = (response) => {
         if(response.success){
             this.props.history.push("/login");
-            console.log("hello");
             // return <Route render={() => <Redirect to={{pathname: "/login"}} />} />
-        }else{
+        }
+        // This means HTTP 400 error.
+        else if(response.response){
             this.setState({
                 isHidden: false,
                 messageHeader: "",
-                messageForm: response,
+                messageForm: "Please enter a valid email address.",
                 isSuccess: false,
                 isError: true,
             })
+        }
+        else{
+                this.setState({
+                    isHidden: false,
+                    messageHeader: "",
+                    messageForm: response.message,
+                    isSuccess: false,
+                    isError: true,
+                })
         }
     };
 
@@ -80,7 +90,11 @@ class SignUp extends Component{
         return(
             <div style={{backgroundImage: `url(${background})`, height:"900px"}}>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"/>
+
+                <div style={{paddingTop: "100px", marginLeft: "1000px",  opacity: .9, color: '#fff'}}>
+                    <h1 className="ui header" style={{color: "black", fontFamily: 'Ubuntu Mono', fontSize: "30px"}}>JOIN US</h1>
                     <Message
+                        style={{width:"290px", height:"60px"}}
                         hidden={this.state.isHidden}
                         success={this.state.isSuccess}
                         error={this.state.isError}
@@ -88,8 +102,6 @@ class SignUp extends Component{
                         content={this.state.messageForm}
                         className={"message-auth"}
                     />
-                <div style={{paddingTop: "100px", marginLeft: "1000px",  opacity: .9, color: '#fff'}}>
-                    <h1 className="ui header" style={{color: "black", fontFamily: 'Ubuntu Mono', fontSize: "30px"}}>JOIN US</h1>
                     <Form onSubmit={this.submitForm}>
                         <Form.Field>
                             <Form.Input
