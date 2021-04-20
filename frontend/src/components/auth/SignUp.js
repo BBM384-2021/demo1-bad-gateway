@@ -49,7 +49,6 @@ class SignUp extends Component{
     submitFormCallback = (response) => {
         if(response.success){
             this.props.history.push("/login");
-            // return <Route render={() => <Redirect to={{pathname: "/login"}} />} />
         }
         // This means HTTP 400 error.
         else if(response.response){

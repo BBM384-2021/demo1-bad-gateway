@@ -77,6 +77,9 @@ class CreateClub extends Component{
 			isSuccess: true,
 			isError: false,
 		})
+		setTimeout(() => {
+			this.props.history.push("/club/list");
+		},3000)
 	};
 
 	submitForm(event){
