@@ -93,7 +93,7 @@ class Login extends Component{
                 <Carousel
                     background-color = "#EFF8F9"
                     elements  =  {  elements  }
-                    duration  = {6000}
+                    duration  = {5000}
                     animation  ='slide left'
                     showNextPrev  =  {false}
                 />
