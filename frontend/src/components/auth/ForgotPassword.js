@@ -56,7 +56,7 @@ class ForgotPassword extends Component {
         })
         if(error.success){
             this.setState({
-                messageForm: "Mail Başarıyla Gönderildi.Lütfen Posta Kutunuzu Kontrol Ediniz.",
+                messageForm: "Mail sent successfully. Please check your email.",
             })
         }
     };
@@ -78,8 +78,8 @@ class ForgotPassword extends Component {
         return (
         <Page>
             <Page.Header>
-                <Page.Header.Item>Giriş</Page.Header.Item>
-                <Page.Header.Item>Şifremi Unuttum</Page.Header.Item>
+                <Page.Header.Item>Auth</Page.Header.Item>
+                <Page.Header.Item>Forgot Password</Page.Header.Item>
             </Page.Header>
             <Page.Content>
                 <Segment>
@@ -91,19 +91,19 @@ class ForgotPassword extends Component {
                         content={this.state.messageForm}
                         className={"message-auth"}
                     />
-                    <div>E-posta adresinizi girerek, adresinize yollanan linkten şifrenizi değiştirebilirsiniz.</div><br/>
+                    <div>You can create a new password from the mail that you registered the system.</div><br/>
                     <Form onSubmit={this.onFormSubmit}>
                         <Form.Field>
                             <Form.Input
                                 id={"email"}
-                                label={"E-posta"}
-                                placeholder='E-posta Adresiniz'
+                                label={"E-mail"}
+                                placeholder='example@mail.com'
                                 value={this.state.field.email}
                                 required
                                 onChange={this.handleInputChange}
                             />
                         </Form.Field>
-                        <Button type='submit'>Şifre Gönder</Button>
+                        <Button type='submit'>Send mail</Button>
                     </Form>
                 </Segment>
             </Page.Content>
