@@ -10,8 +10,8 @@ import {Link} from "react-router-dom";
 import Login from './Login'
 
 
-class SignUp extends Component{
-    constructor(props){
+class SignUp extends Component {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -33,7 +33,7 @@ class SignUp extends Component{
     }
 
 
-    handleInputChange(event){
+    handleInputChange(event) {
         const value = event.target.value;
         const spaceCharacter = " ";
         const newLineCharacter = "\n";
@@ -47,31 +47,33 @@ class SignUp extends Component{
     }
 
     submitFormCallback = (response) => {
-        if(response.success){
+        let message = "";
+        if (response.success) {
             this.props.history.push("/login");
         }
-        // This means HTTP 400 error.
+        // Backend throws 400 or 500.
         else if(response.response){
-            this.setState({
-                isHidden: false,
-                messageHeader: "",
-                messageForm: "Please enter a valid email address.",
-                isSuccess: false,
-                isError: true,
-            })
+            if (response.response.data.status === 400) {
+                message = "Please enter a valid email address.";
+            }
+            else if (response.response.data.status === 500) {
+                message = "This username and email exists.";
+            }
         }
+        // ApiResponse return here.
         else{
-                this.setState({
-                    isHidden: false,
-                    messageHeader: "",
-                    messageForm: response.message,
-                    isSuccess: false,
-                    isError: true,
-                })
+            message = response.message;
         }
+        this.setState({
+            isHidden: false,
+            messageHeader: "",
+            messageForm: message,
+            isSuccess: false,
+            isError: true,
+        })
     };
 
-    submitForm(event){
+    submitForm(event) {
         event.preventDefault();
 
         const data = {
@@ -85,15 +87,16 @@ class SignUp extends Component{
     }
 
 
-    render(){
-        return(
-            <div style={{backgroundImage: `url(${background})`, height:"900px"}}>
+    render() {
+        return (
+            <div style={{backgroundImage: `url(${background})`, height: "900px"}}>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"/>
 
-                <div style={{paddingTop: "100px", marginLeft: "1000px",  opacity: .9, color: '#fff'}}>
-                    <h1 className="ui header" style={{color: "black", fontFamily: 'Ubuntu Mono', fontSize: "30px"}}>JOIN US</h1>
+                <div style={{paddingTop: "100px", marginLeft: "1000px", opacity: .9, color: '#fff'}}>
+                    <h1 className="ui header" style={{color: "black", fontFamily: 'Ubuntu Mono', fontSize: "30px"}}>JOIN
+                        US</h1>
                     <Message
-                        style={{width:"290px", height:"60px"}}
+                        style={{width: "290px", height: "60px"}}
                         hidden={this.state.isHidden}
                         success={this.state.isSuccess}
                         error={this.state.isError}
