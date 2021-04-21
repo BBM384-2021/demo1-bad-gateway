@@ -9,25 +9,25 @@ import java.time.Instant;
 
 @Entity
 @QueryEntity
-@Table(name = "SIFRE_SIFIRLAMA")
+@Table(name = "PASSWORD_RESET")
 public class ResetPassword {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "KULLANICI")
+    @JoinColumn(name = "USER")
     @NotNull
     private User user;
 
-    @Column(name = "DOGRULAMA_KODU")
+    @Column(name = "VERIFICATION_CODE")
     private String token;
 
     @CreatedDate
-    @Column(name="OLUSTURULMA_TARIHI")
+    @Column(name="CREATED_DATE")
     private Instant createdAt;
 
-    @Column(name="SON_KULLANMA_TARIHI")
+    @Column(name="EXPIRY_DATE")
     private Instant expiryDate;
 
     public Long getId() {

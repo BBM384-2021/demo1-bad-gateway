@@ -136,6 +136,17 @@ class Clubs extends Component {
         </Page.Operation>
         <Page.Content>
           <Segment>
+            <Grid columns='equal'>
+              <Grid.Row>
+                <Grid.Column></Grid.Column>
+                <Grid.Column></Grid.Column>
+                <Grid.Column textAlign={'right'}>
+                  <Button positive as={Link} to={"/club/create"}>
+                    Create Club
+                  </Button>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
             <Card.Group itemsPerRow={3}>
               {
                 this.state.clubList.length === 0 ?
@@ -149,17 +160,6 @@ class Clubs extends Component {
                   )
               }
             </Card.Group>
-            <Grid columns='equal'>
-              <Grid.Row>
-                <Grid.Column></Grid.Column>
-                <Grid.Column textAlign={'center'}>
-                  <Button positive as={Link} to={"/club/create"}>
-                    Create Club
-                  </Button>
-                </Grid.Column>
-                <Grid.Column></Grid.Column>
-              </Grid.Row>
-            </Grid>
           </Segment>
         </Page.Content>
       </Page>
