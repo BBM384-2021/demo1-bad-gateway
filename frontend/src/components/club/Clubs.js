@@ -8,9 +8,7 @@ import {
   Segment,
   Grid,
   Message,
-  Icon,
   Card,
-  GridColumn,
   Dropdown,
   Select
 } from 'semantic-ui-react';
@@ -19,6 +17,7 @@ import ClubsItem from "./ClubsItem";
 import Page from "../base/Page";
 import { Link } from 'react-router-dom';
 import * as categoryActions from "../../api/actions/category";
+import {getRoles} from "../../utils/auth";
 
 
 class Clubs extends Component {
@@ -28,6 +27,7 @@ class Clubs extends Component {
       name: "",
       category: "",
     },
+    roles:[],
     categories: []
   };
 
@@ -90,6 +90,7 @@ class Clubs extends Component {
 
   render() {
     const {status} = this.state;
+    let roles = getRoles();
 
     if (status !== LoadingStates.LOADED) {
       return (
@@ -136,17 +137,20 @@ class Clubs extends Component {
         </Page.Operation>
         <Page.Content>
           <Segment>
-            <Grid columns='equal'>
-              <Grid.Row>
-                <Grid.Column></Grid.Column>
-                <Grid.Column></Grid.Column>
-                <Grid.Column textAlign={'right'}>
-                  <Button positive as={Link} to={"/club/create"}>
-                    Create Club
-                  </Button>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+            {roles ? roles.find((item)=> item==="ADMIN") && <div>
+              <Grid columns='equal'>
+                <Grid.Row>
+                  <Grid.Column></Grid.Column>
+                  <Grid.Column></Grid.Column>
+                  <Grid.Column textAlign={'right'}>
+                    <Button positive as={Link} to={"/club/create"}>
+                      Create Club
+                    </Button>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid> </div>: null
+            }
+
             <Card.Group itemsPerRow={3}>
               {
                 this.state.clubList.length === 0 ?
