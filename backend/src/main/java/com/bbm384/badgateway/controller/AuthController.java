@@ -124,11 +124,31 @@ public class AuthController {
     public ApiResponse signup(@Valid @RequestBody SignUpRequest signUpRequest) {
         System.out.println("here");
         ApiResponse apiResponse = new ApiResponse();
+
+        if(signUpRequest.getUsername().length() < 4) {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("Username must be more than 3 character.");
+            return apiResponse;
+        }
+
+        if(signUpRequest.getUsername().length() > 40) {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("Username must be less than 40 character.");
+            return apiResponse;
+        }
+
+        if (signUpRequest.getPassword().length() < 8) {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("Password must be more than 7 character.");
+            return apiResponse;
+        }
+
         if (!(signUpRequest.getPassword().equals(signUpRequest.getPasswordRepeat()))){
             apiResponse.setSuccess(false);
             apiResponse.setMessage("The passwords you entered do not match.");
             return apiResponse;
         }
+        
         PasswordValidator passwordValidator = new PasswordValidator();
         if(!passwordValidator.validate(signUpRequest.getPassword())){
             apiResponse.setSuccess(false);
