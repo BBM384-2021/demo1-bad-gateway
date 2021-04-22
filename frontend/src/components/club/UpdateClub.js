@@ -6,6 +6,7 @@ import '../../static/css/auth/auth.css'
 import Page from "../base/Page";
 import * as clubActions from "../../api/actions/club";
 import {Button, Form, Dropdown, Segment, Header, Message} from "semantic-ui-react";
+import * as categoryActions from "../../api/actions/category";
 
 
 const statusOptions = [
@@ -23,6 +24,7 @@ class UpdateClub extends Component{
 		super(props);
 		this.state = {
 			club:null,
+			categories:[],
 			categoryName:"",
 			statusLoading:LoadingStates.NOT_LOADED,
 			nameInput: "",
@@ -41,6 +43,7 @@ class UpdateClub extends Component{
 		this.submitForm = this.submitForm.bind(this);
 		this.handleClubInfo = this.handleClubInfo.bind(this);
 		this.handleDismiss = this.handleDismiss(this);
+		this.handleGetCategories = this.handleGetCategories.bind(this);
 	}
 	handleClubInfo(data) {
 		console.log("handle")
@@ -56,7 +59,16 @@ class UpdateClub extends Component{
 		console.log("inside")
 		const {id} = this.props.match.params;
 		this.props.getClubInfo(id, this.handleClubInfo);
+		this.props.getCategories(this.handleGetCategories);
 	}
+	handleGetCategories(data) {
+		this.setState({
+				...this.state,
+				categories: data,
+			}
+		)
+	}
+
 	handleDismiss = () => {
 		this.setState({isHidden: true})
 	}
@@ -171,9 +183,9 @@ class UpdateClub extends Component{
 									fluid
 									selection
 									id={"categoryName"}
-									options={categoryOptions}
+									options={this.state.categories.map((key) => ({text: key.name, value: key.name}))}
 									placeholder={"Category"}
-									value={categoryName ? this.capitalizeFirstLetter(categoryName) : this.state.categoryName}
+									value={this.state.categoryName}
 									onChange={this.handleInputChange}
 								/>
 							</Form.Field>
@@ -209,6 +221,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		getClubInfo: (id, callback) => {
 			dispatch(clubActions.clubInfoAction(id, callback));
+		},getCategories: (callback) => {
+			dispatch(categoryActions.getAllCategoriesAction(callback));
 		},
 	}
 };
