@@ -34,7 +34,6 @@ public class ClubController {
                                         defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
                                          @RequestParam(value = "name") Optional<String> name,
                                          @RequestParam(value = "category") Optional<String> category){
-        System.out.println(category);
         return clubService.getClubList(page, name, category);
     }
 

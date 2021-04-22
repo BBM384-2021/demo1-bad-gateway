@@ -104,7 +104,7 @@ class ClubInfo extends Component {
                         {auth && console.log(auth.roles)}
                         <Header as='h2' icon textAlign='center' color="violet">
                             <Icon name='users' circular/>
-                            <Header.Content>{this.state.club.name} Club</Header.Content>
+                            <Header.Content>{this.state.club.name}</Header.Content>
                         </Header>
                         <Header as='h5' icon textAlign='center' sub>
                             <Header.Content>Category</Header.Content>

@@ -35,7 +35,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bbm384.badgateway.model.User.getUserDefaultPassword;
 
 @RestController
 @RequestMapping("${app.api_path}")
@@ -122,7 +121,6 @@ public class AuthController {
 
     @PostMapping("/auth/signup")
     public ApiResponse signup(@Valid @RequestBody SignUpRequest signUpRequest) {
-        System.out.println("here");
         ApiResponse apiResponse = new ApiResponse();
 
         if(signUpRequest.getUsername().length() < 4) {
