@@ -1,18 +1,9 @@
 package com.bbm384.badgateway;
 
 
-import com.bbm384.badgateway.model.Category;
-import com.bbm384.badgateway.model.Club;
-import com.bbm384.badgateway.model.User;
-import com.bbm384.badgateway.repository.CategoryRepository;
-import com.bbm384.badgateway.repository.ClubRepository;
-import com.bbm384.badgateway.model.Role;
-import com.bbm384.badgateway.model.User;
-import com.bbm384.badgateway.model.constants.UserRole;
-import com.bbm384.badgateway.model.constants.UserType;
-import com.bbm384.badgateway.repository.MessageRepository;
-import com.bbm384.badgateway.repository.RoleRepository;
-import com.bbm384.badgateway.repository.UserRepository;
+import com.bbm384.badgateway.model.*;
+import com.bbm384.badgateway.model.constants.*;
+import com.bbm384.badgateway.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,21 +30,30 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         if(false){
             User admin = new User();
-            admin.setUsername("admin");
+            admin.setName("Betül Karagöz");
+            admin.setUsername("BetulKaragoz");
+            admin.setPhone("0123456789");
             admin.setPassword(passwordEncoder.encode("admin"));
             admin.setUserType(UserType.ADMIN);
+            admin.setEmail("admin@gmail.com");
             userRepository.save(admin);
 
             User member = new User();
-            member.setUsername("member");
+            member.setName("Umut Özdemir");
+            member.setUsername("UmutOzdemir");
+            member.setPhone("0123456789");
             member.setPassword(passwordEncoder.encode("member"));
-            admin.setUserType(UserType.MEMBER);
+            member.setUserType(UserType.MEMBER);
+            member.setEmail("member@gmail.com");
             userRepository.save(member);
 
             User subClubAdmin = new User();
-            subClubAdmin.setUsername("subClubAdmin");
+            subClubAdmin.setName("Salih Kerem Harman");
+            subClubAdmin.setUsername("SalihKeremHarman");
+            subClubAdmin.setPhone("0123456789");
             subClubAdmin.setPassword(passwordEncoder.encode("subClubAdmin"));
             subClubAdmin.setUserType(UserType.SUB_CLUB_ADMIN);
+            subClubAdmin.setEmail("subClubAdmin@gmail.com");
             userRepository.save(subClubAdmin);
 
             Category sport = new Category();
@@ -74,7 +74,7 @@ public class DataInitializer implements CommandLineRunner {
 
             Club musicClub= new Club();
             musicClub.setName("GUITAR CLUB");
-            musicClub.setCategory(game);
+            musicClub.setCategory(music);
             musicClub.setDescription("Turn up the volume and rock out in our online group guitar " +
                     "class this session! Guitar Club provides students the opportunity to grab a " +
                     "guitar and have fun playing music with friends. \n");
@@ -115,6 +115,8 @@ public class DataInitializer implements CommandLineRunner {
 
             Role subClubAdminRole = new Role(subClubAdmin, UserRole.SUB_CLUB_ADMIN);
             roleRepository.save(subClubAdminRole);
+
+
         }
     }
 }

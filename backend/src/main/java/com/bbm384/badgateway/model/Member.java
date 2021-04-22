@@ -14,4 +14,11 @@ public class Member extends User{
     @NotNull
     private Set<Club> clubs;
 
+    public Set<Club> getClubs() {
+        return clubs;
+    }
+
+    public void setClubs(Set<Club> clubs) {
+        this.clubs = clubs;
+    }
 }
