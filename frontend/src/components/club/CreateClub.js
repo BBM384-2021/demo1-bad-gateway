@@ -79,7 +79,7 @@ class CreateClub extends Component{
 		})
 		setTimeout(() => {
 			this.props.history.push("/club/list");
-		},3000)
+		},2000)
 	};
 
 	submitForm(event){
