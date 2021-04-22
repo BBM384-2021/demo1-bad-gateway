@@ -10,8 +10,8 @@ import Page from "../base/Page";
 import slide4 from "../../static/image/common/pexels-photo-4348401.jpeg";
 import slide3 from '../../static/image/common/pexels-photo-1116302.jpeg';
 import slide1 from '../../static/image/common/backpackers.jpg';
-import slide5 from '../../static/image/common/pexels-photo-2479312.jpeg';
 import  Carousel  from  'semantic-ui-carousel-react';
+import background from "../../static/image/common/bg_4.jpg";
 
 
 class Login extends Component{
@@ -85,11 +85,6 @@ class Login extends Component{
             },
             {
                 render:()=>{
-                    return <img src={slide5} width={"100%"} alt={"SpiritsUp"}/>
-                }
-            },
-            {
-                render:()=>{
                     return <img src={slide3} width={"100%"} alt={"SpiritsUp"}/>
                 }
             },
@@ -98,13 +93,12 @@ class Login extends Component{
 
         return(
             <React.Fragment>
-                <Carousel
+               {/* <Carousel
                     background-color = "#EFF8F9"
                     elements  =  {  elements  }
                     duration  = {5000}
-                    animation  ='slide left'
                     showNextPrev  =  {false}
-                />
+                />*/}
                 <Page>
                     <Page.Content>
                         <Segment className={"loginBox"} color='violet'>
