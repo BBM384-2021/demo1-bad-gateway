@@ -44,6 +44,11 @@ public class Club extends UpdatedAudit {
     @Column(name = "STATUS")
     private ClubStatus status = ClubStatus.ACTIVE;
 
+    @OneToMany(mappedBy="club")
+    private Set<Comment> comments;
+
+
+
     public Club() {
     }
 
@@ -102,6 +107,14 @@ public class Club extends UpdatedAudit {
 
     public void setStatus(ClubStatus status) {
         this.status = status;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
 

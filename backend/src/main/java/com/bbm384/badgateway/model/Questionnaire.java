@@ -1,33 +1,22 @@
 package com.bbm384.badgateway.model;
 
-import com.bbm384.badgateway.model.audit.CreatedAudit;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-
 @Entity
-@Table(name = "CATEGORY")
-public class Category extends CreatedAudit {
+@Table(name = "QUESTIONNAIRE")
+public class Questionnaire {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(max = 255)
     @Column(name = "NAME")
+    @Size(max = 50)
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    private Set<SubCategory> subCategories;
-
-    public Category() {
-    }
-
-    public Category(Long id) {
-        this.id = id;
-    }
+    @OneToMany(mappedBy = "questionnaire")
+    private Set<Question> questions;
 
     public Long getId() {
         return id;
@@ -43,5 +32,13 @@ public class Category extends CreatedAudit {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
     }
 }
