@@ -74,4 +74,15 @@ public class ModelMapper {
                 .build();
         return messageList;
     }
+
+    public static PrivateMessageList mapToPrivateMessageList(PrivateMessage message) {
+        PrivateMessageList messageList = PrivateMessageList.builder()
+                .id(message.getId())
+                .message(message.getMessage())
+                .sentAt(message.getSentAt())
+                .sender(mapToUserInfoResponse(message.getSender()))
+                .receiver(mapToUserInfoResponse(message.getReceiver()))
+                .build();
+        return messageList;
+    }
 }

@@ -23,7 +23,7 @@ import java.util.Optional;
 
 
 @Service
-public class MessageService {
+public class SubClubChatService {
     @Autowired
     SubClubMessageRepository subClubMessageRepository;
 
@@ -41,6 +41,10 @@ public class MessageService {
         SubClub subclub = subClubRepository.findById(subClubId).orElseThrow(
                 () -> new ResourceNotFoundException("SubClub", "id", String.valueOf(subClubId))
         );
+
+        if(!subclub.getMembers().contains(currentUser.getUser())){
+            throw new ResourceNotFoundException("Member", "id", String.valueOf(currentUser.getUser().getId()));
+        }
 
         if(before.isPresent()){
             messageList = subClubMessageRepository.findBySubClubAndSentAtBeforeOrderBySentAtDesc(subclub, before.get(), top10);
