@@ -9,6 +9,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.HashSet;
+
 @Component
 public class DataInitializer implements CommandLineRunner {
     @Autowired
@@ -25,6 +29,9 @@ public class DataInitializer implements CommandLineRunner {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    SubClubRepository subClubRepository;
 
     @Override
     public void run(String... args) {
@@ -46,6 +53,15 @@ public class DataInitializer implements CommandLineRunner {
             member.setUserType(UserType.MEMBER);
             member.setEmail("member@gmail.com");
             userRepository.save(member);
+
+            User member_2 = new User();
+            member_2.setName("Umut Aydemir");
+            member_2.setUsername("umutaydemir");
+            member_2.setPhone("0123456789");
+            member_2.setPassword(passwordEncoder.encode("member2"));
+            member_2.setUserType(UserType.MEMBER);
+            member_2.setEmail("member2@gmail.com");
+            userRepository.save(member_2);
 
             User subClubAdmin = new User();
             subClubAdmin.setName("Salih Kerem Harman");
@@ -106,6 +122,17 @@ public class DataInitializer implements CommandLineRunner {
                     "and art for self-care? You will just need a pen, felt tips, some" +
                     "plain paper and a cup of tea or coffee. Let's join us!");
             clubRepository.save(artClub);
+
+
+            SubClub drawing = new SubClub();
+            drawing.setName("drawing subclub");
+            drawing.setParentClub(artClub);
+            drawing.setDescription("drawing subclub description");
+            drawing.setCategory(art);
+            drawing.setAdmin(subClubAdmin);
+            drawing.setMembers(new HashSet<User>(Arrays.asList(member, member_2)));
+            subClubRepository.save(drawing);
+
 
             Role role = new Role(admin, UserRole.ADMIN);
             roleRepository.save(role);

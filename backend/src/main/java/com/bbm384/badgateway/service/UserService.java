@@ -3,7 +3,6 @@ package com.bbm384.badgateway.service;
 import com.bbm384.badgateway.exception.AppException;
 import com.bbm384.badgateway.model.constants.UserStatus;
 import com.bbm384.badgateway.payload.*;
-import com.bbm384.badgateway.repository.MessageRepository;
 import com.bbm384.badgateway.repository.RoleRepository;
 import com.bbm384.badgateway.repository.UserRepository;
 import com.bbm384.badgateway.security.UserPrincipal;
@@ -34,9 +33,6 @@ public class UserService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
-    @Autowired
-    MessageRepository messageRepository;
 
     @Autowired
     RoleRepository roleRepository;
