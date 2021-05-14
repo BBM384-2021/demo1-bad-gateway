@@ -1,5 +1,7 @@
 package com.bbm384.badgateway.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -15,6 +17,7 @@ public class Questionnaire {
     @Size(max = 50)
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "questionnaire")
     private Set<Question> questions;
 

@@ -1,6 +1,8 @@
 package com.bbm384.badgateway.model;
 
 import com.bbm384.badgateway.model.audit.CreatedAudit;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,6 +21,7 @@ public class Category extends CreatedAudit {
     @Column(name = "NAME")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private Set<SubCategory> subCategories;
 
