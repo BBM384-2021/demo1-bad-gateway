@@ -22,7 +22,7 @@ public class SubClub extends CreatedAudit {
     @NotNull
     private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.MERGE)
     @JoinColumn(name = "PARENT_CLUB")
     @NotNull
     private Club parentClub;
@@ -31,7 +31,7 @@ public class SubClub extends CreatedAudit {
     @Size(max = 255)
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.MERGE)
     @JoinColumn(name = "CATEGORY")
     private Category category;
 
@@ -39,7 +39,7 @@ public class SubClub extends CreatedAudit {
     @JoinColumn(name = "MEMBERS")
     private Set<User> members;
 
-    @ManyToOne(fetch = FetchType.EAGER ,cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER ,cascade=CascadeType.MERGE)
     @JoinColumn(name = "ADMIN")
     private User admin;
 
