@@ -238,7 +238,7 @@ class SubClubChat extends Component {
                         <Grid.Column width={width}>
                             {
                                 this.state.id === 0 ?
-                                    <Segment>Mesajları görmek için grup seçiniz.
+                                    <Segment>Select a group
                                         <div ref={messageEnd => { this.messageEnd = messageEnd; }} />
                                     </Segment>:
                                     <SegmentGroup className={"chat-segments"}>

@@ -45,7 +45,7 @@ public class PrivateMessageController {
 
     @PostMapping("/send")
     public ApiResponse sendNewMessage(@CurrentUser UserPrincipal currentUser,
-                                      @RequestParam(value = "receiverId") long receiverId,
+                                      @RequestParam(value = "id") long receiverId,
                                       @RequestBody SendMessageRequest sendMessageRequest) {
         return privateMessageService.sendNewMessage(currentUser, receiverId, sendMessageRequest);
     }

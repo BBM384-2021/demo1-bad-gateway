@@ -16,7 +16,7 @@ export const listMessagesService = (date, receiverId, callback) => {
     }
 
     return new Promise(((resolve, reject) => {
-        axios.get(encodeURI(API_PC_CHAT_VIEW_MESSAGES + "?id=" + receiverId + dateFilter),
+        axios.get(encodeURI(API_PC_CHAT_VIEW_MESSAGES + "?receiverId=" + receiverId + dateFilter),
             getHeaderWithToken())
             .then(function (response) {
                 resolve(response);
