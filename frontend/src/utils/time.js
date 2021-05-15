@@ -12,6 +12,9 @@ export const timeParser = (data) => {
     if(data){
         let time = data.split("T")[1].split("Z")[0].split(":")
         let local_time = parseInt(time[0]) + 3
+        if(local_time >= 24 ){
+            local_time = local_time - 24
+        }
         return local_time + ":" + time[1]
     } else {
         return "";
