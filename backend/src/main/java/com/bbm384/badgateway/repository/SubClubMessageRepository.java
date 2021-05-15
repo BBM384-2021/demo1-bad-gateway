@@ -9,10 +9,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.util.List;
 
 @Repository
 public interface SubClubMessageRepository extends JpaRepository<SubClubChat, Long> {
     Page<SubClubChat> findBySubClubAndSentAtBeforeOrderBySentAtDesc(SubClub subClub, Instant sentAt, Pageable pageable);
-    Page<SubClubChat> findBySubClubAndSentAtAfterOrderBySentAtDesc(SubClub subClub, Instant sentAt, Pageable pageable);
+    List<SubClubChat> findBySubClubAndSentAtAfterOrderBySentAtDesc(SubClub subClub, Instant sentAt);
     Page<SubClubChat> findBySubClubOrderBySentAtDesc(SubClub subClub, Pageable pageable);
 }

@@ -4,6 +4,7 @@ package com.bbm384.badgateway.service;
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
 import com.bbm384.badgateway.model.SubClub;
 import com.bbm384.badgateway.model.SubClubChat;
+import com.bbm384.badgateway.model.User;
 import com.bbm384.badgateway.payload.ApiResponse;
 import com.bbm384.badgateway.payload.SendMessageRequest;
 import com.bbm384.badgateway.payload.SubClubChatList;
@@ -31,36 +32,59 @@ public class SubClubChatService {
     SubClubRepository subClubRepository;
 
 
-    public List<SubClubChatList> getMessageList(UserPrincipal currentUser, Long subClubId,
-                                                Optional<Instant> before, Optional<Instant> after){
+    public List<SubClubChatList> getMessageList(UserPrincipal currentUser, Long subClubId, Optional<Instant> date){
         Pageable top10 = PageRequest.of(0, 10);
 
         ArrayList<SubClubChatList> chat = new ArrayList<>();
         Page<SubClubChat> messageList;
+        Boolean isMember = false;
 
         SubClub subclub = subClubRepository.findById(subClubId).orElseThrow(
                 () -> new ResourceNotFoundException("SubClub", "id", String.valueOf(subClubId))
         );
 
-        if(!subclub.getMembers().contains(currentUser.getUser())){
+        for(User member: subclub.getMembers()){
+            if(member.getId() == currentUser.getUser().getId()){
+                isMember = true;
+            }
+        }
+
+        if(!isMember){
             throw new ResourceNotFoundException("Member", "id", String.valueOf(currentUser.getUser().getId()));
         }
 
-        if(before.isPresent()){
-            messageList = subClubMessageRepository.findBySubClubAndSentAtBeforeOrderBySentAtDesc(subclub, before.get(), top10);
-        }
-        else if(after.isPresent()){
-            messageList = subClubMessageRepository.findBySubClubAndSentAtAfterOrderBySentAtDesc(subclub, after.get(), top10);
+        if(date.isPresent()){
+            messageList = subClubMessageRepository.findBySubClubAndSentAtBeforeOrderBySentAtDesc(subclub, date.get(), top10);
         }
         else {
             messageList = subClubMessageRepository.findBySubClubOrderBySentAtDesc(subclub, top10);
         }
+
+        System.out.println(messageList);
 
         for(SubClubChat message: messageList){
             chat.add(ModelMapper.mapToMessageList(message));
         }
         return chat;
     }
+
+    public List<SubClubChatList> getNewMessages(UserPrincipal currentUser, Long subClubId, Instant date){
+        ArrayList<SubClubChatList> messageResponses = new ArrayList<>();
+        List<SubClubChat> messageList;
+
+        SubClub subclub = subClubRepository.findById(subClubId).orElseThrow(
+                () -> new ResourceNotFoundException("SubClub", "id", String.valueOf(subClubId))
+        );
+
+        messageList = subClubMessageRepository.findBySubClubAndSentAtAfterOrderBySentAtDesc(subclub, date);
+
+        for(SubClubChat message: messageList){
+            messageResponses.add(ModelMapper.mapToMessageList(message));
+        }
+
+        return messageResponses;
+    }
+
 
     public ApiResponse sendNewMessage(UserPrincipal currentUser, long subClubId, SendMessageRequest sendMessageRequest) {
         SubClub subclub = subClubRepository.findById(subClubId).orElseThrow(
