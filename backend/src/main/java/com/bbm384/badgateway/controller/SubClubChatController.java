@@ -27,8 +27,6 @@ public class SubClubChatController {
             @RequestParam(value = "id") long id,
             @RequestParam(value = "sentAt") Optional<Instant> date
     ){
-        System.out.println(id);
-        System.out.println(date);
         return messageService.getMessageList(currentUser, id, date);
     }
 

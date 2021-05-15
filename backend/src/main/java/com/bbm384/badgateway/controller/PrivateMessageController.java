@@ -25,10 +25,18 @@ public class PrivateMessageController {
     public List<PrivateMessageList> getMessages(
             @CurrentUser UserPrincipal currentUser,
             @RequestParam(value = "receiverId") long receiverId,
-            @RequestParam(value = "before") Optional<Instant> before,
-            @RequestParam(value = "after") Optional<Instant> after
+            @RequestParam(value = "sentAt") Optional<Instant> sentAt
     ){
-        return privateMessageService.getMessageList(currentUser, receiverId, before, after);
+        return privateMessageService.getMessageList(currentUser, receiverId, sentAt);
+    }
+
+    @GetMapping("/listNew")
+    public List<PrivateMessageList> getNewMessages(
+            @CurrentUser UserPrincipal currentUser,
+            @RequestParam(value = "id", defaultValue = "0") long id,
+            @RequestParam(value = "sentAt") Instant date
+    ){
+        return privateMessageService.getNewMessages(currentUser, id, date);
     }
 
     @PostMapping("/send")
