@@ -36,7 +36,8 @@ public class PrivateMessageService {
         Pageable top10 = PageRequest.of(0, 10);
 
         ArrayList<PrivateMessageList> chat = new ArrayList<>();
-        Page<PrivateMessage> messageList;
+        Page<PrivateMessage> senderMessageList;
+        Page<PrivateMessage> receiverMessageList;
 
         User receiver = userRepository.findById(receiverId).orElseThrow(
                 () -> new ResourceNotFoundException("User", "id", String.valueOf(receiverId))
@@ -45,15 +46,27 @@ public class PrivateMessageService {
         User sender = currentUser.getUser();
 
         if(date.isPresent()){
-            messageList = privateMessageRepository.findBySenderAndReceiverAndSentAtBeforeOrderBySentAtDesc(sender, receiver, date.get(), top10);
+            senderMessageList = privateMessageRepository.findBySenderAndReceiverAndSentAtBeforeOrderBySentAtDesc(sender, receiver, date.get(), top10);
         }
         else {
-            messageList = privateMessageRepository.findBySenderAndReceiverOrderBySentAtDesc(sender, receiver, top10);
+            senderMessageList = privateMessageRepository.findBySenderAndReceiverOrderBySentAtDesc(sender, receiver, top10);
         }
 
-        for(PrivateMessage message: messageList){
+        if(date.isPresent()){
+            receiverMessageList = privateMessageRepository.findBySenderAndReceiverAndSentAtBeforeOrderBySentAtDesc(receiver, sender, date.get(), top10);
+        }
+        else {
+            receiverMessageList = privateMessageRepository.findBySenderAndReceiverOrderBySentAtDesc(receiver, sender, top10);
+        }
+
+        for(PrivateMessage message: senderMessageList){
             chat.add(ModelMapper.mapToPrivateMessageList(message));
         }
+
+        for(PrivateMessage message: receiverMessageList){
+            chat.add(ModelMapper.mapToPrivateMessageList(message));
+        }
+
         return chat;
     }
 

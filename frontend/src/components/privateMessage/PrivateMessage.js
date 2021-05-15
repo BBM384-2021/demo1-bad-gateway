@@ -4,12 +4,13 @@ import {listPeopleAction, loadNewAction, sendMessageAction, messageListAction} f
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Page from "../base/Page";
-import {Button, Form, Loader, Segment, Grid, Header, SegmentGroup} from "semantic-ui-react";
+import {Button, Form, Loader, Segment, Grid, Header, SegmentGroup, Image, Card} from "semantic-ui-react";
 import Message from "../chat/Message";
 import "../../static/css/common/Chat.css"
 import {LoadingStates} from "../../constants/common";
 import {timeParser} from "../../utils/time";
 import {Picker} from "emoji-mart";
+import defaultPhoto from '../../static/image/common/jenny.jpeg';
 
 /* TODO WRITE CSS IN COMMON FILE */
 
@@ -17,6 +18,7 @@ class PrivateMessage extends Component {
     state = {
         message: "",
         receiverId: 0,
+        receiver: null,
         submitStatus: false,
         status: LoadingStates.LOADING,
         messageList: [],
@@ -63,7 +65,7 @@ class PrivateMessage extends Component {
 
     loadNew = (event) => {
         if(this.state.receiverId !== 0){
-            if(this.state.messageList !== null || this.state.messageList.length !== 0){
+            if(this.state.messageList !== null && this.state.messageList.length !== 0){
                 console.log(this.state.messageList);
                 this.props.getPrivateMessageNew(this.state.messageList[0].sentAt, this.state.receiverId, this.handleBottomMessages);
             }
@@ -93,13 +95,15 @@ class PrivateMessage extends Component {
         this.props.getMessageList(this.state.topMessage.sentAt, this.state.receiverId, this.handleHistoryMessages);
     }
 
-    handlePeopleSelect (receiverId){
+    handlePeopleSelect (person){
         return (event) => {
             this.setState({
-                receiverId: receiverId
+                receiverId: person.id,
+                receiver: person,
+                messageList: []
             });
 
-            this.props.getMessageList(null, receiverId, this.handleMessageList);
+            this.props.getMessageList(null, person.id, this.handleMessageList);
         }
     }
 
@@ -206,7 +210,8 @@ class PrivateMessage extends Component {
         })
     };
 
-    onFormSubmit = () => {
+    onFormSubmit = (e) => {
+        e.preventDefault()
         this.setState({
             submitStatus: true,
         });
@@ -215,7 +220,7 @@ class PrivateMessage extends Component {
             message: this.state.message
         }
 
-        this.props.sendMessage(data, this.handleSendMessage);
+        this.props.sendMessage(this.state.receiverId, data, this.handleSendMessage);
 
     };
 
@@ -228,7 +233,7 @@ class PrivateMessage extends Component {
             )
         }
 
-        let width = 12;
+        let width = 13;
 
         return (
             <Page>
@@ -236,11 +241,18 @@ class PrivateMessage extends Component {
                     <Page.Header.Item>Private Messages</Page.Header.Item>
                 </Page.Header>
                 <Page.Content bottomless>
-                    <Grid>
-                        <Grid.Column width={4}>
+                    <Grid style={{marginTop: "10px"}}>
+                        <Grid.Column width={3}>
                             {
                                 this.state.people.map((person) =>
-                                    <Button onClick={this.handlePeopleSelect(person.id)} color={"gray"}>{person.name}</Button>
+                                    <Segment.Group>
+                                    <Segment inverted color='blue'>
+                                        <Button color='blue' onClick={this.handlePeopleSelect(person)}>
+                                            <img src={defaultPhoto} width={"40px"}/>
+                                            &nbsp;&nbsp;&nbsp;
+                                            {person.name}</Button>
+                                    </Segment>
+                                    </Segment.Group>
                                 )
                             }
                         </Grid.Column>
@@ -252,12 +264,12 @@ class PrivateMessage extends Component {
                                         <div ref={messageEnd => { this.messageEnd = messageEnd; }} />
                                     </Segment>:
                                     <SegmentGroup className={"chat-segments"}>
-                                        <Segment className={"chat-header"} color={"red"}>
+                                        <Segment className={"chat-header"}>
                                             <Header
-                                                content={"Private Chats"}
+                                                content={this.state.receiver.name}
                                             />
                                         </Segment>
-                                        <Segment secondary className={"chat-container"}>
+                                        <Segment className={"chat-container"}>
                                             <ul className={"chat"}>
                                                 {this.state.topMessage &&
                                                 <Button compact size={"mini"} icon={"angle double up"} content={"Load More"}
@@ -322,8 +334,8 @@ class PrivateMessage extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        sendMessage: (data, callback) => {
-            dispatch(sendMessageAction(data, callback));
+        sendMessage: (receiverId, data, callback) => {
+            dispatch(sendMessageAction(receiverId, data, callback));
         },
         getMessageList: (date, receiverId, callback) => {
             dispatch(messageListAction(date, receiverId, callback));
