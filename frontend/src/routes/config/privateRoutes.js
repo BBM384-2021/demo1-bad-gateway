@@ -19,6 +19,7 @@ import ClubInfo from "../../components/club/ClubInfo";
 import CreateClub from "../../components/club/CreateClub";
 import UpdateClub from "../../components/club/UpdateClub";
 import SubClubChat from "../../components/chat/SubClubChat";
+import PrivateMessage from "../../components/privateMessage/PrivateMessage";
 
 const roleMapping = [
     {
@@ -94,6 +95,12 @@ const roleMapping = [
         component: SubClubChat,
         path: '/chat/:id',
         title: 'Chat',
+        permission: [],
+    },
+    {
+        component: PrivateMessage,
+        path: '/private_message',
+        title: 'Private Messages',
         permission: [],
     },
 

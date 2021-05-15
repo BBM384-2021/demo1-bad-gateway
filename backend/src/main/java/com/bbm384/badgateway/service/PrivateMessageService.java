@@ -5,10 +5,7 @@ import com.bbm384.badgateway.model.PrivateMessage;
 import com.bbm384.badgateway.model.SubClub;
 import com.bbm384.badgateway.model.SubClubChat;
 import com.bbm384.badgateway.model.User;
-import com.bbm384.badgateway.payload.ApiResponse;
-import com.bbm384.badgateway.payload.PrivateMessageList;
-import com.bbm384.badgateway.payload.SendMessageRequest;
-import com.bbm384.badgateway.payload.SubClubChatList;
+import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.repository.PrivateMessageRepository;
 import com.bbm384.badgateway.repository.UserRepository;
 import com.bbm384.badgateway.security.UserPrincipal;
@@ -23,6 +20,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PrivateMessageService {
@@ -57,6 +55,43 @@ public class PrivateMessageService {
             chat.add(ModelMapper.mapToPrivateMessageList(message));
         }
         return chat;
+    }
+
+    public List<UserInfo> getPeopleList(UserPrincipal currentUser){
+        Pageable top10 = PageRequest.of(0, 10);
+
+        ArrayList<UserInfo> people = new ArrayList<>();
+        Page<PrivateMessage> senderList = privateMessageRepository.findBySenderOrderBySentAtDesc(currentUser.getUser(), top10);
+        Page<PrivateMessage> receiverList = privateMessageRepository.findByReceiverOrderBySentAtDesc(currentUser.getUser(), top10);
+        Boolean flag = false;
+
+        for(PrivateMessage msg: senderList){
+            for(UserInfo person: people){
+                if(msg.getReceiver().getId() == person.getId()){
+                    flag = true;
+                }
+            }
+            if(!flag){
+                people.add(ModelMapper.mapToUserInfoResponse(msg.getReceiver()));
+            }
+        }
+
+        flag = false;
+
+        for(PrivateMessage msg: receiverList){
+            for(UserInfo person: people){
+                if(msg.getSender().getId() == person.getId()){
+                    flag = true;
+                }
+            }
+            if(!flag) {
+                people.add(ModelMapper.mapToUserInfoResponse(msg.getSender()));
+            }
+        }
+
+        System.out.println(people);
+
+        return people.stream().distinct().collect(Collectors.toList());
     }
 
     public List<PrivateMessageList> getNewMessages(UserPrincipal currentUser, long receiverId, Instant date){

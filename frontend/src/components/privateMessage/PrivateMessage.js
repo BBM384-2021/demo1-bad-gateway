@@ -1,33 +1,28 @@
 import React, {Component} from "react";
 
-import {loadNewAction, sendMessageAction, messageListAction} from "../../api/actions/subclubchat";
+import {listPeopleAction, loadNewAction, sendMessageAction, messageListAction} from "../../api/actions/privateMessage";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Page from "../base/Page";
-import {Button, Form, Loader, Segment, Grid, Header, SegmentGroup, Card} from "semantic-ui-react";
-import Message from "./Message";
+import {Button, Form, Loader, Segment, Grid, Header, SegmentGroup} from "semantic-ui-react";
+import Message from "../chat/Message";
 import "../../static/css/common/Chat.css"
 import {LoadingStates} from "../../constants/common";
-import 'emoji-mart/css/emoji-mart.css'
-import { Picker } from 'emoji-mart'
 import {timeParser} from "../../utils/time";
-import * as subClubActions from "../../api/actions/subClub";
-import SubClubItems from "../subClub/SubClubItems";
-import SubClubFeed from "../subClub/SubClubFeed";
+import {Picker} from "emoji-mart";
 
-/* TODO SUBCLUB TÜM DATASINI ÇEK*/
-/* TODO EMOJI BIR DEFA BASINCA KAPANIYOR*/
+/* TODO WRITE CSS IN COMMON FILE */
 
-class SubClubChat extends Component {
+class PrivateMessage extends Component {
     state = {
         message: "",
-        id: 0,
-        subClub:null,
+        receiverId: 0,
         submitStatus: false,
         status: LoadingStates.LOADING,
         messageList: [],
         topMessage: null,
         bottomMessage: null,
+        people: [],
         showEmojis: false,
     }
 
@@ -39,28 +34,20 @@ class SubClubChat extends Component {
         this.handleLoadHistory = this.handleLoadHistory.bind(this);
         this.handleBottomMessages = this.handleBottomMessages.bind(this);
         this.handleHistoryMessages = this.handleHistoryMessages.bind(this);
-        this.handleSubClubInfo = this.handleSubClubInfo.bind(this);
-    }
-
-    handleSubClubInfo(data) {
-        this.setState({
-                subClub: data
-            }
-        )
+        this.handlePeopleList = this.handlePeopleList.bind(this);
+        this.handlePeopleSelect = this.handlePeopleSelect.bind(this);
     }
 
     componentDidMount(){
-        const {id} = this.props.match.params;
-        this.setState({
-            id: id
-        })
-
-        this.props.getSubClubInfo(id, this.handleSubClubInfo);
-        this.props.getMessageList(null, id, this.handleMessageList);
+        if(this.state.receiverId !== 0){
+            this.props.getMessageList(null, this.state.receiverId, this.handleMessageList);
+        }
 
         this.interval = setInterval(this.loadNew, 3000);
 
-        setTimeout(() => {this.messageEnd.scrollIntoView({ behavior: 'smooth' })}, 600);
+        //setTimeout(() => {this.messageEnd.scrollIntoView({ behavior: 'smooth' })}, 600);
+
+        this.props.getPeopleList(this.handlePeopleList);
     }
 
     componentWillUnmount() {
@@ -75,13 +62,13 @@ class SubClubChat extends Component {
     }
 
     loadNew = (event) => {
-        if(this.state.id !== 0){
-            if(this.state.messageList !== null && this.state.messageList.length !== 0){
+        if(this.state.receiverId !== 0){
+            if(this.state.messageList !== null || this.state.messageList.length !== 0){
                 console.log(this.state.messageList);
-                this.props.getSubClubChatNew(this.state.messageList[0].sentAt, this.state.id, this.handleBottomMessages);
+                this.props.getPrivateMessageNew(this.state.messageList[0].sentAt, this.state.receiverId, this.handleBottomMessages);
             }
             else{
-                this.props.getSubClubChatNew(new Date("2999-01-03").toISOString(), this.state.id, this.handleBottomMessages);
+                this.props.getPrivateMessageNew(new Date("2999-01-03").toISOString(), this.state.receiverId, this.handleBottomMessages);
             }
         }
     };
@@ -103,9 +90,18 @@ class SubClubChat extends Component {
     }
 
     handleLoadHistory(){
-        this.props.getMessageList(this.state.topMessage.sentAt, this.state.id, this.handleHistoryMessages);
+        this.props.getMessageList(this.state.topMessage.sentAt, this.state.receiverId, this.handleHistoryMessages);
     }
 
+    handlePeopleSelect (receiverId){
+        return (event) => {
+            this.setState({
+                receiverId: receiverId
+            });
+
+            this.props.getMessageList(null, receiverId, this.handleMessageList);
+        }
+    }
 
     handleMessageList(data) {
         let topMessage = null;
@@ -131,6 +127,14 @@ class SubClubChat extends Component {
         })
     }
 
+    handlePeopleList(data) {
+        console.log(data)
+        this.setState({
+            people: data,
+            status: LoadingStates.LOADED
+        })
+    }
+
     handleHistoryMessages(data){
         let topMessage = null;
 
@@ -149,7 +153,6 @@ class SubClubChat extends Component {
             topMessage: topMessage,
         })
     }
-
     addEmoji = e => {
         let emoji = e.native;
         this.setState({
@@ -203,8 +206,7 @@ class SubClubChat extends Component {
         })
     };
 
-    onFormSubmit = (e) => {
-        e.preventDefault()
+    onFormSubmit = () => {
         this.setState({
             submitStatus: true,
         });
@@ -213,7 +215,7 @@ class SubClubChat extends Component {
             message: this.state.message
         }
 
-        this.props.sendMessage(this.state.id, data, this.handleSendMessage);
+        this.props.sendMessage(data, this.handleSendMessage);
 
     };
 
@@ -226,28 +228,36 @@ class SubClubChat extends Component {
             )
         }
 
-        let width = 13;
+        let width = 12;
 
         return (
             <Page>
-                {/*<Page.Header>*/}
-                {/*    <Page.Header.Item>Chat</Page.Header.Item>*/}
-                {/*</Page.Header>*/}
+                <Page.Header>
+                    <Page.Header.Item>Private Messages</Page.Header.Item>
+                </Page.Header>
                 <Page.Content bottomless>
                     <Grid>
+                        <Grid.Column width={4}>
+                            {
+                                this.state.people.map((person) =>
+                                    <Button onClick={this.handlePeopleSelect(person.id)} color={"gray"}>{person.name}</Button>
+                                )
+                            }
+                        </Grid.Column>
+
                         <Grid.Column width={width}>
                             {
-                                this.state.id === 0 ?
-                                    <Segment>Mesajları görmek için grup seçiniz.
+                                this.state.receiverId === 0 ?
+                                    <Segment>Select a chat.
                                         <div ref={messageEnd => { this.messageEnd = messageEnd; }} />
                                     </Segment>:
                                     <SegmentGroup className={"chat-segments"}>
-                                        <Segment className={"chat-header"}>
+                                        <Segment className={"chat-header"} color={"red"}>
                                             <Header
-                                                content={"Chat"}
+                                                content={"Private Chats"}
                                             />
                                         </Segment>
-                                        <Segment className={"chat-container"}>
+                                        <Segment secondary className={"chat-container"}>
                                             <ul className={"chat"}>
                                                 {this.state.topMessage &&
                                                 <Button compact size={"mini"} icon={"angle double up"} content={"Load More"}
@@ -298,65 +308,31 @@ class SubClubChat extends Component {
                                                     </p>
                                                 )}
                                             </div>
-
-
-
-
-                                            {/*<Form onSubmit={this.onFormSubmit}>*/}
-                                            {/*    <Form.Group widths={"equal"}>*/}
-                                            {/*        <Form.Input id={"message"}*/}
-                                            {/*                    placeholder='Yeni Mesaj'*/}
-                                            {/*                    value={this.state.message}*/}
-                                            {/*                    onChange={this.handleInputChange}*/}
-                                            {/*                    action={{*/}
-                                            {/*                        color: 'teal',*/}
-                                            {/*                        icon: 'send',*/}
-                                            {/*                    }}*/}
-                                            {/*        />*/}
-                                            {/*    </Form.Group>*/}
-                                            {/*</Form>*/}
-
                                         </Segment>
                                     </SegmentGroup>
                             }
 
                         </Grid.Column>
-                        {this.state.subClub ?
-                            <Grid.Column width={3}>
-                                <div style={{marginTop: "10px"}}>
-                                    <SubClubItems
-                                        key={this.state.subClub.id}
-                                        subClub={this.state.subClub}
-                                    />
-                                </div>
-                                <SubClubFeed></SubClubFeed>
-                            </Grid.Column>:
-                            ""
-                        }
-
                     </Grid>
                 </Page.Content>
             </Page>
         )
     }
-
-
-
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        sendMessage: (id, data, callback) => {
-            dispatch(sendMessageAction(id, data, callback));
+        sendMessage: (data, callback) => {
+            dispatch(sendMessageAction(data, callback));
         },
-        getMessageList: (date, id, callback) => {
-            dispatch(messageListAction(date, id, callback));
+        getMessageList: (date, receiverId, callback) => {
+            dispatch(messageListAction(date, receiverId, callback));
         },
-        getSubClubChatNew: (date, id, callback) => {
-            dispatch(loadNewAction(date, id, callback));
+        getPrivateMessageNew: (date, receiverId, callback) => {
+            dispatch(loadNewAction(date, receiverId, callback));
         },
-        getSubClubInfo: (id, callback) => {
-            dispatch(subClubActions.subClubInfoAction(id, callback));
+        getPeopleList: (callback) => {
+            dispatch(listPeopleAction(callback));
         },
     }
 };
@@ -369,7 +345,8 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SubClubChat));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PrivateMessage));
+
 
 const styles = {
     container: {
