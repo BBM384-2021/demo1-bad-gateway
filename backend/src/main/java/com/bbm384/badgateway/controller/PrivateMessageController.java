@@ -4,7 +4,6 @@ import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.service.PrivateMessageService;
-import com.bbm384.badgateway.service.SubClubChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
