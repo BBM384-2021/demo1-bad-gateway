@@ -4,22 +4,31 @@ import {loadNewAction, sendMessageAction, messageListAction} from "../../api/act
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Page from "../base/Page";
-import {Button, Form, Loader, Segment, Grid, Header, SegmentGroup} from "semantic-ui-react";
+import {Button, Form, Loader, Segment, Grid, Header, SegmentGroup, Card} from "semantic-ui-react";
 import Message from "./Message";
 import "../../static/css/common/Chat.css"
 import {LoadingStates} from "../../constants/common";
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
+import {timeParser} from "../../utils/time";
+import * as subClubActions from "../../api/actions/subClub";
+import SubClubItems from "../subClub/SubClubItems";
+import SubClubFeed from "../subClub/SubClubFeed";
 
 /* TODO SUBCLUB TÜM DATASINI ÇEK*/
+/* TODO EMOJI BIR DEFA BASINCA KAPANIYOR*/
 
 class SubClubChat extends Component {
     state = {
         message: "",
         id: 0,
+        subClub:null,
         submitStatus: false,
         status: LoadingStates.LOADING,
         messageList: [],
         topMessage: null,
         bottomMessage: null,
+        showEmojis: false,
     }
 
     constructor(props) {
@@ -30,6 +39,14 @@ class SubClubChat extends Component {
         this.handleLoadHistory = this.handleLoadHistory.bind(this);
         this.handleBottomMessages = this.handleBottomMessages.bind(this);
         this.handleHistoryMessages = this.handleHistoryMessages.bind(this);
+        this.handleSubClubInfo = this.handleSubClubInfo.bind(this);
+    }
+
+    handleSubClubInfo(data) {
+        this.setState({
+                subClub: data
+            }
+        )
     }
 
     componentDidMount(){
@@ -37,11 +54,13 @@ class SubClubChat extends Component {
         this.setState({
             id: id
         })
+
+        this.props.getSubClubInfo(id, this.handleSubClubInfo);
         this.props.getMessageList(null, id, this.handleMessageList);
 
         this.interval = setInterval(this.loadNew, 3000);
 
-        //setTimeout(() => {this.messageEnd.scrollIntoView({ behavior: 'smooth' })}, 600);
+        setTimeout(() => {this.messageEnd.scrollIntoView({ behavior: 'smooth' })}, 600);
     }
 
     componentWillUnmount() {
@@ -50,7 +69,8 @@ class SubClubChat extends Component {
 
     handleSendMessage(){
         this.setState({
-            message: ""
+            message: "",
+            showEmojis: false
         });
     }
 
@@ -130,6 +150,44 @@ class SubClubChat extends Component {
         })
     }
 
+    addEmoji = e => {
+        let emoji = e.native;
+        this.setState({
+            message: this.state.message + emoji
+        });
+    };
+
+    handleEmojis = e => {
+        if(this.state.showEmojis){
+            this.setState(
+                {
+                    showEmojis: false
+                },
+                //() => document.addEventListener("click", this.closeMenu)
+            );
+        }else{
+            this.setState(
+                {
+                    showEmojis: true
+                },
+                //() => document.addEventListener("click", this.closeMenu)
+            );
+        }
+
+
+    };
+
+    closeMenu = e => {
+        if (this.emojiPicker !== null && this.emojiPicker.contains(e.target)) {
+            this.setState(
+                {
+                    showEmojis: false
+                },
+                () => document.removeEventListener("click", this.closeMenu)
+            );
+        }
+    };
+
 
     handleInputChange = (event) => {
         const value = event.target.value;
@@ -145,7 +203,8 @@ class SubClubChat extends Component {
         })
     };
 
-    onFormSubmit = () => {
+    onFormSubmit = (e) => {
+        e.preventDefault()
         this.setState({
             submitStatus: true,
         });
@@ -167,14 +226,14 @@ class SubClubChat extends Component {
             )
         }
 
-        let width = 16;
-        console.log(this.props.auth.id)
+        let width = 13;
+        console.log(this.state.showEmojis)
 
         return (
             <Page>
-                <Page.Header>
-                    <Page.Header.Item>Chat</Page.Header.Item>
-                </Page.Header>
+                {/*<Page.Header>*/}
+                {/*    <Page.Header.Item>Chat</Page.Header.Item>*/}
+                {/*</Page.Header>*/}
                 <Page.Content bottomless>
                     <Grid>
                         <Grid.Column width={width}>
@@ -184,15 +243,15 @@ class SubClubChat extends Component {
                                         <div ref={messageEnd => { this.messageEnd = messageEnd; }} />
                                     </Segment>:
                                     <SegmentGroup className={"chat-segments"}>
-                                        <Segment className={"chat-header"} color={"red"}>
+                                        <Segment className={"chat-header"}>
                                             <Header
-                                                content={"Konuşma Listesi"}
+                                                content={"Chat"}
                                             />
                                         </Segment>
-                                        <Segment secondary className={"chat-container"}>
+                                        <Segment className={"chat-container"}>
                                             <ul className={"chat"}>
                                                 {this.state.topMessage &&
-                                                <Button compact size={"mini"} icon={"angle double up"} content={"Eski Mesajları Yükle"}
+                                                <Button compact size={"mini"} icon={"angle double up"} content={"Load More"}
                                                         onClick={this.handleLoadHistory}/>
                                                 }
                                                 {
@@ -200,7 +259,7 @@ class SubClubChat extends Component {
                                                         <Message
                                                             right={message.sender.username === this.props.auth.username}
                                                             user={message.sender.name}
-                                                            time={message.sentAt}
+                                                            time={timeParser(message.sentAt)}
                                                             message={message.message}
                                                         />
                                                     )
@@ -209,24 +268,73 @@ class SubClubChat extends Component {
                                             </ul>
                                         </Segment>
                                         <Segment>
-                                            <Form onSubmit={this.onFormSubmit}>
-                                                <Form.Group widths={"equal"}>
-                                                    <Form.Input id={"message"}
-                                                                placeholder='Yeni Mesaj'
-                                                                value={this.state.message}
-                                                                onChange={this.handleInputChange}
-                                                                action={{
-                                                                    color: 'teal',
-                                                                    icon: 'send',
-                                                                }}
+                                            <div style={styles.container} className="newMessageForm">
+                                                <form style={styles.form} onSubmit={this.onFormSubmit}>
+                                                    <input
+                                                        id = {"message"}
+                                                        style={styles.input}
+                                                        type="text"
+                                                        value={this.state.message}
+                                                        onChange={this.handleInputChange}
+                                                        placeholder="Type a message and hit ENTER"
                                                     />
-                                                </Form.Group>
-                                            </Form>
+                                                </form>
+
+                                                {this.state.showEmojis ? (
+                                                    <React.Fragment>
+                                                    <span style={styles.emojiPicker} ref={el => (this.emojiPicker = el)}>
+                                                        <Picker
+                                                            onSelect={this.addEmoji}
+                                                            emojiTooltip={true}
+                                                            title="SpiritsUp"
+                                                        />
+                                                      </span>
+                                                        <p style={styles.getEmojiButton} onClick={this.handleEmojis}>
+                                                            {String.fromCodePoint(0x1f60a)}
+                                                        </p>
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <p style={styles.getEmojiButton} onClick={this.handleEmojis}>
+                                                        {String.fromCodePoint(0x1f60a)}
+                                                    </p>
+                                                )}
+                                            </div>
+
+
+
+
+                                            {/*<Form onSubmit={this.onFormSubmit}>*/}
+                                            {/*    <Form.Group widths={"equal"}>*/}
+                                            {/*        <Form.Input id={"message"}*/}
+                                            {/*                    placeholder='Yeni Mesaj'*/}
+                                            {/*                    value={this.state.message}*/}
+                                            {/*                    onChange={this.handleInputChange}*/}
+                                            {/*                    action={{*/}
+                                            {/*                        color: 'teal',*/}
+                                            {/*                        icon: 'send',*/}
+                                            {/*                    }}*/}
+                                            {/*        />*/}
+                                            {/*    </Form.Group>*/}
+                                            {/*</Form>*/}
+
                                         </Segment>
                                     </SegmentGroup>
                             }
 
                         </Grid.Column>
+                        {this.state.subClub ?
+                            <Grid.Column width={3}>
+                                <div style={{marginTop: "10px"}}>
+                                    <SubClubItems
+                                        key={this.state.subClub.id}
+                                        subClub={this.state.subClub}
+                                    />
+                                </div>
+                                <SubClubFeed></SubClubFeed>
+                            </Grid.Column>:
+                            ""
+                        }
+
                     </Grid>
                 </Page.Content>
             </Page>
@@ -247,7 +355,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         getSubClubChatNew: (date, id, callback) => {
             dispatch(loadNewAction(date, id, callback));
-        }
+        },
+        getSubClubInfo: (id, callback) => {
+            dispatch(subClubActions.subClubInfoAction(id, callback));
+        },
     }
 };
 
@@ -260,3 +371,46 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SubClubChat));
+
+const styles = {
+    container: {
+        padding: 20,
+        borderTop: "1px #4C758F solid",
+        marginBottom: 20
+    },
+    form: {
+        display: "flex"
+    },
+    input: {
+        color: "inherit",
+        background: "none",
+        outline: "none",
+        border: "none",
+        flex: 1,
+        fontSize: 16
+    },
+    getEmojiButton: {
+        cssFloat: "right",
+        border: "none",
+        margin: 0,
+        cursor: "pointer",
+    },
+    emojiPicker: {
+        position: "absolute",
+        bottom: 100,
+        right: 0,
+        cssFloat: "right",
+        marginLeft: "200px"
+    }
+};
+
+const customEmojis = [
+    {
+        name: "Octocat",
+        short_names: ["octocat"],
+        text: "",
+        emoticons: [],
+        keywords: ["github"],
+        imageUrl: "https://assets-cdn.github.com/images/icons/emoji/octocat.png?v7"
+    }
+];

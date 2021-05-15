@@ -1,7 +1,8 @@
 import React from "react";
 
-import {Message as SMessage} from "semantic-ui-react";
+import {Message as SMessage, Label} from "semantic-ui-react";
 import Moment from "react-moment";
+import Segment from "semantic-ui-react/dist/commonjs/elements/Segment/Segment";
 
 
 const Message = (props) => {
@@ -24,8 +25,10 @@ const Message = (props) => {
     return (
         <li className={position}>
             <div className={"message-box"} >
-                <b>{user}</b> : <Moment fromNow>{time}</Moment><br/>
-                <SMessage size={"large"} color={color}>{message}</SMessage>
+                <b>{user}</b> : {time}<br/>
+                <Segment inverted color={color}>
+                    <text color={"black"}>{message}</text>
+                </Segment>
             </div>
         </li>
     )
