@@ -241,18 +241,15 @@ class PrivateMessage extends Component {
                     <Page.Header.Item>Private Messages</Page.Header.Item>
                 </Page.Header>
                 <Page.Content bottomless>
-                    <Grid style={{marginTop: "10px"}}>
+                    <Grid style={{marginTop: "20px"}}>
                         <Grid.Column width={3}>
                             {
                                 this.state.people.map((person) =>
-                                    <Segment.Group>
-                                    <Segment inverted color='blue'>
-                                        <Button color='blue' onClick={this.handlePeopleSelect(person)}>
+                                        <Button color='blue' style={styles.button} onClick={this.handlePeopleSelect(person)}>
                                             <img src={defaultPhoto} width={"40px"}/>
                                             &nbsp;&nbsp;&nbsp;
-                                            {person.name}</Button>
-                                    </Segment>
-                                    </Segment.Group>
+                                            {person.name}
+                                        </Button>
                                 )
                             }
                         </Grid.Column>
@@ -389,8 +386,14 @@ const styles = {
         right: 0,
         cssFloat: "right",
         marginLeft: "200px"
+    },
+    button: {
+        width: 300,
+        height: 100,
+        marginBottom: 10
     }
 };
+
 
 const customEmojis = [
     {
