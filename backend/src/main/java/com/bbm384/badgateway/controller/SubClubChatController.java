@@ -24,17 +24,29 @@ public class SubClubChatController {
     @GetMapping("/list")
     public List<SubClubChatList> getMessages(
             @CurrentUser UserPrincipal currentUser,
-            @RequestParam(value = "subClubId") long subClubId,
-            @RequestParam(value = "before") Optional<Instant> before,
-            @RequestParam(value = "after") Optional<Instant> after
+            @RequestParam(value = "id") long id,
+            @RequestParam(value = "sentAt") Optional<Instant> date
     ){
-        return messageService.getMessageList(currentUser, subClubId, before, after);
+        System.out.println(id);
+        System.out.println(date);
+        return messageService.getMessageList(currentUser, id, date);
+    }
+
+    @GetMapping("/listNew")
+    public List<SubClubChatList> getNewMessages(
+            @CurrentUser UserPrincipal currentUser,
+            @RequestParam(value = "id", defaultValue = "0") long id,
+            @RequestParam(value = "sentAt") Instant date
+    ){
+        return messageService.getNewMessages(currentUser, id, date);
     }
 
     @PostMapping("/send")
     public ApiResponse sendNewMessage(@CurrentUser UserPrincipal currentUser,
-                                      @RequestParam(value = "subClubId") long subClubId,
+                                      @RequestParam(value = "id") long id,
                                       @RequestBody SendMessageRequest sendMessageRequest) {
-        return messageService.sendNewMessage(currentUser, subClubId, sendMessageRequest);
+        return messageService.sendNewMessage(currentUser, id, sendMessageRequest);
     }
+
+
 }

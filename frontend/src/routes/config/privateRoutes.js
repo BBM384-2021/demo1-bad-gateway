@@ -18,6 +18,7 @@ import SignUp from "../../components/auth/SignUp";
 import ClubInfo from "../../components/club/ClubInfo";
 import CreateClub from "../../components/club/CreateClub";
 import UpdateClub from "../../components/club/UpdateClub";
+import SubClubChat from "../../components/chat/SubClubChat";
 
 const roleMapping = [
     {
@@ -89,6 +90,13 @@ const roleMapping = [
         title: 'Update Club',
         permission: [Roles.ADMIN.key]
     },
+    {
+        component: SubClubChat,
+        path: '/chat/:id',
+        title: 'Chat',
+        permission: [],
+    },
+
 ];
 
 export default roleMapping;
