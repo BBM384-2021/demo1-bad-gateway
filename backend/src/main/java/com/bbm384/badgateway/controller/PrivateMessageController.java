@@ -1,9 +1,6 @@
 package com.bbm384.badgateway.controller;
 
-import com.bbm384.badgateway.payload.ApiResponse;
-import com.bbm384.badgateway.payload.PrivateMessageList;
-import com.bbm384.badgateway.payload.SendMessageRequest;
-import com.bbm384.badgateway.payload.SubClubChatList;
+import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.service.PrivateMessageService;
@@ -28,6 +25,13 @@ public class PrivateMessageController {
             @RequestParam(value = "sentAt") Optional<Instant> sentAt
     ){
         return privateMessageService.getMessageList(currentUser, receiverId, sentAt);
+    }
+
+    @GetMapping("/people")
+    public List<UserInfo> getPeopleList(
+            @CurrentUser UserPrincipal currentUser
+    ){
+        return privateMessageService.getPeopleList(currentUser);
     }
 
     @GetMapping("/listNew")

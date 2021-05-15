@@ -16,5 +16,6 @@ public interface PrivateMessageRepository extends JpaRepository<PrivateMessage, 
     Page<PrivateMessage> findBySenderAndReceiverAndSentAtBeforeOrderBySentAtDesc(User sender, User receiver, Instant sentAt, Pageable pageable);
     List<PrivateMessage> findBySenderAndReceiverAndSentAtAfterOrderBySentAtDesc(User sender, User receiver, Instant sentAt);
     Page<PrivateMessage> findBySenderAndReceiverOrderBySentAtDesc(User sender, User receiver, Pageable pageable);
-
+    Page<PrivateMessage> findBySenderOrderBySentAtDesc(User sender, Pageable pageable);
+    Page<PrivateMessage> findByReceiverOrderBySentAtDesc(User receiver, Pageable pageable);
 }
