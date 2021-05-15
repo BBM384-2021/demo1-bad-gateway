@@ -125,9 +125,12 @@ public class DataInitializer implements CommandLineRunner {
 
 
             SubClub drawing = new SubClub();
-            drawing.setName("drawing subclub");
+            drawing.setName("STORY DRWAING SUBCLUB");
             drawing.setParentClub(artClub);
-            drawing.setDescription("drawing subclub description");
+            drawing.setDescription("Our mission at Story Drawing Club is to provide high quality " +
+                    "workshops that engage children from a wide range of backgrounds in story writing " +
+                    "and drawing activities to improve diversity in children's stories and inspire" +
+                    " potential illustrators and writers.");
             drawing.setCategory(art);
             drawing.setAdmin(subClubAdmin);
             drawing.setMembers(new HashSet<User>(Arrays.asList(member, member_2)));
