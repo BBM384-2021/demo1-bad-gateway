@@ -47,6 +47,10 @@ class Header extends Component {
                                     <Link to={"/club/list"} style={{color:"white", marginLeft:"1000px"}}>Clubs</Link>
                                 </Grid.Column>
 
+                                <Grid.Column style={{marginTop:"45px"}}>
+                                    <Link to={"/chat/1"} style={{color:"white", marginLeft:"1100px"}}>Chat</Link>
+                                </Grid.Column>
+
                                 <Grid.Column style={{marginTop:"45px"}} >
                                    <Dropdown text={auth.username} style={{width: "100px", color:"white", marginLeft:"1100px"}}>
                                         <Dropdown.Menu>

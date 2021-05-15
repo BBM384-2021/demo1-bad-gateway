@@ -25,3 +25,7 @@ export const API_CLUB_UPDATE_URL = urljoin(API_BASE, 'club', 'update');
 export const API_CLUB_DELETE_URL = urljoin(API_BASE, 'club', 'delete');
 
 export const API_CATEGORY_ALL = urljoin(API_BASE, 'category', 'all');
+
+export const API_SC_CHAT_MESSAGE_SEND = urljoin(API_BASE, 'sub_club_chat', 'send');
+export const API_SC_CHAT_VIEW_MESSAGES = urljoin(API_BASE, 'sub_club_chat', 'list');
+export const API_SC_CHAT_VIEW_NEW_MESSAGES = urljoin(API_BASE, 'sub_club_chat', 'listNew');
