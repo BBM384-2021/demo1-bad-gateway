@@ -14,7 +14,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("${app.api_path}/subClub")
+@RequestMapping("${app.api_path}/sub_club")
 public class SubClubController {
     @Autowired
     private SubClubService subClubService;

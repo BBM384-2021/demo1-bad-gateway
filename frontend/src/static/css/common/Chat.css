@@ -31,12 +31,12 @@ ul.chat .button {
 }
 
 ul.chat li .message-box {
-    max-width: 75%;
+    max-width: 70%;
     padding: 0 5px;
 }
 
 ul.chat li .message-box b {
-    font-size: 1.2em;
+    font-size: 0.9em;
 }
 
 ul.chat li.right .message-box {

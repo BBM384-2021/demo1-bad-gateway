@@ -48,7 +48,7 @@ class Header extends Component {
                                 </Grid.Column>
 
                                 <Grid.Column style={{marginTop:"45px"}}>
-                                    <Link to={"/chat/1"} style={{color:"white", marginLeft:"1100px"}}>Chat</Link>
+                                    <Link to={"/chat/1"} style={{color:"white", marginLeft:"1050px"}}>Chat</Link>
                                 </Grid.Column>
 
                                 <Grid.Column style={{marginTop:"45px"}} >
