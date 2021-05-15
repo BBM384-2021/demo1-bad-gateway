@@ -2,10 +2,13 @@ package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
 import com.bbm384.badgateway.model.PrivateMessage;
+import com.bbm384.badgateway.model.SubClub;
+import com.bbm384.badgateway.model.SubClubChat;
 import com.bbm384.badgateway.model.User;
 import com.bbm384.badgateway.payload.ApiResponse;
 import com.bbm384.badgateway.payload.PrivateMessageList;
 import com.bbm384.badgateway.payload.SendMessageRequest;
+import com.bbm384.badgateway.payload.SubClubChatList;
 import com.bbm384.badgateway.repository.PrivateMessageRepository;
 import com.bbm384.badgateway.repository.UserRepository;
 import com.bbm384.badgateway.security.UserPrincipal;
@@ -31,8 +34,7 @@ public class PrivateMessageService {
 
     /* TODO friendship check */
 
-    public List<PrivateMessageList> getMessageList(UserPrincipal currentUser, long receiverId, Optional<Instant> before,
-                                                   Optional<Instant> after){
+    public List<PrivateMessageList> getMessageList(UserPrincipal currentUser, long receiverId, Optional<Instant> date){
         Pageable top10 = PageRequest.of(0, 10);
 
         ArrayList<PrivateMessageList> chat = new ArrayList<>();
@@ -44,11 +46,8 @@ public class PrivateMessageService {
 
         User sender = currentUser.getUser();
 
-        if(before.isPresent()){
-            messageList = privateMessageRepository.findBySenderAndReceiverAndSentAtBeforeOrderBySentAtDesc(sender, receiver, before.get(), top10);
-        }
-        else if(after.isPresent()){
-            messageList = privateMessageRepository.findBySenderAndReceiverAndSentAtAfterOrderBySentAtDesc(sender, receiver, after.get(), top10);
+        if(date.isPresent()){
+            messageList = privateMessageRepository.findBySenderAndReceiverAndSentAtBeforeOrderBySentAtDesc(sender, receiver, date.get(), top10);
         }
         else {
             messageList = privateMessageRepository.findBySenderAndReceiverOrderBySentAtDesc(sender, receiver, top10);
@@ -58,6 +57,24 @@ public class PrivateMessageService {
             chat.add(ModelMapper.mapToPrivateMessageList(message));
         }
         return chat;
+    }
+
+    public List<PrivateMessageList> getNewMessages(UserPrincipal currentUser, long receiverId, Instant date){
+        ArrayList<PrivateMessageList> messageResponses = new ArrayList<>();
+        List<PrivateMessage> messageList;
+        User sender = currentUser.getUser();
+
+        User receiver = userRepository.findById(receiverId).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", String.valueOf(receiverId))
+        );
+
+        messageList = privateMessageRepository.findBySenderAndReceiverAndSentAtAfterOrderBySentAtDesc(sender, receiver, date);
+
+        for(PrivateMessage message: messageList){
+            messageResponses.add(ModelMapper.mapToPrivateMessageList(message));
+        }
+
+        return messageResponses;
     }
 
     public ApiResponse sendNewMessage(UserPrincipal currentUser, long receiverId, SendMessageRequest sendMessageRequest) {

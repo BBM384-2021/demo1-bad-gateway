@@ -1,7 +1,6 @@
 import React from 'react'
 import {Card, Feed, Image} from 'semantic-ui-react'
 import defaultPhoto from '../../static/image/common/jenny.jpeg';
-import defaultClub from "../../static/image/common/subclub.jpg";
 
 const CardExampleContentBlock = () => (
     <Card>

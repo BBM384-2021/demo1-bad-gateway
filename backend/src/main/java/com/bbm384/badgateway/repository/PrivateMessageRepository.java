@@ -9,11 +9,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
+import java.util.List;
 
 @Repository
 public interface PrivateMessageRepository extends JpaRepository<PrivateMessage, Long> {
     Page<PrivateMessage> findBySenderAndReceiverAndSentAtBeforeOrderBySentAtDesc(User sender, User receiver, Instant sentAt, Pageable pageable);
-    Page<PrivateMessage> findBySenderAndReceiverAndSentAtAfterOrderBySentAtDesc(User sender, User receiver, Instant sentAt, Pageable pageable);
+    List<PrivateMessage> findBySenderAndReceiverAndSentAtAfterOrderBySentAtDesc(User sender, User receiver, Instant sentAt);
     Page<PrivateMessage> findBySenderAndReceiverOrderBySentAtDesc(User sender, User receiver, Pageable pageable);
 
 }
