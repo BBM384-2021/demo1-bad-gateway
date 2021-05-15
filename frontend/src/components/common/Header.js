@@ -44,19 +44,19 @@ class Header extends Component {
                         auth.loginStatus === AuthStates.VALID?
                             <Grid>
                                 <Grid.Column style={{marginTop:"45px"}}>
-                                    <Link to={"/private_message"} style={{color:"white", marginLeft:"900px"}}>PC</Link>
+                                    <Link to={"/private_message"} style={{color:"white", marginLeft:"700px"}}>PC</Link>
                                 </Grid.Column>
 
                                 <Grid.Column style={{marginTop:"45px"}}>
-                                    <Link to={"/club/list"} style={{color:"white", marginLeft:"1000px"}}>Clubs</Link>
+                                    <Link to={"/club/list"} style={{color:"white", marginLeft:"800px"}}>Clubs</Link>
                                 </Grid.Column>
 
                                 <Grid.Column style={{marginTop:"45px"}}>
-                                    <Link to={"/chat/1"} style={{color:"white", marginLeft:"1050px"}}>Chat</Link>
+                                    <Link to={"/chat/1"} style={{color:"white", marginLeft:"900px"}}>Chat</Link>
                                 </Grid.Column>
 
                                 <Grid.Column style={{marginTop:"45px"}} >
-                                   <Dropdown text={auth.username} style={{width: "100px", color:"white", marginLeft:"1100px"}}>
+                                   <Dropdown text={auth.username} style={{width: "100px", color:"white", marginLeft:"950px"}}>
                                         <Dropdown.Menu>
                                             <Dropdown.Item as={Link} to={'/user/profile'}><Icon name='user circle' /> Profile</Dropdown.Item>
                                             <Dropdown.Item as={Link} to={'/user/change-password'}><Icon name='edit' /> Change Password</Dropdown.Item>
