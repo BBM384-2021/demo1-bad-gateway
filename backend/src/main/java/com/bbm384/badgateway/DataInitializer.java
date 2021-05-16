@@ -9,6 +9,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.HashSet;
+
 @Component
 public class DataInitializer implements CommandLineRunner {
     @Autowired
@@ -25,6 +29,12 @@ public class DataInitializer implements CommandLineRunner {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    SubClubRepository subClubRepository;
+
+    @Autowired
+    PrivateMessageRepository privateMessageRepository;
 
     @Override
     public void run(String... args) {
@@ -46,6 +56,15 @@ public class DataInitializer implements CommandLineRunner {
             member.setUserType(UserType.MEMBER);
             member.setEmail("member@gmail.com");
             userRepository.save(member);
+
+            User member_2 = new User();
+            member_2.setName("Umut Aydemir");
+            member_2.setUsername("umutaydemir");
+            member_2.setPhone("0123456789");
+            member_2.setPassword(passwordEncoder.encode("member2"));
+            member_2.setUserType(UserType.MEMBER);
+            member_2.setEmail("member2@gmail.com");
+            userRepository.save(member_2);
 
             User subClubAdmin = new User();
             subClubAdmin.setName("Salih Kerem Harman");
@@ -106,6 +125,27 @@ public class DataInitializer implements CommandLineRunner {
                     "and art for self-care? You will just need a pen, felt tips, some" +
                     "plain paper and a cup of tea or coffee. Let's join us!");
             clubRepository.save(artClub);
+
+
+            SubClub drawing = new SubClub();
+            drawing.setName("STORY DRWAING SUBCLUB");
+            drawing.setParentClub(artClub);
+            drawing.setDescription("Our mission at Story Drawing Club is to provide high quality " +
+                    "workshops that engage children from a wide range of backgrounds in story writing " +
+                    "and drawing activities to improve diversity in children's stories and inspire" +
+                    " potential illustrators and writers.");
+            drawing.setCategory(art);
+            drawing.setAdmin(subClubAdmin);
+            drawing.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin)));
+            subClubRepository.save(drawing);
+
+            PrivateMessage pm = new PrivateMessage();
+            pm.setSender(member);
+            pm.setReceiver(member_2);
+            pm.setMessage("hello");
+            pm.setSentAt(Instant.now());
+            privateMessageRepository.save(pm);
+
 
             Role role = new Role(admin, UserRole.ADMIN);
             roleRepository.save(role);

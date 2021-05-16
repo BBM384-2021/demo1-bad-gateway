@@ -54,11 +54,36 @@ public class ModelMapper {
         SubClubPayload subClubPayload = new SubClubPayload();
         subClubPayload.setName(subClub.getName());
         subClubPayload.setParentClub(subClub.getParentClub());
+        subClubPayload.setDescription(subClub.getDescription());
         subClubPayload.setCategory(subClub.getCategory());
         subClubPayload.setMembers(subClub.getMembers());
         subClubPayload.setAdmin(subClub.getAdmin());
         subClub.setCreatedAt(subClub.getCreatedAt());
         subClub.setCreatedBy(subClub.getCreatedBy());
         return subClubPayload;
+    }
+
+    public static SubClubChatList mapToMessageList(SubClubChat message) {
+        SubClubChatList messageList = SubClubChatList.builder()
+                .senderName(message.getSenderName())
+                .id(message.getId())
+                .message(message.getMessage())
+                .subClub(message.getSubClub())
+                .sentAt(message.getSentAt())
+                .readAt(message.getReadAt())
+                .sender(mapToUserInfoResponse(message.getSender()))
+                .build();
+        return messageList;
+    }
+
+    public static PrivateMessageList mapToPrivateMessageList(PrivateMessage message) {
+        PrivateMessageList messageList = PrivateMessageList.builder()
+                .id(message.getId())
+                .message(message.getMessage())
+                .sentAt(message.getSentAt())
+                .sender(mapToUserInfoResponse(message.getSender()))
+                .receiver(mapToUserInfoResponse(message.getReceiver()))
+                .build();
+        return messageList;
     }
 }

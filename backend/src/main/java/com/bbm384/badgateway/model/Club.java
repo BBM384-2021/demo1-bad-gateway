@@ -3,6 +3,7 @@ package com.bbm384.badgateway.model;
 
 import com.bbm384.badgateway.model.audit.UpdatedAudit;
 import com.bbm384.badgateway.model.constants.ClubStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.annotations.QueryEntity;
 
 import javax.persistence.*;
@@ -43,6 +44,12 @@ public class Club extends UpdatedAudit {
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private ClubStatus status = ClubStatus.ACTIVE;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="club")
+    private Set<Comment> comments;
+
+
 
     public Club() {
     }
@@ -102,6 +109,14 @@ public class Club extends UpdatedAudit {
 
     public void setStatus(ClubStatus status) {
         this.status = status;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
 
