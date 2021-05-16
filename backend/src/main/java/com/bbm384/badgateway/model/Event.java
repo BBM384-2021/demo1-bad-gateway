@@ -1,6 +1,12 @@
 package com.bbm384.badgateway.model;
 
+import com.bbm384.badgateway.model.audit.UpdatedAudit;
 import com.bbm384.badgateway.model.constants.EventType;
+import com.querydsl.core.annotations.QueryEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,12 +14,22 @@ import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@QueryEntity
 @Table(name = "EVENT")
-public class Event {
+public class Event extends UpdatedAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "NAME")
+    @NotNull
+    @Size(max = 150)
+    private String name;
 
     @Column(name = "ADDRESS")
     @NotNull
@@ -29,38 +45,12 @@ public class Event {
     @JoinColumn(name = "ATTENDEES")
     private Set<User> attendees;
 
+    @ManyToOne
+    private Club club;
+
+    @ManyToOne
+    private SubClub subClub;
+
     @NotNull
     private Instant eventDate;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public EventType getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(EventType eventType) {
-        this.eventType = eventType;
-    }
-
-    public Set<User> getAttendees() {
-        return attendees;
-    }
-
-    public void setAttendees(Set<User> attendees) {
-        this.attendees = attendees;
-    }
 }

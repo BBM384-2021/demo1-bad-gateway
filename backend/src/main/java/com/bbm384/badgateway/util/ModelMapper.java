@@ -86,4 +86,18 @@ public class ModelMapper {
                 .build();
         return messageList;
     }
+
+    public static EventInfoResponse mapToEventInfoResponse(Event event){
+        EventInfoResponse eventInfoResponse = EventInfoResponse.builder()
+                .id(event.getId())
+                .name(event.getName())
+                .address(event.getAddress())
+                .eventType(event.getEventType())
+                .attendees(event.getAttendees())
+                .eventDate(event.getEventDate())
+                .club(event.getClub())
+                .subClub(event.getSubClub())
+                .build();
+        return eventInfoResponse;
+    }
 }
