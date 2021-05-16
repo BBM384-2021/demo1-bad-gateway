@@ -33,6 +33,9 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     SubClubRepository subClubRepository;
 
+    @Autowired
+    PrivateMessageRepository privateMessageRepository;
+
     @Override
     public void run(String... args) {
         if(false){
@@ -133,8 +136,15 @@ public class DataInitializer implements CommandLineRunner {
                     " potential illustrators and writers.");
             drawing.setCategory(art);
             drawing.setAdmin(subClubAdmin);
-            drawing.setMembers(new HashSet<User>(Arrays.asList(member, member_2)));
+            drawing.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin)));
             subClubRepository.save(drawing);
+
+            PrivateMessage pm = new PrivateMessage();
+            pm.setSender(member);
+            pm.setReceiver(member_2);
+            pm.setMessage("hello");
+            pm.setSentAt(Instant.now());
+            privateMessageRepository.save(pm);
 
 
             Role role = new Role(admin, UserRole.ADMIN);
