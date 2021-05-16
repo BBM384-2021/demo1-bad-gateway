@@ -13,10 +13,7 @@ const statusOptions = [
 	{ key: 'a', text: 'Active', value: 'ACTIVE' },
 	{ key: 'p', text: 'Passive', value: 'PASSIVE' },
 ]
-const categoryOptions = [
-	{ key: 'm', text: 'Music', value: 'Music' },
-	{ key: 's', text: 'Sport', value: 'Sport' },
-]
+
 
 class UpdateClub extends Component{
 
@@ -110,7 +107,7 @@ class UpdateClub extends Component{
 
 		setTimeout(() => {
 			this.props.history.push("/club/info/" + this.state.club.id);
-		},3000)
+		},2000)
 	};
 
 
