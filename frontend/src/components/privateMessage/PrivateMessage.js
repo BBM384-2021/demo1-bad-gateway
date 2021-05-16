@@ -242,86 +242,97 @@ class PrivateMessage extends Component {
                 </Page.Header>
                 <Page.Content bottomless>
                     <Grid style={{marginTop: "20px"}}>
-                        <Grid.Column width={3}>
-                            {
-                                this.state.people.map((person) =>
-                                        <Button color='blue' style={styles.button} onClick={this.handlePeopleSelect(person)}>
-                                            <img src={defaultPhoto} width={"40px"}/>
-                                            &nbsp;&nbsp;&nbsp;
-                                            {person.name}
-                                        </Button>
-                                )
-                            }
-                        </Grid.Column>
+                        { this.state.people === null || this.state.people.length === 0 ?
+                            <Grid.Column width={16}>
+                            <Segment>No message
+                                <div ref={messageEnd => { this.messageEnd = messageEnd; }} />
+                            </Segment>
+                            </Grid.Column>:
+                            <React.Fragment>
+                                <Grid.Column width={3}>
+                                    {
+                                        this.state.people.map((person) =>
+                                            <Button color='blue' style={styles.button} onClick={this.handlePeopleSelect(person)}>
+                                                <img src={defaultPhoto} width={"40px"}/>
+                                                &nbsp;&nbsp;&nbsp;
+                                                {person.name}
+                                            </Button>
+                                        )
+                                    }
+                                </Grid.Column>
 
-                        <Grid.Column width={width}>
+                                <Grid.Column width={width}>
+
                             {
                                 this.state.receiverId === 0 ?
-                                    <Segment>Select a chat.
-                                        <div ref={messageEnd => { this.messageEnd = messageEnd; }} />
-                                    </Segment>:
-                                    <SegmentGroup className={"chat-segments"}>
-                                        <Segment className={"chat-header"}>
-                                            <Header
-                                                content={this.state.receiver.name}
-                                            />
-                                        </Segment>
-                                        <Segment className={"chat-container"}>
-                                            <ul className={"chat"}>
-                                                {this.state.topMessage &&
-                                                <Button compact size={"mini"} icon={"angle double up"} content={"Load More"}
-                                                        onClick={this.handleLoadHistory}/>
-                                                }
-                                                {
-                                                    this.state.messageList.reverse().map((message) =>
-                                                        <Message
-                                                            right={message.sender.username === this.props.auth.username}
-                                                            user={message.sender.name}
-                                                            time={timeParser(message.sentAt)}
-                                                            message={message.message}
-                                                        />
-                                                    )
-                                                }
-                                                <div ref={messageEnd => { this.messageEnd = messageEnd; }} />
-                                            </ul>
-                                        </Segment>
-                                        <Segment>
-                                            <div style={styles.container} className="newMessageForm">
-                                                <form style={styles.form} onSubmit={this.onFormSubmit}>
-                                                    <input
-                                                        id = {"message"}
-                                                        style={styles.input}
-                                                        type="text"
-                                                        value={this.state.message}
-                                                        onChange={this.handleInputChange}
-                                                        placeholder="Type a message and hit ENTER"
-                                                    />
-                                                </form>
+                                <Segment>Select a chat.
+                                    <div ref={messageEnd => { this.messageEnd = messageEnd; }} />
+                                </Segment>:
+                                <SegmentGroup className={"chat-segments"}>
+                                    <Segment className={"chat-header"}>
+                                        <Header
+                                        content={this.state.receiver.name}
+                                        />
+                                    </Segment>
+                                <Segment className={"chat-container"}>
+                                <ul className={"chat"}>
+                                    {this.state.topMessage &&
+                                        <Button compact size={"mini"} icon={"angle double up"} content={"Load More"}
+                                        onClick={this.handleLoadHistory}/>
+                                    }
+                                    {
+                                this.state.messageList.reverse().map((message) =>
+                                    <Message
+                                    right={message.sender.username === this.props.auth.username}
+                                    user={message.sender.name}
+                                    time={timeParser(message.sentAt)}
+                                    message={message.message}
+                                    />
+                                    )
+                                 }
+                                <div ref={messageEnd => { this.messageEnd = messageEnd; }} />
+                                </ul>
+                                </Segment>
+                                <Segment>
+                                    <div style={styles.container} className="newMessageForm">
+                                    <form style={styles.form} onSubmit={this.onFormSubmit}>
+                                    <input
+                                    id = {"message"}
+                                    style={styles.input}
+                                    type="text"
+                                    value={this.state.message}
+                                    onChange={this.handleInputChange}
+                                    placeholder="Type a message and hit ENTER"
+                                    />
+                                    </form>
 
-                                                {this.state.showEmojis ? (
-                                                    <React.Fragment>
-                                                    <span style={styles.emojiPicker} ref={el => (this.emojiPicker = el)}>
-                                                        <Picker
-                                                            onSelect={this.addEmoji}
-                                                            emojiTooltip={true}
-                                                            title="SpiritsUp"
-                                                        />
-                                                      </span>
-                                                        <p style={styles.getEmojiButton} onClick={this.handleEmojis}>
-                                                            {String.fromCodePoint(0x1f60a)}
-                                                        </p>
-                                                    </React.Fragment>
-                                                ) : (
-                                                    <p style={styles.getEmojiButton} onClick={this.handleEmojis}>
-                                                        {String.fromCodePoint(0x1f60a)}
-                                                    </p>
-                                                )}
-                                            </div>
-                                        </Segment>
-                                    </SegmentGroup>
+                                    {this.state.showEmojis ? (
+                                        <React.Fragment>
+                                        <span style={styles.emojiPicker} ref={el => (this.emojiPicker = el)}>
+                                        <Picker
+                                        onSelect={this.addEmoji}
+                                        emojiTooltip={true}
+                                        title="SpiritsUp"
+                                        />
+                                        </span>
+                                        <p style={styles.getEmojiButton} onClick={this.handleEmojis}>
+                                    {String.fromCodePoint(0x1f60a)}
+                                        </p>
+                                        </React.Fragment>
+                                        ) : (
+                                        <p style={styles.getEmojiButton} onClick={this.handleEmojis}>
+                                    {String.fromCodePoint(0x1f60a)}
+                                        </p>
+                                        )}
+                                        </div>
+                                </Segment>
+                                </SegmentGroup>
                             }
 
-                        </Grid.Column>
+                                </Grid.Column>
+                            </React.Fragment>
+                        }
+
                     </Grid>
                 </Page.Content>
             </Page>

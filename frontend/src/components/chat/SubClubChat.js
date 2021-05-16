@@ -59,8 +59,6 @@ class SubClubChat extends Component {
         this.props.getMessageList(null, id, this.handleMessageList);
 
         this.interval = setInterval(this.loadNew, 3000);
-
-        setTimeout(() => {this.messageEnd.scrollIntoView({ behavior: 'smooth' })}, 600);
     }
 
     componentWillUnmount() {
@@ -129,6 +127,9 @@ class SubClubChat extends Component {
             topMessage: topMessage,
             bottomMessage: bottomMessage
         })
+
+
+        setTimeout(() => {this.messageEnd.scrollIntoView({ behavior: 'smooth' })}, 600);
     }
 
     handleHistoryMessages(data){
