@@ -23,14 +23,14 @@ public class EventController {
     EventService eventService;
 
     @GetMapping("/list")
-    public PagedResponse<EventPayload> getEventsList(@RequestParam(value = "page",
-                                                          defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+    public PagedResponse<EventPayload> getEventsList(@CurrentUser UserPrincipal currentUser,
+                                                     @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
                                                      @RequestParam(value = "name") Optional<String> name,
                                                      @RequestParam(value = "eventType") Optional<EventType> eventType,
                                                      @RequestParam(value = "beforeEventDate") Optional<Instant> beforeEventDate,
                                                      @RequestParam(value = "afterEventDate") Optional<Instant> afterEventDate) {
 
-        return eventService.getEventsList(page, name, eventType, beforeEventDate, afterEventDate);
+        return eventService.getEventsList(currentUser, page, name, eventType, beforeEventDate, afterEventDate);
     }
 
     @GetMapping("/info")

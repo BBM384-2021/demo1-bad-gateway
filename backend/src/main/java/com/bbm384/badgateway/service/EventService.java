@@ -2,16 +2,21 @@ package com.bbm384.badgateway.service;
 
 
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
+import com.bbm384.badgateway.model.Club;
 import com.bbm384.badgateway.model.Event;
 import com.bbm384.badgateway.model.QEvent;
+import com.bbm384.badgateway.model.SubClub;
 import com.bbm384.badgateway.model.constants.EventType;
 import com.bbm384.badgateway.payload.ApiResponse;
 import com.bbm384.badgateway.payload.EventPayload;
 import com.bbm384.badgateway.payload.PagedResponse;
+import com.bbm384.badgateway.repository.ClubRepository;
 import com.bbm384.badgateway.repository.EventRepository;
+import com.bbm384.badgateway.repository.SubClubRepository;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.AppConstants;
 import com.bbm384.badgateway.util.ModelMapper;
+import com.querydsl.core.types.CollectionExpression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,8 +35,14 @@ public class EventService {
     @Autowired
     EventRepository eventRepository;
 
+    @Autowired
+    ClubRepository clubRepository;
 
-    public PagedResponse<EventPayload> getEventsList(int page, Optional<String> name, Optional<EventType> eventType,
+    @Autowired
+    SubClubRepository subClubRepository;
+
+
+    public PagedResponse<EventPayload> getEventsList(UserPrincipal currentUser, int page, Optional<String> name, Optional<EventType> eventType,
                                                      Optional<Instant> beforeEventDate, Optional<Instant> afterEventDate) {
 
         Pageable pageable = PageRequest.of(page, AppConstants.DEFAULT_PAGE_SIZE, Sort.Direction.DESC, "id");
@@ -40,6 +51,18 @@ public class EventService {
         QEvent root = QEvent.event;
         BooleanExpression query = root.id.isNotNull();
 
+        List<Club> clubsThatUserIsMember = clubRepository.findAllByMembers(currentUser.getUser());
+        List<SubClub> subClubsThatUserIsMember = subClubRepository.findAllByMembers(currentUser.getUser());
+
+
+        for (Club club : clubsThatUserIsMember){
+            query = query.and(root.club.eq(club));
+        }
+
+        for (SubClub subClub : subClubsThatUserIsMember){
+            query = query.and(root.subClub.eq(subClub));
+        }
+        
         if(name.isPresent()) {
             query = query.and(root.name.startsWith(name.get()));
         }
@@ -55,11 +78,11 @@ public class EventService {
 
         events = eventRepository.findAll(query, pageable);
 
-        List<EventPayload> eventInfoRespons = events.map(
+        List<EventPayload> eventInfoResponse = events.map(
                 event -> ModelMapper.mapToEventPayload(event)).getContent();
 
 
-        return new PagedResponse<EventPayload>(eventInfoRespons,
+        return new PagedResponse<EventPayload>(eventInfoResponse,
                 events.getNumber(),
                 events.getSize(),
                 events.getTotalElements(),
