@@ -8,6 +8,8 @@ import {
   API_CLUB_SUBCLUB_LIST_URL,
   API_CLUB_COMMENT_LIST_URL,
   API_COMMENT_CREATE,
+  API_SUB_CLUB_ALL,
+  API_CLUB_ALL
 } from '../../constants/urls';
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";
@@ -134,4 +136,19 @@ export const commentCreateService = (data, callback) => {
         apiError(error, reject);
       });
   }));
+}
+
+
+// returns all sub clubs of given club.
+export const getAllClubsService = () => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_CLUB_ALL),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
 }

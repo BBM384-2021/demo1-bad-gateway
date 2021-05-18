@@ -28,6 +28,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Validated
@@ -140,7 +141,6 @@ public class ClubService {
         return ModelMapper.mapToClubInfoResponse(club);
     }
 
-
     public List<SubClubPayload> getAllSubClubs( long clubId){
         Club club = clubRepository.findById(clubId).orElseThrow(
                 () -> new ResourceNotFoundException("Club", "id", String.valueOf(clubId))
@@ -155,4 +155,12 @@ public class ClubService {
         }
         return subClubPayloadResponse;
     }
+
+    public List<ClubInfoResponse> getAllClubs(){
+        return  clubRepository.findAll().stream().map(
+                club -> ModelMapper.mapToClubInfoResponse(club)
+        ).collect(Collectors.toList());
+    }
+
+
 }

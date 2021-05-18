@@ -99,4 +99,18 @@ public class ModelMapper {
         commentPayload.setSentAt(comment.getSentAt());
         return commentPayload;
     }
+
+    public static EventPayload mapToEventPayload(Event event){
+        EventPayload eventPayload = EventPayload.builder()
+                .id(event.getId())
+                .name(event.getName())
+                .address(event.getAddress())
+                .eventType(event.getEventType())
+                .attendees(event.getAttendees())
+                .eventDate(event.getEventDate())
+                .club(event.getClub())
+                .subClub(event.getSubClub())
+                .build();
+        return eventPayload;
+    }
 }

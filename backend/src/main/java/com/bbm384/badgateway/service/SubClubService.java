@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SubClubService {
@@ -30,6 +31,9 @@ public class SubClubService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ClubRepository clubRepository;
 
     public SubClubPayload createSubClub(@CurrentUser UserPrincipal currentUser, SubClubPayload subClubPayload){
         SubClub subClub = new SubClub(subClubPayload.getName(),
@@ -99,5 +103,16 @@ public class SubClubService {
                 subClubs.getTotalPages(),
                 subClubs.isLast()
         );
+    }
+
+
+    public List<SubClubPayload> getAllSubClubs(long clubId){
+        Club parentClub = clubRepository.findById(clubId).orElseThrow(
+                () -> new ResourceNotFoundException("Club", "id", String.valueOf(clubId))
+        );
+
+        return subClubRepository.findAllByParentClub(parentClub).stream().map(
+                subClub -> ModelMapper.mapToSubClubInfoResponse(subClub)
+        ).collect(Collectors.toList());
     }
 }

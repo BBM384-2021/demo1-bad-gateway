@@ -28,6 +28,7 @@ export const API_CLUB_COMMENT_LIST_URL = urljoin(API_BASE, 'comment', 'club', 'l
 export const API_SC_COMMENT_LIST_URL = urljoin(API_BASE, 'comment', 'subClub', 'list');
 export const API_COMMENT_CREATE = urljoin(API_BASE, 'comment', 'create');
 
+export const API_CLUB_ALL = urljoin(API_BASE, 'club', 'all');
 
 export const API_CATEGORY_ALL = urljoin(API_BASE, 'category', 'all');
 
@@ -41,3 +42,10 @@ export const API_PC_CHAT_VIEW_NEW_MESSAGES = urljoin(API_BASE, 'private_message'
 export const API_PC_CHAT_LIST_PEOPLE = urljoin(API_BASE, 'private_message', 'people');
 
 export const API_SUB_CLUB_INFO_URL = urljoin(API_BASE, 'sub_club', 'info');
+export const API_SUB_CLUB_ALL = urljoin(API_BASE, 'sub_club', 'all');
+
+export const API_EVENT_LIST_URL = urljoin(API_BASE, 'event', 'list');
+export const API_EVENT_INFO_URL = urljoin(API_BASE, 'event', 'info');
+export const API_EVENT_CREATE_URL = urljoin(API_BASE, 'event', 'create');
+export const API_EVENT_UPDATE_URL = urljoin(API_BASE, 'event', 'update');
+export const API_EVENT_DELETE_URL = urljoin(API_BASE, 'event', 'delete');

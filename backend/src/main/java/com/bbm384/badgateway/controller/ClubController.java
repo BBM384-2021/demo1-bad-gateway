@@ -56,4 +56,9 @@ public class ClubController {
     public List<SubClubPayload> getSubClubList(@RequestParam(value = "clubId") long clubId){
         return clubService.getAllSubClubs(clubId);
     }
+    @GetMapping("/all")
+    public List<ClubInfoResponse> getAllClubs(){
+        return clubService.getAllClubs();
+    }
+
 }
