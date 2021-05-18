@@ -23,6 +23,11 @@ export const API_CLUB_INFO_URL = urljoin(API_BASE, 'club', 'info');
 export const API_CLUB_CREATE_URL = urljoin(API_BASE, 'club', 'create');
 export const API_CLUB_UPDATE_URL = urljoin(API_BASE, 'club', 'update');
 export const API_CLUB_DELETE_URL = urljoin(API_BASE, 'club', 'delete');
+export const API_CLUB_SUBCLUB_LIST_URL = urljoin(API_BASE, 'club', 'subClub', 'list');
+export const API_CLUB_COMMENT_LIST_URL = urljoin(API_BASE, 'comment', 'club', 'list');
+export const API_SC_COMMENT_LIST_URL = urljoin(API_BASE, 'comment', 'subClub', 'list');
+export const API_COMMENT_CREATE = urljoin(API_BASE, 'comment', 'create');
+
 
 export const API_CATEGORY_ALL = urljoin(API_BASE, 'category', 'all');
 

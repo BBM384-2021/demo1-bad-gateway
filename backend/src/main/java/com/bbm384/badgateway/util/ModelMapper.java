@@ -52,6 +52,7 @@ public class ModelMapper {
 
     public static SubClubPayload mapToSubClubInfoResponse(SubClub subClub) {
         SubClubPayload subClubPayload = new SubClubPayload();
+        subClubPayload.setId(subClub.getId());
         subClubPayload.setName(subClub.getName());
         subClubPayload.setParentClub(subClub.getParentClub());
         subClubPayload.setDescription(subClub.getDescription());
@@ -85,5 +86,17 @@ public class ModelMapper {
                 .receiver(mapToUserInfoResponse(message.getReceiver()))
                 .build();
         return messageList;
+    }
+
+    public static CommentPayload mapToCommentInfoResponse(Comment comment) {
+        CommentPayload commentPayload = new CommentPayload();
+        commentPayload.setId(comment.getId());
+        commentPayload.setSender(comment.getSender());
+        commentPayload.setContent(comment.getContent());
+        commentPayload.setRate(comment.getRate());
+        commentPayload.setClub(comment.getClub());
+        commentPayload.setSubClub(comment.getSubClub());
+        commentPayload.setSentAt(comment.getSentAt());
+        return commentPayload;
     }
 }
