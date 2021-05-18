@@ -43,7 +43,7 @@ public class EventController {
         return eventService.createEvent(currentUser, eventPayload);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public EventPayload updateEvent(@CurrentUser UserPrincipal currentUser, @RequestBody EventPayload eventPayload){
         return eventService.updateEvent(currentUser, eventPayload);
     }
