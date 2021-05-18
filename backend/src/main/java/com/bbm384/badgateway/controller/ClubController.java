@@ -11,6 +11,8 @@ import com.bbm384.badgateway.service.ClubService;
 import com.bbm384.badgateway.util.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -50,6 +52,11 @@ public class ClubController {
     @GetMapping("/delete")
     public ClubInfoResponse deleteClub(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "id") Long id){
         return clubService.deleteClub(currentUser, id);
+    }
+
+    @GetMapping("/all")
+    public List<ClubInfoResponse> getAllClubs(){
+        return clubService.getAllClubs();
     }
 
 }

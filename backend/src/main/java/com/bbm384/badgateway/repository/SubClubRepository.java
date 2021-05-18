@@ -8,10 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.stereotype.Repository;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface SubClubRepository extends JpaRepository<SubClub, Long> , QuerydslPredicateExecutor<SubClub> {
     Optional<SubClub> findById(Long id);
     Optional<SubClub> findByName(String name);
+    List<SubClub> findAllByParentClub(Club parentClub);
 }
