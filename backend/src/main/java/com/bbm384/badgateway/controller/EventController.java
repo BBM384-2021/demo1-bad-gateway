@@ -52,7 +52,4 @@ public class EventController {
     public ApiResponse deleteEvent(@RequestParam(value = "id") long id){
         return eventService.deleteEvent(id);
     }
-
-
-
 }

@@ -46,11 +46,11 @@ public class Event extends UpdatedAudit {
     private Set<User> attendees;
 
     @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    @JoinColumn(name = "CLUB")
+    @JoinColumn(name = "CLUB_ID")
     private Club club;
 
     @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-    @JoinColumn(name = "SUB_CLUB")
+    @JoinColumn(name = "SUB_CLUB_ID")
     private SubClub subClub;
 
     @NotNull
