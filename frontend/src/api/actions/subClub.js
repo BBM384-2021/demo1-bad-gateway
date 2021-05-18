@@ -11,3 +11,16 @@ export const subClubInfoAction = (id, callback) => {
             });
     }
 }
+
+
+export const getAllSubClubsAction = (id, callback) => {
+    return (dispatch, getStatus) => {
+        return subClubService.getAllSubClubsService(id).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
+}

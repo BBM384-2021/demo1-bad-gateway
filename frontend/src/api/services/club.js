@@ -4,7 +4,7 @@ import {
     API_CLUB_UPDATE_URL,
     API_CLUB_DELETE_URL,
     API_CLUB_INFO_URL,
-    API_CLUB_LIST_URL
+    API_CLUB_LIST_URL, API_SUB_CLUB_ALL, API_CLUB_ALL
 } from "../../constants/urls";
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";
@@ -70,6 +70,21 @@ export const updateClubService = (data) => {
 export const deleteClubService = (id) => {
     return new Promise(((resolve, reject) => {
         axios.get(encodeURI(API_CLUB_DELETE_URL+"?id="+id),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
+}
+
+
+// returns all sub clubs of given club.
+export const getAllClubsService = () => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_CLUB_ALL),
             getHeaderWithToken())
             .then(function (response) {
                 resolve(response);

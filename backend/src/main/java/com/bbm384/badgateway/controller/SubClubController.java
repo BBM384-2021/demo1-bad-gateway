@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -42,5 +43,10 @@ public class SubClubController {
     @PutMapping("/update")
     public SubClubPayload updateClub(@RequestBody SubClubPayload subClubPayload){
         return subClubService.updateSubClub(subClubPayload);
+    }
+
+    @GetMapping("/all")
+    public List<SubClubPayload> getAllSubClubs(long clubId){
+        return subClubService.getAllSubClubs(clubId);
     }
 }
