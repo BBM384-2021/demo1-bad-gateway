@@ -16,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EventInfoResponse extends UpdatedAudit {
+public class EventPayload extends UpdatedAudit {
 
     private Long id;
     private String name;

@@ -45,10 +45,12 @@ public class Event extends UpdatedAudit {
     @JoinColumn(name = "ATTENDEES")
     private Set<User> attendees;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name = "CLUB")
     private Club club;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @JoinColumn(name = "SUB_CLUB")
     private SubClub subClub;
 
     @NotNull
