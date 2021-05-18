@@ -3,7 +3,7 @@ package com.bbm384.badgateway.controller;
 
 import com.bbm384.badgateway.model.constants.EventType;
 import com.bbm384.badgateway.payload.ApiResponse;
-import com.bbm384.badgateway.payload.EventInfoResponse;
+import com.bbm384.badgateway.payload.EventPayload;
 import com.bbm384.badgateway.payload.PagedResponse;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
@@ -23,20 +23,36 @@ public class EventController {
     EventService eventService;
 
     @GetMapping("/list")
-    public PagedResponse<EventInfoResponse> getEventsList(@RequestParam(value = "page",
+    public PagedResponse<EventPayload> getEventsList(@RequestParam(value = "page",
                                                           defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-                                                          @RequestParam(value = "name") Optional<String> name,
-                                                          @RequestParam(value = "eventType") Optional<EventType> eventType,
-                                                          @RequestParam(value = "beforeEventDate") Optional<Instant> beforeEventDate,
-                                                          @RequestParam(value = "afterEventDate") Optional<Instant> afterEventDate) {
+                                                     @RequestParam(value = "name") Optional<String> name,
+                                                     @RequestParam(value = "eventType") Optional<EventType> eventType,
+                                                     @RequestParam(value = "beforeEventDate") Optional<Instant> beforeEventDate,
+                                                     @RequestParam(value = "afterEventDate") Optional<Instant> afterEventDate) {
 
         return eventService.getEventsList(page, name, eventType, beforeEventDate, afterEventDate);
     }
 
-    @PostMapping("/create")
-    public ApiResponse createEvent(@CurrentUser UserPrincipal currentUser, @RequestBody EventInfoResponse eventInfoResponse){
-        return eventService.createEvent(currentUser, eventInfoResponse);
+    @GetMapping("/info")
+    public EventPayload getEvent(@RequestParam(value = "id") long id){
+        return eventService.getEvent(id);
     }
+
+    @PostMapping("/create")
+    public ApiResponse createEvent(@CurrentUser UserPrincipal currentUser, @RequestBody EventPayload eventPayload){
+        return eventService.createEvent(currentUser, eventPayload);
+    }
+
+    @PostMapping("/update")
+    public EventPayload updateEvent(@CurrentUser UserPrincipal currentUser, @RequestBody EventPayload eventPayload){
+        return eventService.updateEvent(currentUser, eventPayload);
+    }
+
+    @DeleteMapping("/delete")
+    public ApiResponse deleteEvent(@RequestParam(value = "id") long id){
+        return eventService.deleteEvent(id);
+    }
+
 
 
 }

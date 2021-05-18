@@ -87,8 +87,8 @@ public class ModelMapper {
         return messageList;
     }
 
-    public static EventInfoResponse mapToEventInfoResponse(Event event){
-        EventInfoResponse eventInfoResponse = EventInfoResponse.builder()
+    public static EventPayload mapToEventPayload(Event event){
+        EventPayload eventPayload = EventPayload.builder()
                 .id(event.getId())
                 .name(event.getName())
                 .address(event.getAddress())
@@ -98,6 +98,6 @@ public class ModelMapper {
                 .club(event.getClub())
                 .subClub(event.getSubClub())
                 .build();
-        return eventInfoResponse;
+        return eventPayload;
     }
 }
