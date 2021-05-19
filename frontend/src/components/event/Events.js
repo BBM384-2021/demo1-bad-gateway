@@ -191,7 +191,7 @@ class Events extends Component {
                                 />
                                 {this.state.filters.clubId !== null &&
                                 <SubClubSelect
-                                    clubId={this.state.filters.subClubId}
+                                    clubId={this.state.filters.clubId}
                                     hasEmptyLine={true}
                                     stateChangeCallback={this.handleSubClubFilterChange}
                                 />

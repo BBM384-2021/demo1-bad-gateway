@@ -21,6 +21,7 @@ class SubClubSelect extends Component {
     componentDidMount() {
         const {clubId} = this.props;
         if (clubId === null || clubId === "") {
+            console.log("id nerede");
             this.setState({
                 options: []
             });
@@ -83,7 +84,7 @@ class SubClubSelect extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        getTroops: (clubId, callback) => {
+        getSubClubs: (clubId, callback) => {
             dispatch(subClubActions.getEnrolledSubClubsAction(clubId, callback));
         },
     }
