@@ -20,6 +20,7 @@ import CreateClub from "../../components/club/CreateClub";
 import UpdateClub from "../../components/club/UpdateClub";
 import SubClubChat from "../../components/chat/SubClubChat";
 import PrivateMessage from "../../components/privateMessage/PrivateMessage";
+import Events from "../../components/event/Events";
 
 const roleMapping = [
     {
@@ -101,6 +102,12 @@ const roleMapping = [
         component: PrivateMessage,
         path: '/private_message',
         title: 'Private Messages',
+        permission: [],
+    },
+    {
+        component: Events,
+        path: '/event/list',
+        title: 'Events',
         permission: [],
     },
 
