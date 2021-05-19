@@ -12,49 +12,62 @@ import {
   Dropdown,
   Select
 } from 'semantic-ui-react';
-import * as clubActions from "../../api/actions/club";
-import ClubsItem from "./ClubsItem";
+import * as SubClubActions from "../../api/actions/subClub";
+import SubClubItems from "./SubClubItems";
 import Page from "../base/Page";
 import { Link } from 'react-router-dom';
 import * as categoryActions from "../../api/actions/category";
+import * as clubActions from "../../api/actions/club";
 import {getRoles} from "../../utils/auth";
 
 
-class Clubs extends Component {
+class SubClubs extends Component {
   state = {
     status: LoadingStates.NOT_LOADED,
     filters: {
       name: "",
       category: "",
+      parentClub:"",
     },
     roles:[],
-    categories: []
+    categories: [],
+    clubs:[]
   };
 
 
   constructor(props) {
     super(props);
-    this.handleClubList = this.handleClubList.bind(this);
+    this.handleSubClubList = this.handleSubClubList.bind(this);
     this.handleGetCategories = this.handleGetCategories.bind(this);
+    this.handleGetClubs = this.handleGetClubs.bind(this);
   }
 
   componentDidMount() {
-    this.props.getClubList(0, this.state.filters.name, this.state.filters.category, this.handleClubList);
+    this.props.getSubClubList(0, this.state.filters.name, this.state.filters.category, this.state.filters.parentClub, this.handleSubClubList);
     this.props.getCategories(this.handleGetCategories);
+    this.props.getClubs(this.handleGetClubs);
   }
 
   handleGetCategories(data) {
     this.setState({
-          ...this.state,
-          categories: data,
-        }
+        ...this.state,
+        categories: data,
+      }
+    )
+  }
+
+  handleGetClubs(data) {
+    this.setState({
+        ...this.state,
+        clubs: data,
+      }
     )
   }
 
 
-  handleClubList(data) {
+  handleSubClubList(data) {
     this.setState({
-      clubList: data.content,
+      subClubList: data.content,
       status: LoadingStates.LOADED
     })
   }
@@ -84,14 +97,20 @@ class Clubs extends Component {
     }
   });
 
+  handleParentClubFilterChange= (e, { value }) => this.setState({
+    filters: {
+      ...this.state.filters,
+      parentClub: value
+    }
+  });
+
   handleFiltering = (event) => {
-    this.props.getClubList(0, this.state.filters.name, this.state.filters.category, this.handleClubList);
+    this.props.getSubClubList(0, this.state.filters.name, this.state.filters.category, this.state.filters.parentClub, this.handleSubClubList);
   };
 
   render() {
     const {status} = this.state;
     let roles = getRoles();
-
     if (status !== LoadingStates.LOADED) {
       return (
         <Loader active>
@@ -105,7 +124,7 @@ class Clubs extends Component {
       <Page>
         <Page.Header>
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"/>
-          <Page.Header.Item><p style={{color: "black", fontFamily: 'Ubuntu Mono ', fontSize: "30px"}}>Club List</p></Page.Header.Item>
+          <Page.Header.Item><p style={{color: "black", fontFamily: 'Ubuntu Mono ', fontSize: "30px"}}>Sub-Club List</p></Page.Header.Item>
         </Page.Header>
         <Page.Operation>
           <Page.Operation.Filter>
@@ -113,7 +132,7 @@ class Clubs extends Component {
               <Form.Group>
                 <Form.Field>
                   <Form.Input id={"name"}
-                              placeholder='Club Name'
+                              placeholder='Sub-Club Name'
                               value={this.state.filters.name}
                               onChange={this.handleInputChange}
                               inline
@@ -121,13 +140,24 @@ class Clubs extends Component {
                 </Form.Field>
                 <Form.Field>
                   <Dropdown
-                      selection
-                      id={"category"}
-                      options={this.state.categories.map((key) => ({text: key.name, value: key.name}))}
-                      placeholder={"Category"}
-                      value={this.state.filters.category}
-                      control={Select}
-                      onChange={this.handleCategoryFilterChange}
+                    selection
+                    id={"category"}
+                    options={this.state.categories.map((key) => ({text: key.name, value: key.name}))}
+                    placeholder={"Category"}
+                    value={this.state.filters.category}
+                    control={Select}
+                    onChange={this.handleCategoryFilterChange}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Dropdown
+                    selection
+                    id={"parentClub"}
+                    options={this.state.clubs.map((key) => ({text: key.name, value: key.name}))}
+                    placeholder={"Club"}
+                    value={this.state.filters.parentClub}
+                    control={Select}
+                    onChange={this.handleParentClubFilterChange}
                   />
                 </Form.Field>
                 <Form.Button content='Search'/>
@@ -143,23 +173,23 @@ class Clubs extends Component {
                   <Grid.Column></Grid.Column>
                   <Grid.Column></Grid.Column>
                   <Grid.Column textAlign={'right'}>
-                    <Button positive as={Link} to={"/club/create"}>
-                      Create Club
+                    <Button positive as={Link} to={"/sub_club/create"}>
+                      Create Sub-Club
                     </Button>
                   </Grid.Column>
                 </Grid.Row>
               </Grid> </div>: null
             }
-
+            <br/><br/>
             <Card.Group itemsPerRow={4}>
               {
-                this.state.clubList.length === 0 ?
-                  <div textAlign={"center"} ><Message color={"red"}>No club is available to show</Message>
+                this.state.subClubList.length === 0 ?
+                  <div textAlign={"center"} ><Message color={"red"}>No sub-club is available to show</Message>
                   </div>:
-                  this.state.clubList.map((club) =>
-                    <ClubsItem
-                      key={club.id}
-                      club={club}
+                  this.state.subClubList.map((subClub) =>
+                    <SubClubItems
+                      key={subClub.id}
+                      subClub={subClub}
                     />
                   )
               }
@@ -174,11 +204,14 @@ class Clubs extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getClubList: (page, name, category, callback) => {
-      dispatch(clubActions.clubListAction(page, name, category, callback));
+    getSubClubList: (page, name, category, parentClub, callback) => {
+      dispatch(SubClubActions.subClubListAction(page, name, category, parentClub, callback));
     },
     getCategories: (callback) => {
       dispatch(categoryActions.getAllCategoriesAction(callback));
+    },
+    getClubs: (callback) => {
+      dispatch(clubActions.getAllClubsAction(callback));
     },
   }
 };
@@ -191,4 +224,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Clubs);
+export default connect(mapStateToProps, mapDispatchToProps)(SubClubs);

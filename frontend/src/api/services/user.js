@@ -4,8 +4,8 @@ import {
     API_USER_LIST_URL,
     API_USER_EDIT_URL,
     API_USER_CREATE_URL,
-    API_USER_STATUS_TOGGLE_URL
-} from "../../constants/urls";
+    API_USER_STATUS_TOGGLE_URL, API_USER_ALL,
+} from '../../constants/urls';
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";
 
@@ -80,3 +80,16 @@ export const userStatusToggle = (id) => {
             });
     }));
 }
+
+export const getAllUsersService = () => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_USER_ALL),
+          getHeaderWithToken())
+          .then(function (response) {
+              resolve(response);
+          })
+          .catch(function (error) {
+              apiError(error, reject);
+          });
+    }));
+};

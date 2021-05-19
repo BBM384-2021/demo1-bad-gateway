@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -96,5 +97,11 @@ public class UserService {
         userRepository.save(targetUser);
 
         return new ApiResponse(true, "ok");
+    }
+
+    public List<UserInfo> getAllUsers() {
+        return  userRepository.findAll().stream().map(
+                user -> ModelMapper.mapToUserInfoResponse(user)
+        ).collect(Collectors.toList());
     }
 }

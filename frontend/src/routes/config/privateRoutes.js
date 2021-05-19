@@ -12,14 +12,15 @@ import {
 import CreateUser from "../../components/user/CreateUser";
 import PasswordReset from "../../components/auth/PasswordReset";
 import ChangePassword from "../../components/auth/ChangePassword";
-
 import Clubs from '../../components/club/Clubs';
-import SignUp from "../../components/auth/SignUp";
-import ClubInfo from "../../components/club/ClubInfo";
+import NewClubInfo from "../../components/club/NewClubInfo";
 import CreateClub from "../../components/club/CreateClub";
 import UpdateClub from "../../components/club/UpdateClub";
 import SubClubChat from "../../components/chat/SubClubChat";
 import PrivateMessage from "../../components/privateMessage/PrivateMessage";
+import SubClubs from '../../components/subClub/SubClubs';
+import SubClubInfo from '../../components/subClub/SubClubInfo';
+import CreateSubClub from '../../components/subClub/CreateSubClub';
 
 const roleMapping = [
     {
@@ -73,8 +74,14 @@ const roleMapping = [
         title: 'Clubs',
         permission: [],
     },
+    // {
+    //     component: ClubInfo,
+    //     path: '/club/info/:id',
+    //     title: 'Club Info',
+    //     permission: [],
+    // },
     {
-        component: ClubInfo,
+        component: NewClubInfo,
         path: '/club/info/:id',
         title: 'Club Info',
         permission: [],
@@ -102,6 +109,24 @@ const roleMapping = [
         path: '/private_message',
         title: 'Private Messages',
         permission: [],
+    },
+    {
+        component: SubClubs,
+        path: '/sub_club/list',
+        title: 'SubClubs',
+        permission: [],
+    },
+    {
+        component: SubClubInfo,
+        path: '/sub_club/info/:id',
+        title: 'Sub-Club Info',
+        permission: [],
+    },
+    {
+        component: CreateSubClub,
+        path: '/sub_club/create',
+        title: 'Sub-Club Create',
+        permission: [Roles.ADMIN.key,],
     },
 
 ];

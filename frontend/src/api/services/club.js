@@ -1,13 +1,18 @@
 import axios from 'axios';
 import {
-    API_CLUB_CREATE_URL,
-    API_CLUB_UPDATE_URL,
-    API_CLUB_DELETE_URL,
-    API_CLUB_INFO_URL,
-    API_CLUB_LIST_URL, API_SUB_CLUB_ALL, API_CLUB_ALL
-} from "../../constants/urls";
+  API_CLUB_CREATE_URL,
+  API_CLUB_UPDATE_URL,
+  API_CLUB_DELETE_URL,
+  API_CLUB_INFO_URL,
+  API_CLUB_LIST_URL,
+  API_CLUB_SUBCLUB_LIST_URL,
+  API_CLUB_COMMENT_LIST_URL,
+  API_COMMENT_CREATE,
+  API_CLUB_ALL
+} from '../../constants/urls';
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";
+
 
 export const clubListService = (page, name, category) => {
   return new Promise(((resolve, reject) => {
@@ -67,6 +72,7 @@ export const updateClubService = (data) => {
             });
     }));
 }
+
 export const deleteClubService = (id) => {
     return new Promise(((resolve, reject) => {
         axios.get(encodeURI(API_CLUB_DELETE_URL+"?id="+id),
@@ -78,6 +84,58 @@ export const deleteClubService = (id) => {
                 apiError(error, reject);
             });
     }));
+}
+
+export const subClubListService = (clubId) => {
+  return new Promise(((resolve, reject) => {
+    axios.get(encodeURI(API_CLUB_SUBCLUB_LIST_URL+"?clubId="+clubId),
+      getHeaderWithToken())
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        apiError(error, reject);
+      });
+  }));
+};
+
+export const clubCommentListService = (clubId) => {
+  return new Promise(((resolve, reject) => {
+    axios.get(encodeURI(API_CLUB_COMMENT_LIST_URL+"?clubId="+clubId),
+      getHeaderWithToken())
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        apiError(error, reject);
+      });
+  }));
+};
+
+export const createCommentService = (data, callback) => {
+  return new Promise(((resolve, reject) => {
+    axios.post(encodeURI(API_COMMENT_CREATE), data,
+      getHeaderWithToken())
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        apiError(error, reject);
+      });
+  }));
+}
+
+export const commentCreateService = (data, callback) => {
+  return new Promise(((resolve, reject) => {
+    axios.post(encodeURI(API_COMMENT_CREATE), data,
+      getHeaderWithToken())
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        apiError(error, reject);
+      });
+  }));
 }
 
 

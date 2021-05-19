@@ -62,3 +62,15 @@ export const userStatusToggle = (id, callback) => {
             });
     }
 };
+
+export const getAllUsersAction = (callback) => {
+    return (dispatch, getState) => {
+        return userService.getAllUsersService().then(
+          (result) => {
+              callback(result.data);
+          },
+          (error) =>{
+              // callback(messageError);
+          });
+    }
+};

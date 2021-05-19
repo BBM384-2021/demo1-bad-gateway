@@ -1,45 +1,23 @@
-package com.bbm384.badgateway.model;
+package com.bbm384.badgateway.payload;
 
-import com.querydsl.core.annotations.QueryEntity;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.data.annotation.CreatedDate;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import com.bbm384.badgateway.model.Club;
+import com.bbm384.badgateway.model.SubClub;
+import com.bbm384.badgateway.model.User;
 import java.time.Instant;
 
-@QueryEntity
-@Entity
-@Table(name = "COMMENT")
-public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CommentPayload {
     private Long id;
-
-    @ManyToOne
-    @NotNull
     private User sender;
-
-    @NotNull
-    @Size(max = 100)
     private String content;
-
-    @NotNull
-    @Range(min=1, max=5)
     private Integer rate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CLUB_ID")
     private Club club;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SUBCLUB_ID")
     private SubClub subClub;
-
-    @CreatedDate
-    @NotNull
     private Instant sentAt;
+
+
+    public CommentPayload(){
+
+    }
 
     public Long getId() {
         return id;
