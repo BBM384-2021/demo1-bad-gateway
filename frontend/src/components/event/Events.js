@@ -19,6 +19,8 @@ import {getRoles} from "../../utils/auth";
 import EventsItem from "./EventsItem";
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
+import ClubSelect from "../club/ClubSelect";
+import SubClubSelect from "../subClub/SubClubSelect";
 
 class Events extends Component {
 
@@ -29,6 +31,8 @@ class Events extends Component {
             eventType: "",
             beforeEventDate: "",
             afterEventDate: "",
+            clubId: "",
+            subClubId: "",
         },
     };
 
@@ -39,7 +43,7 @@ class Events extends Component {
 
     componentDidMount() {
         this.props.getEventsList(0, this.state.filters.name, this.state.filters.eventType, this.state.filters.beforeEventDate,
-            this.state.filters.afterEventDate, this.handleEventList);
+            this.state.filters.afterEventDate, this.state.clubId, this.state.subClubId, this.handleEventList);
     }
 
     handleEventList(data) {
@@ -52,7 +56,7 @@ class Events extends Component {
 
     handleFiltering = (event) => {
         this.props.getEventsList(0, this.state.filters.name, this.state.filters.eventType, this.state.filters.beforeEventDate,
-            this.state.filters.afterEventDate, this.handleEventList);
+            this.state.filters.afterEventDate, this.state.clubId, this.state.subClubId, this.handleEventList);
     };
 
 
@@ -75,42 +79,66 @@ class Events extends Component {
     };
 
 
-    handleEventDateFilterChange= (event, data) => {
+    handleEventTypeFilterChange = (e, {value}) => this.setState({
+        filters: {
+            ...this.state.filters,
+            eventType: value
+        }
+    });
+
+    handleEventDateFilterChange = (event, data) => {
         event.preventDefault();
-        if(!data.value){
+        if (!data.value) {
             this.setState({
                 filters: {
                     ...this.state.filters,
-                    beforeEventDate : "",
-                    afterEventDate : "",
+                    beforeEventDate: "",
+                    afterEventDate: "",
                 }
             })
-        }
-        else if(data.value[0] && data.value[1]){
+        } else if (data.value[0] && data.value[1]) {
             this.setState({
                 filters: {
                     ...this.state.filters,
-                    beforeEventDate : data.value[0].toISOString(),
-                    afterEventDate : data.value[1].toISOString(),
+                    beforeEventDate: data.value[0].toISOString(),
+                    afterEventDate: data.value[1].toISOString(),
                 }
             })
-        }
-        else if(data.value[0]){
+        } else if (data.value[0]) {
             this.setState({
                 filters: {
                     ...this.state.filters,
-                    beforeEventDate : data.value[0].toISOString(),
+                    beforeEventDate: data.value[0].toISOString(),
                 }
             })
-        }
-        else if(data.value[1]){
+        } else if (data.value[1]) {
             this.setState({
                 filters: {
                     ...this.state.filters,
-                    afterEventDate : data.value[1].toISOString(),
+                    afterEventDate: data.value[1].toISOString(),
                 }
             })
         }
+    };
+
+
+    handleClubFilterChange = (value) => {
+        this.setState({
+            filters: {
+                ...this.state.filters,
+                clubId: value.id,
+                subClubId: null,
+            }
+        })
+    };
+
+    handleSubClubFilterChange = (value) => {
+        this.setState({
+            filters: {
+                ...this.state.filters,
+                subClubId: value.id,
+            }
+        })
     };
 
     render() {
@@ -145,9 +173,32 @@ class Events extends Component {
                                                 inline
                                     />
                                 </Form.Field>
+                                <Form.Input id={"eventType"}
+                                            placeholder='Event Type'
+                                            value={this.state.filters.status}
+                                            onChange={this.handleEventTypeFilterChange}
+                                            control={Select}
+                                            options={
+                                                [
+                                                    {key: 'ONLINE', value: 'ONLINE', text: 'ONLINE'},
+                                                    {key: 'OFFLINE', value: 'OFFLINE', text: 'OFFLINE'}
+                                                ]
+                                            }
+                                />
+                                <ClubSelect
+                                    hasEmptyLine={true}
+                                    stateChangeCallback={this.handleClubFilterChange}
+                                />
+                                {this.state.filters.clubId !== null &&
+                                <SubClubSelect
+                                    clubId={this.state.filters.subClubId}
+                                    hasEmptyLine={true}
+                                    stateChangeCallback={this.handleSubClubFilterChange}
+                                />
+                                }
                                 <SemanticDatepicker
                                     id={"approvalDate"}
-                                    placeholder ="Event Date"
+                                    placeholder="Event Date"
                                     onChange={this.handleEventDateFilterChange}
                                     type="range"
                                     keepOpenOnClear="true"
@@ -204,7 +255,7 @@ class Events extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        getEventsList: (page, name, eventType, beforeEventDate, afterEventDate, callback) => {
+        getEventsList: (page, name, eventType, beforeEventDate, afterEventDate, clubId, subClubId, callback) => {
             dispatch(eventActions.eventListAction(page, name, eventType, beforeEventDate, afterEventDate, callback));
         },
     }

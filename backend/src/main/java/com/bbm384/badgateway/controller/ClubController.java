@@ -54,9 +54,9 @@ public class ClubController {
         return clubService.deleteClub(currentUser, id);
     }
 
-    @GetMapping("/all")
-    public List<ClubInfoResponse> getAllClubs(){
-        return clubService.getAllClubs();
+    @GetMapping("/enrolled")
+    public List<ClubInfoResponse> getEnrolledClubs(@CurrentUser UserPrincipal currentUser){
+        return clubService.getEnrolledClubs(currentUser);
     }
 
 }

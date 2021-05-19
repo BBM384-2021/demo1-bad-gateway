@@ -43,7 +43,8 @@ public class EventService {
 
 
     public PagedResponse<EventPayload> getEventsList(UserPrincipal currentUser, int page, Optional<String> name, Optional<EventType> eventType,
-                                                     Optional<Instant> beforeEventDate, Optional<Instant> afterEventDate) {
+                                                     Optional<Instant> beforeEventDate, Optional<Instant> afterEventDate,
+                                                     Optional<Long> clubId, Optional<Long> subClubId) {
 
         Pageable pageable = PageRequest.of(page, AppConstants.DEFAULT_PAGE_SIZE, Sort.Direction.DESC, "id");
         Page<Event> events;
@@ -74,6 +75,12 @@ public class EventService {
         }
         if (afterEventDate.isPresent()){
             query = query.and(root.eventDate.after(afterEventDate.get()));
+        }
+        if (clubId.isPresent()){
+            query = query.and(root.club.id.eq(clubId.get()));
+        }
+        if (subClubId.isPresent()){
+            query = query.and(root.subClub.id.eq(subClubId.get()));
         }
 
         events = eventRepository.findAll(query, pageable);

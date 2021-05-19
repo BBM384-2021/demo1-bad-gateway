@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface SubClubRepository extends JpaRepository<SubClub, Long> , QuerydslPredicateExecutor<SubClub> {
     Optional<SubClub> findById(Long id);
     Optional<SubClub> findByName(String name);
-    List<SubClub> findAllByParentClub(Club parentClub);
+    List<SubClub> findAllByMembersAndParentClub(User member, Club parentClub);
     List<SubClub> findAllByMembers(User member);
 }

@@ -106,12 +106,12 @@ public class SubClubService {
     }
 
 
-    public List<SubClubPayload> getAllSubClubs(long clubId){
+    public List<SubClubPayload> getEnrolledSubClubs(UserPrincipal currentUser, long clubId){
         Club parentClub = clubRepository.findById(clubId).orElseThrow(
                 () -> new ResourceNotFoundException("Club", "id", String.valueOf(clubId))
         );
 
-        return subClubRepository.findAllByParentClub(parentClub).stream().map(
+        return subClubRepository.findAllByMembersAndParentClub(currentUser.getUser(), parentClub).stream().map(
                 subClub -> ModelMapper.mapToSubClubInfoResponse(subClub)
         ).collect(Collectors.toList());
     }

@@ -45,8 +45,9 @@ public class SubClubController {
         return subClubService.updateSubClub(subClubPayload);
     }
 
-    @GetMapping("/all")
-    public List<SubClubPayload> getAllSubClubs(long clubId){
-        return subClubService.getAllSubClubs(clubId);
+    @GetMapping("/enrolled")
+    public List<SubClubPayload> getEnrolledSubClubs(@CurrentUser UserPrincipal currentUser,
+                                                    @RequestParam(value = "clubId") long clubId){
+        return subClubService.getEnrolledSubClubs(currentUser, clubId);
     }
 }

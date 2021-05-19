@@ -138,8 +138,8 @@ public class ClubService {
     }
 
 
-    public List<ClubInfoResponse> getAllClubs(){
-        return  clubRepository.findAll().stream().map(
+    public List<ClubInfoResponse> getEnrolledClubs(UserPrincipal currentUser){
+        return  clubRepository.findAllByMembers(currentUser.getUser()).stream().map(
                 club -> ModelMapper.mapToClubInfoResponse(club)
         ).collect(Collectors.toList());
     }
