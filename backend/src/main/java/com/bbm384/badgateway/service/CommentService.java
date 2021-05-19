@@ -35,14 +35,25 @@ public class CommentService {
         comment.setSender(currentUser.getUser());
         comment.setContent(commentPayload.getContent());
         comment.setRate(commentPayload.getRate());
-        comment.setClub(commentPayload.getClub());
         comment.setSubClub(commentPayload.getSubClub());
         comment.setSentAt(Instant.now());
-        boolean exists = commentRepository.existsCommentByClubAndSenderAndContent(comment.getClub(),
-                comment.getSender(), comment.getContent());
-        if(!exists){
-            commentRepository.save(comment);
-            return ModelMapper.mapToCommentInfoResponse(comment);
+        if(commentPayload.getClub() != null){
+            comment.setClub(commentPayload.getClub());
+            boolean exists = commentRepository.existsCommentByClubAndSenderAndContent(comment.getClub(),
+                    comment.getSender(), comment.getContent());
+            if(!exists){
+                commentRepository.save(comment);
+                return ModelMapper.mapToCommentInfoResponse(comment);
+            }
+        }
+        else if(commentPayload.getSubClub() != null){
+            comment.setSubClub(commentPayload.getSubClub());
+            boolean exists = commentRepository.existsCommentBySubClubAndSenderAndContent(comment.getSubClub(),
+                    comment.getSender(), comment.getContent());
+            if(!exists){
+                commentRepository.save(comment);
+                return ModelMapper.mapToCommentInfoResponse(comment);
+            }
         }
         return null;
     }

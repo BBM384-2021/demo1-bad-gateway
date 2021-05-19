@@ -5,8 +5,9 @@ import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController()
 @RequestMapping("${app.api_path}/user")
@@ -36,5 +37,10 @@ public class UserController {
     public ApiResponse enableUser(@CurrentUser UserPrincipal currentUser, @RequestParam("userId") Long userId) {
 
         return userService.enableUser(currentUser, userId);
+    }
+
+    @GetMapping("/all")
+    public List<UserInfo> allUsers(){
+        return userService.getAllUsers();
     }
 }

@@ -1,48 +1,33 @@
 import React, {Component} from "react";
-import * as clubActions from "../../api/actions/club";
+import * as subClubActions from "../../api/actions/subClub";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {LoadingStates} from "../../constants/common";
-import {
-  Button,
-  List,
-  Grid,
-  Header,
-  Icon,
-  Divider,
-  Loader,
-  Message,
-  Image,
-  Card,
-  Comment,
-  Form, Rating,
-} from 'semantic-ui-react';
-import MemberItem from "./MemberItem";
-import SubClubs from "./SubClubs";
+import {Button, List, Grid, Header, Divider, Loader, Message, Image, Card, Comment, Form, Rating} from 'semantic-ui-react';
+import MembersItem from "./MembersItem";
 import CommentList from "./CommentList";
-
 import Page from "../base/Page";
 import {Link} from "react-router-dom";
 import {getRoles} from "../../utils/auth";
 
 // Club a üye olanlarda yorum yap butonu ve chat olacak
-class NewClubInfo extends Component {
+class SubClubInfo extends Component {
   state = {
     status: LoadingStates.NOT_LOADED,
     fields: {
       content: "",
       rate: "",
-      club: "",
+      subClub: "",
     },
     comment: {},
-    club: {},
+    subClub: {},
     roles:[],
     commentInput:"",
   };
 
   constructor(props) {
     super(props);
-    this.handleClubInfo = this.handleClubInfo.bind(this);
+    this.handleSubClubInfo = this.handleSubClubInfo.bind(this);
     this.sendDeleteRequest = this.sendDeleteRequest.bind(this);
     this.handleDeleteInfo = this.handleDeleteInfo.bind(this);
     this.handleCommentCreate = this.handleCommentCreate.bind(this);
@@ -52,7 +37,7 @@ class NewClubInfo extends Component {
   componentDidMount() {
     const {id} = this.props.match.params;
     const {auth} = this.props;
-    this.props.getClubInfo(id, this.handleClubInfo);
+    this.props.getSubClubInfo(id, this.handleSubClubInfo);
   }
 
   handleCommentCreate(data) {
@@ -84,17 +69,17 @@ class NewClubInfo extends Component {
       id: this.state.fields.id,
       content: content,
       rate: rate,
-      club: this.state.club,
+      subClub: this.state.subClub,
     }
     if(this.state.fields.content != "" && this.state.fields.rate !=""){
       this.props.createCommentInfo(data, this.handleCommentCreate);
     }
   };
 
-  handleClubInfo(data) {
+  handleSubClubInfo(data) {
     let roles = getRoles();
     this.setState({
-        club: data,
+        subClub: data,
         status: LoadingStates.LOADED,
         roles:roles
       }
@@ -103,14 +88,14 @@ class NewClubInfo extends Component {
 
   handleDeleteInfo(data) {
     this.setState({
-      club: data,
+      subClub: data,
       status: LoadingStates.LOADED
     })
-    this.props.history.push("/club/list")
+    this.props.history.push("/sub_club/list")
   }
 
   sendDeleteRequest(){
-    this.props.deleteClub(this.state.club.id,this.handleDeleteInfo)
+    this.props.deleteSubClub(this.state.subClub.id,this.handleDeleteInfo)
   }
 
   handleRate = (e, { rating }) => this.setState({
@@ -142,13 +127,13 @@ class NewClubInfo extends Component {
     return (
       <Page>
         {roles ? roles.find((item)=> item==="ADMIN") && <div style={{display:"flex",justifyContent:"flex-end",paddingBottom:"2rem"}}>
-          <Link to={`/club/update/${this.state.club.id}`} style={{color: "#702BBA"}}>
+          <Link to={`/sub_club/update/${this.state.subClub.id}`} style={{color: "#702BBA"}}>
             <Button primary>
-              Update Club
+              Update Sub-Club
             </Button>
           </Link>
           <Button basic color='red' onClick={this.sendDeleteRequest}>
-            Delete Club
+            Delete Sub-Club
           </Button>
 
         </div> : null}
@@ -164,11 +149,11 @@ class NewClubInfo extends Component {
             <Divider/>
             <List Members divided verticalAlign='middle'>
               {
-                this.state.club.members.length === 0 ?
-                  <div textAlign={"center"} ><Message color={"red"}>The club has no members yet.</Message>
+                this.state.subClub.members.length === 0 ?
+                  <div textAlign={"center"} ><Message color={"red"}>The sub-club has no members yet.</Message>
                   </div>:
-                  this.state.club.members.map((member) =>
-                    <MemberItem
+                  this.state.subClub.members.map((member) =>
+                    <MembersItem
                       key={member.id}
                       member={member}
                     />
@@ -180,26 +165,15 @@ class NewClubInfo extends Component {
           <Grid.Column width={8}>
             <Image centered src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='small' circular />
             <Header as='h1' icon textAlign='center'>
-              <Header.Content style={{color: "#702BBA"}}>{this.state.club.name.toUpperCase()}
-                <h4 style={{color: "#000000"}}>{this.state.club.category.name}</h4>
+              <Header.Content style={{color: "#702BBA"}}>{this.state.subClub.name.toUpperCase()}
+                <h4 style={{color: "#000000"}}>{this.state.subClub.category.name}</h4>
               </Header.Content>
             </Header>
             <Divider/>
             <Header as='h4' icon textAlign='center'>
-              <Header.Content>{this.state.club.description}</Header.Content>
+              <Header.Content>{this.state.subClub.description}</Header.Content>
             </Header>
 
-            <br/><br/><br/><br/><br/>
-            <Header as='h4' icon textAlign='left'>
-              <Header.Content style={{color: "#ff9900"}}>SUBCLUBS</Header.Content>
-            </Header>
-            <Divider/>
-            <Card.Group itemsPerRow={1}>
-              <SubClubs
-                clubId={this.state.club.id}
-                club={this.state.club}
-              />
-            </Card.Group>
           </Grid.Column>
 
           <Grid.Column width={4} textAlign="justified">
@@ -212,8 +186,8 @@ class NewClubInfo extends Component {
               <Divider/>
 
               <CommentList
-                clubId={this.state.club.id}
-                club={this.state.club}
+                subClubId={this.state.subClub.id}
+                subClub={this.state.subClub}
               />
               <Form reply>
                 <div>
@@ -239,14 +213,14 @@ class NewClubInfo extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getClubInfo: (id, callback) => {
-      dispatch(clubActions.clubInfoAction(id, callback));
+    getSubClubInfo: (id, callback) => {
+      dispatch(subClubActions.subClubInfoAction(id, callback));
     },
-    deleteClub: (id, callback) => {
-      dispatch(clubActions.deleteClubAction(id, callback));
+    deleteSubClub: (id, callback) => {
+      dispatch(subClubActions.deleteSubClubAction(id, callback));
     },
     createCommentInfo: (data, callback) => {
-      dispatch(clubActions.commentCreateAction(data, callback));
+      dispatch(subClubActions.createCommentAction(data, callback));
     },
   }
 };
@@ -255,4 +229,4 @@ const mapStateToProps = (state, ownProps) => {
   return {}
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NewClubInfo))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SubClubInfo))

@@ -54,11 +54,11 @@ public class ModelMapper {
         SubClubPayload subClubPayload = new SubClubPayload();
         subClubPayload.setId(subClub.getId());
         subClubPayload.setName(subClub.getName());
-        subClubPayload.setParentClub(subClub.getParentClub());
+        subClubPayload.setParentClub(subClub.getParentClub().getName());
         subClubPayload.setDescription(subClub.getDescription());
-        subClubPayload.setCategory(subClub.getCategory());
+        subClubPayload.setCategory(subClub.getCategory().getName());
         subClubPayload.setMembers(subClub.getMembers());
-        subClubPayload.setAdmin(subClub.getAdmin());
+        subClubPayload.setAdmin(subClub.getAdmin().getName());
         subClub.setCreatedAt(subClub.getCreatedAt());
         subClub.setCreatedBy(subClub.getCreatedBy());
         return subClubPayload;

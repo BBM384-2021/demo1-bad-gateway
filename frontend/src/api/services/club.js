@@ -8,7 +8,6 @@ import {
   API_CLUB_SUBCLUB_LIST_URL,
   API_CLUB_COMMENT_LIST_URL,
   API_COMMENT_CREATE,
-  API_SUB_CLUB_ALL,
   API_CLUB_ALL
 } from '../../constants/urls';
 import {getHeaderWithToken} from "../../utils/auth";
@@ -73,6 +72,7 @@ export const updateClubService = (data) => {
             });
     }));
 }
+
 export const deleteClubService = (id) => {
     return new Promise(((resolve, reject) => {
         axios.get(encodeURI(API_CLUB_DELETE_URL+"?id="+id),

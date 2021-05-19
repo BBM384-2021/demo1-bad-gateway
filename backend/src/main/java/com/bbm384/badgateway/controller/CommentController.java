@@ -1,11 +1,8 @@
 package com.bbm384.badgateway.controller;
-
-import com.bbm384.badgateway.model.Comment;
 import com.bbm384.badgateway.payload.CommentPayload;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.service.CommentService;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
