@@ -1,12 +1,14 @@
 package com.bbm384.badgateway.service;
 
 
+import com.bbm384.badgateway.exception.EventOperationFlowException;
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
 import com.bbm384.badgateway.model.Club;
 import com.bbm384.badgateway.model.Event;
 import com.bbm384.badgateway.model.QEvent;
 import com.bbm384.badgateway.model.SubClub;
 import com.bbm384.badgateway.model.constants.EventType;
+import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.ApiResponse;
 import com.bbm384.badgateway.payload.EventPayload;
 import com.bbm384.badgateway.payload.PagedResponse;
@@ -16,7 +18,6 @@ import com.bbm384.badgateway.repository.SubClubRepository;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.AppConstants;
 import com.bbm384.badgateway.util.ModelMapper;
-import com.querydsl.core.types.CollectionExpression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,18 +53,21 @@ public class EventService {
         QEvent root = QEvent.event;
         BooleanExpression query = root.id.isNotNull();
 
-        List<Club> clubsThatUserIsMember = clubRepository.findAllByMembers(currentUser.getUser());
-        List<SubClub> subClubsThatUserIsMember = subClubRepository.findAllByMembers(currentUser.getUser());
+        if(!currentUser.getUser().getUserType().equals(UserType.ADMIN)){
+            List<Club> clubsThatUserIsMember = clubRepository.findAllByMembers(currentUser.getUser());
+            List<SubClub> subClubsThatUserIsMember = subClubRepository.findAllByMembers(currentUser.getUser());
 
 
-        for (Club club : clubsThatUserIsMember){
-            query = query.and(root.club.eq(club));
+            for (Club club : clubsThatUserIsMember){
+                query = query.and(root.club.eq(club));
+            }
+
+            for (SubClub subClub : subClubsThatUserIsMember){
+                query = query.and(root.subClub.eq(subClub));
+            }
         }
 
-        for (SubClub subClub : subClubsThatUserIsMember){
-            query = query.and(root.subClub.eq(subClub));
-        }
-        
+
         if(name.isPresent()) {
             query = query.and(root.name.startsWith(name.get()));
         }
@@ -120,13 +124,33 @@ public class EventService {
             return response;
         }
 
+        if(eventPayload.getClubId() == null){
+            response.setSuccess(false);
+            response.setMessage("Club must be selected.");
+            return response;
+        }
+
+        Club club = clubRepository.findById(eventPayload.getClubId()).orElseThrow(
+                () -> new ResourceNotFoundException("Club", "id", String.valueOf(eventPayload.getClubId()))
+        );
+
+        SubClub subClub = null;
+
+        if (eventPayload.getSubClubId() != null){
+            subClub = subClubRepository.findById(eventPayload.getSubClubId()).orElseThrow(
+                    () -> new ResourceNotFoundException("Sub Club", "id", String.valueOf(eventPayload.getSubClubId()))
+            );
+        }
+
+
+
         Event event = new Event();
         event.setName(eventPayload.getName());
         event.setAddress(eventPayload.getAddress());
         event.setEventType(eventPayload.getEventType());
         event.setAttendees(eventPayload.getAttendees());
-        event.setClub(eventPayload.getClub());
-        event.setSubClub(eventPayload.getSubClub());
+        event.setClub(club);
+        event.setSubClub(subClub);
         event.setEventDate(eventPayload.getEventDate());
         event.setUpdatedBy(currentUser.getId());
         event.setUpdatedAt(Instant.now());
@@ -140,7 +164,7 @@ public class EventService {
 
     public EventPayload updateEvent(UserPrincipal currentUser, EventPayload eventPayload){
         Optional<Event> eventExist = eventRepository.findByAddressAndEventDate(eventPayload.getAddress(), eventPayload.getEventDate());
-        //System.out.println(eventPayload.getClub().getName());
+
         if (eventExist.isPresent()){
            return null;
         }
@@ -149,12 +173,28 @@ public class EventService {
                 () -> new ResourceNotFoundException("Event", "id", String.valueOf(eventPayload.getId()))
         );
 
+        if(eventPayload.getClubId() == null){
+            throw new EventOperationFlowException("Club must be selected");
+        }
+
+        Club club = clubRepository.findById(eventPayload.getClubId()).orElseThrow(
+                () -> new ResourceNotFoundException("Club", "id", String.valueOf(eventPayload.getClubId()))
+        );
+
+        SubClub subClub = null;
+
+        if (eventPayload.getSubClubId() != null){
+            subClub = subClubRepository.findById(eventPayload.getSubClubId()).orElseThrow(
+                    () -> new ResourceNotFoundException("Sub Club", "id", String.valueOf(eventPayload.getSubClubId()))
+            );
+        }
+
         event.setName(eventPayload.getName());
         event.setAddress(eventPayload.getAddress());
         event.setEventType(eventPayload.getEventType());
         event.setAttendees(eventPayload.getAttendees());
-        event.setClub(eventPayload.getClub());
-        event.setSubClub(eventPayload.getSubClub());
+        event.setClub(club);
+        event.setSubClub(subClub);
         event.setEventDate(eventPayload.getEventDate());
         event.setUpdatedBy(currentUser.getId());
         event.setUpdatedAt(Instant.now());

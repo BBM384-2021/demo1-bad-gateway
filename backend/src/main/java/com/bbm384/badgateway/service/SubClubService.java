@@ -1,6 +1,7 @@
 package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
+import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.PagedResponse;
 import com.bbm384.badgateway.model.QSubClub;
 import com.bbm384.badgateway.model.*;
@@ -110,6 +111,12 @@ public class SubClubService {
         Club parentClub = clubRepository.findById(clubId).orElseThrow(
                 () -> new ResourceNotFoundException("Club", "id", String.valueOf(clubId))
         );
+
+        if (currentUser.getUser().getUserType().equals(UserType.ADMIN)){
+            return subClubRepository.findAllByParentClub(parentClub).stream().map(
+                    subClub -> ModelMapper.mapToSubClubInfoResponse(subClub)
+            ).collect(Collectors.toList());
+        }
 
         return subClubRepository.findAllByMembersAndParentClub(currentUser.getUser(), parentClub).stream().map(
                 subClub -> ModelMapper.mapToSubClubInfoResponse(subClub)

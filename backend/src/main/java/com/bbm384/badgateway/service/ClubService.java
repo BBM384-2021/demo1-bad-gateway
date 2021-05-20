@@ -7,6 +7,7 @@ import com.bbm384.badgateway.model.Category;
 import com.bbm384.badgateway.model.Club;
 import com.bbm384.badgateway.model.QClub;
 import com.bbm384.badgateway.model.constants.ClubStatus;
+import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.ClubInfoResponse;
 import com.bbm384.badgateway.payload.ClubPayload;
 import com.bbm384.badgateway.payload.PagedResponse;
@@ -139,6 +140,12 @@ public class ClubService {
 
 
     public List<ClubInfoResponse> getEnrolledClubs(UserPrincipal currentUser){
+        if (currentUser.getUser().getUserType().equals(UserType.ADMIN)){
+            return clubRepository.findAll().stream().map(
+                    club -> ModelMapper.mapToClubInfoResponse(club)
+            ).collect(Collectors.toList());
+        }
+
         return  clubRepository.findAllByMembers(currentUser.getUser()).stream().map(
                 club -> ModelMapper.mapToClubInfoResponse(club)
         ).collect(Collectors.toList());

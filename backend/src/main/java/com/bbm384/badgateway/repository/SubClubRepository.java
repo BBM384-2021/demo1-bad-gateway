@@ -16,4 +16,5 @@ public interface SubClubRepository extends JpaRepository<SubClub, Long> , Queryd
     Optional<SubClub> findByName(String name);
     List<SubClub> findAllByMembersAndParentClub(User member, Club parentClub);
     List<SubClub> findAllByMembers(User member);
+    List<SubClub> findAllByParentClub(Club parentClub);
 }
