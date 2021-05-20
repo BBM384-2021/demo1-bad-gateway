@@ -44,6 +44,10 @@ class Header extends Component {
                         auth.loginStatus === AuthStates.VALID?
                             <Grid>
                                 <Grid.Column style={{marginTop:"45px"}}>
+                                    <Link to={"/event/list"} style={{color:"white", marginLeft:"600px"}}>Events</Link>
+                                </Grid.Column>
+
+                                <Grid.Column style={{marginTop:"45px"}}>
                                     <Link to={"/private_message"} style={{color:"white", marginLeft:"700px"}}>PC</Link>
                                 </Grid.Column>
 

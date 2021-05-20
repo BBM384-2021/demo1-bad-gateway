@@ -111,7 +111,7 @@ class EventInfo extends Component {
                         </Header>
                         <Divider/>
                         <Header as='h4' icon textAlign='center'>
-                            <Header.Content><a><Icon name='user' color="violet"/> {this.state.event.attendees.length} Member
+                            <Header.Content><a><Icon name='user' color="violet"/> {this.state.event.attendees.length} Attendee
                             </a></Header.Content>
                         </Header>
                         <Button basic color='violet' fluid>
@@ -119,6 +119,7 @@ class EventInfo extends Component {
                         </Button>
 
                     </Grid.Column>
+                    {this.state.event.subClub !== null &&
                     <Grid.Column width={4} textAlign="justified">
                         <Header as='h2' icon textAlign='center' >
                             <Header.Content>Description</Header.Content>
@@ -128,6 +129,8 @@ class EventInfo extends Component {
                             <Header.Content>{this.state.event.subClub.name}</Header.Content>
                         </Header>
                     </Grid.Column>
+                    }
+
                 </Grid>
 
 
