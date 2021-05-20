@@ -26,12 +26,22 @@ class EventsItem extends Component {
                     <Card.Meta>
                         <span className='date'>{event.club.name}</span>
                     </Card.Meta>
-                    <Card.Description style={{fontWeight: "bold"}}>
-                        Event Type : {event.eventType}<br/>
-                        Event Address : {event.address}<br/>
-                        Event Date : {event.eventDate} <br/>
-                        Sub Club : {event.subClub.name} <br/>
-                    </Card.Description>
+                    {event.subClub !== null &&
+                        <Card.Description style={{fontWeight: "bold"}}>
+                            Event Type : {event.eventType}<br/>
+                            Event Address : {event.address}<br/>
+                            Event Date : {event.eventDate} <br/>
+                            Sub Club : {event.subClub.name} <br/>
+                        </Card.Description>
+                    }
+                    {event.subClub === null &&
+                        <Card.Description style={{fontWeight: "bold"}}>
+                            Event Type : {event.eventType}<br/>
+                            Event Address : {event.address}<br/>
+                            Event Date : {event.eventDate} <br/>
+                        </Card.Description>
+                    }
+
                 </Card.Content>
                 <Card.Content extra>
                     <a>

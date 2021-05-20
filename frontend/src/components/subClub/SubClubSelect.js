@@ -21,7 +21,6 @@ class SubClubSelect extends Component {
     componentDidMount() {
         const {clubId} = this.props;
         if (clubId === null || clubId === "") {
-            console.log("id nerede");
             this.setState({
                 options: []
             });

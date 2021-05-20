@@ -3,9 +3,12 @@ import {connect} from "react-redux";
 import React, {Component} from "react";
 import '../../static/css/auth/auth.css'
 import Page from "../base/Page";
-import {Button, Container, Divider, Form, Select, Dropdown, Segment, Header, Message} from "semantic-ui-react";
-import {LoadingStates} from "../../constants/common";
+import {Button, Form, Select, Segment, Header, Message} from "semantic-ui-react";
 import * as eventActions from "../../api/actions/event";
+import ClubSelect from "../club/ClubSelect";
+import SubClubSelect from "../subClub/SubClubSelect";
+import SemanticDatepicker from "react-semantic-ui-datepickers";
+import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 
 
 class CreateEvent extends Component {
@@ -28,6 +31,11 @@ class CreateEvent extends Component {
         }
     };
 
+    constructor(props) {
+        super(props);
+        this.submitForm = this.submitForm.bind(this);
+        this.submitFormCallBack = this.submitFormCallBack.bind(this);
+    }
 
     handleEventTypeInputChange = (e, {value}) => this.setState({
         data: {
@@ -55,7 +63,7 @@ class CreateEvent extends Component {
         })
     };
 
-    handleEventDateFilterChange = (event, data) => {
+    handleEventDateInputChange = (event, data) => {
         event.preventDefault();
         if (!data.value) {
             this.setState({
@@ -64,11 +72,13 @@ class CreateEvent extends Component {
                     eventDate: "",
                 }
             })
-        } else if (data.value[0] && data.value[1]) {
+        } else if (data.value) {
+            console.log(data);
+            console.log("sadasdasd");
             this.setState({
                 data: {
                     ...this.state.data,
-                    eventDate: data.value[0].toISOString(),
+                    eventDate: data.value.toISOString(),
                 }
             })
         }
@@ -110,7 +120,6 @@ class CreateEvent extends Component {
         event.preventDefault();
 
         const {clubId} = this.state.data;
-        console.log(clubId);
         if (clubId === "") {
             this.setState({
                 isError: true,
@@ -125,6 +134,100 @@ class CreateEvent extends Component {
         this.props.createEvent(this.state.data, this.submitFormCallback);
 
     }
+
+
+    render() {
+
+        return (
+            <Page>
+                <Page.Content>
+                    <Message
+                        hidden={this.state.isHidden}
+                        success={this.state.isSuccess}
+                        error={this.state.isError}
+                        header={this.state.messageHeader}
+                        content={this.state.messageForm}
+                        className={"message-auth"}
+                    />
+                    <Segment>
+                        <Header className={"loginHeader"} size={"large"}>Create Event</Header>
+                        <Form onSubmit={this.submitForm}>
+                            <Form.Field>
+                                <Form.Input
+                                    label={"Name"}
+                                    placeholder='Event Name'
+                                    value={this.state.data.name}
+                                    required
+                                    id={"name"}
+                                    onChange={this.handleInputChange}
+                                />
+                            </Form.Field>
+                            <Form.Field>
+                                <Form.Input
+                                    label={"Address"}
+                                    placeholder='Address'
+                                    type='text'
+                                    value={this.state.data.address}
+                                    required
+                                    id={"address"}
+                                    onChange={this.handleInputChange}/>
+                            </Form.Field>
+                            <p>Club *</p>
+                            <Form.Field>
+                                <ClubSelect
+                                    hasEmptyLine={true}
+                                    stateChangeCallback={this.handleClubInputChange}
+                                />
+                            </Form.Field>
+                            <p>Sub Club *</p>
+                            {this.state.data.clubId !== null &&
+                                <Form.Field>
+                                    <SubClubSelect
+                                        clubId={this.state.data.clubId}
+                                        hasEmptyLine={true}
+                                        stateChangeCallback={this.handleSubClubInputChange}
+                                    />
+                                </Form.Field>
+                            }
+                            <p>Event Type *</p>
+                            <Form.Field>
+                                <Form.Input id={"eventType"}
+                                            placeholder='Event Type'
+                                            value={this.state.data.eventType}
+                                            onChange={this.handleEventTypeInputChange}
+                                            control={Select}
+                                            options={
+                                                [
+                                                    {key: 'ONLINE', value: 'ONLINE', text: 'ONLINE'},
+                                                    {key: 'OFFLINE', value: 'OFFLINE', text: 'OFFLINE'}
+                                                ]
+                                            }
+                                />
+                            </Form.Field>
+                            <p>Event Date *</p>
+                            <Form.Field>
+                                <SemanticDatepicker
+                                    id={"eventDate"}
+                                    placeholder="Event Date"
+                                    filterDate={(date) => {
+                                        const now = new Date();
+                                        return date >= now;
+                                    }}
+                                    onChange={this.handleEventDateInputChange}
+                                    type="basic"
+                                    keepOpenOnClear="true"
+                                />
+                            </Form.Field>
+                            <Button color='violet' type='submit'>Submit</Button>
+                        </Form>
+                    </Segment>
+                </Page.Content>
+            </Page>
+        )
+
+
+    }
+
 
 }
 
@@ -141,3 +244,6 @@ const mapStateToProps = (state, ownProps) => {
 
     return {}
 };
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEvent))

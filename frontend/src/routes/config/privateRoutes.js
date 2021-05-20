@@ -22,6 +22,8 @@ import SubClubChat from "../../components/chat/SubClubChat";
 import PrivateMessage from "../../components/privateMessage/PrivateMessage";
 import Events from "../../components/event/Events";
 import EventInfo from "../../components/event/EventInfo";
+import CreateEvent from "../../components/event/CreateEvent";
+import UpdateEvent from "../../components/event/UpdateEvent";
 
 const roleMapping = [
     {
@@ -116,6 +118,18 @@ const roleMapping = [
         path: '/event/info/:id',
         title: 'Event Detail',
         permission: [],
+    },
+    {
+        component: CreateEvent,
+        path: '/event/create/',
+        title: 'Create Event',
+        permission: [Roles.ADMIN.key],
+    },
+    {
+        component: UpdateEvent,
+        path: '/event/update/:id',
+        title: 'Create Event',
+        permission: [Roles.ADMIN.key],
     },
 
 ];
