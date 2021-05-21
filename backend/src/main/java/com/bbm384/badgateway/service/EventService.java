@@ -19,6 +19,7 @@ import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.AppConstants;
 import com.bbm384.badgateway.util.ModelMapper;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -147,6 +148,7 @@ public class EventService {
         Event event = new Event();
         event.setName(eventPayload.getName());
         event.setAddress(eventPayload.getAddress());
+        event.setDescription(eventPayload.getDescription());
         event.setEventType(eventPayload.getEventType());
         event.setAttendees(eventPayload.getAttendees());
         event.setClub(club);
@@ -191,6 +193,7 @@ public class EventService {
 
         event.setName(eventPayload.getName());
         event.setAddress(eventPayload.getAddress());
+        event.setDescription(eventPayload.getDescription());
         event.setEventType(eventPayload.getEventType());
         event.setAttendees(eventPayload.getAttendees());
         event.setClub(club);
@@ -221,6 +224,32 @@ public class EventService {
         response.setSuccess(true);
         response.setMessage("Event deleted with success");
         return response;
+    }
+
+
+    public EventPayload attendEvent(UserPrincipal currentUser, long eventId){
+
+        Event event = eventRepository.findById(eventId).orElseThrow(
+                () -> new ResourceNotFoundException("Event", "id", String.valueOf(eventId))
+        );
+
+        event.getAttendees().add(currentUser.getUser());
+        eventRepository.save(event);
+
+        return ModelMapper.mapToEventPayload(event);
+    }
+
+
+    public EventPayload deleteAttendee(UserPrincipal currentUser, long eventId){
+
+        Event event = eventRepository.findById(eventId).orElseThrow(
+                () -> new ResourceNotFoundException("Event", "id", String.valueOf(eventId))
+        );
+
+        event.getAttendees().remove(currentUser.getUser());
+        eventRepository.save(event);
+
+        return ModelMapper.mapToEventPayload(event);
     }
 
 }

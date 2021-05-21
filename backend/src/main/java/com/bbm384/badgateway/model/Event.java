@@ -36,6 +36,11 @@ public class Event extends UpdatedAudit {
     @Size(max = 250)
     private String address;
 
+    @Column(name = "DESCRIPTION")
+    @NotNull
+    @Size(max = 1000)
+    private String description;
+
     @Column(name = "EVENT_TYPE")
     @NotNull
     @Enumerated(EnumType.STRING)
