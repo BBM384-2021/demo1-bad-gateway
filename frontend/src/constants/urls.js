@@ -17,13 +17,22 @@ export const API_USER_VIEW_URL= urljoin(API_BASE, 'user', 'info');
 export const API_USER_EDIT_URL= urljoin(API_BASE, 'user', 'update');
 export const API_USER_CREATE_URL= urljoin(API_BASE, 'user', 'create');
 export const API_USER_STATUS_TOGGLE_URL= urljoin(API_BASE, 'user', 'toggle');
+export const API_USER_ALL = urljoin(API_BASE, 'user', 'all');
 
+export const API_CLUB_ALL = urljoin(API_BASE, 'club', 'all');
 export const API_CLUB_LIST_URL = urljoin(API_BASE, 'club', 'list');
 export const API_CLUB_INFO_URL = urljoin(API_BASE, 'club', 'info');
 export const API_CLUB_CREATE_URL = urljoin(API_BASE, 'club', 'create');
 export const API_CLUB_UPDATE_URL = urljoin(API_BASE, 'club', 'update');
 export const API_CLUB_DELETE_URL = urljoin(API_BASE, 'club', 'delete');
 export const API_CLUB_ENROLLED = urljoin(API_BASE, 'club', 'enrolled');
+export const API_CLUB_SUBCLUB_LIST_URL = urljoin(API_BASE, 'club', 'subClub', 'list');
+export const API_CLUB_COMMENT_LIST_URL = urljoin(API_BASE, 'comment', 'club', 'list');
+export const API_SC_COMMENT_LIST_URL = urljoin(API_BASE, 'comment', 'subClub', 'list');
+export const API_COMMENT_CREATE = urljoin(API_BASE, 'comment', 'create');
+
+
+
 
 export const API_CATEGORY_ALL = urljoin(API_BASE, 'category', 'all');
 
@@ -38,6 +47,11 @@ export const API_PC_CHAT_LIST_PEOPLE = urljoin(API_BASE, 'private_message', 'peo
 
 export const API_SUB_CLUB_INFO_URL = urljoin(API_BASE, 'sub_club', 'info');
 export const API_SUB_CLUB_ENROLLED = urljoin(API_BASE, 'sub_club', 'enrolled');
+export const API_SUB_CLUB_LIST_URL = urljoin(API_BASE, 'sub_club', 'list');
+export const API_SUB_CLUB_DELETE = urljoin(API_BASE, 'sub_club', 'delete');
+export const API_SUB_CLUB_CREATE = urljoin(API_BASE, 'sub_club', 'create');
+export const API_SUB_CLUB_UPDATE = urljoin(API_BASE, 'sub_club', 'update');
+export const API_SUB_CLUB_ALL = urljoin(API_BASE, 'sub_club', 'all');
 
 export const API_EVENT_LIST_URL = urljoin(API_BASE, 'event', 'list');
 export const API_EVENT_INFO_URL = urljoin(API_BASE, 'event', 'info');

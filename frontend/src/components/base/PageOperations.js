@@ -34,7 +34,6 @@ const PageOperationButtons = (props) => {
 
 PageOperationButtons.defaultProps = {
     hasLabel: true,
-    label: "İşlemler",
     icon: "cogs"
 };
 

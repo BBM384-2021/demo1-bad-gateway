@@ -49,8 +49,6 @@ public class Club extends UpdatedAudit {
     @OneToMany(mappedBy="club")
     private Set<Comment> comments;
 
-
-
     public Club() {
     }
 

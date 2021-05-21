@@ -1,12 +1,12 @@
 package com.bbm384.badgateway.model;
 
 import com.bbm384.badgateway.model.audit.CreatedAudit;
+import com.bbm384.badgateway.model.constants.ClubStatus;
 import com.querydsl.core.annotations.QueryEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.Instant;
 import java.util.Set;
 
 @Entity
@@ -42,6 +42,10 @@ public class SubClub extends CreatedAudit {
     @ManyToOne(fetch = FetchType.EAGER ,cascade=CascadeType.MERGE)
     @JoinColumn(name = "ADMIN")
     private User admin;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "STATUS")
+    private ClubStatus status = ClubStatus.ACTIVE;
 
     public SubClub(String name, Club parentClub, String description, Category category, Set<User> members, User admin) {
         this.name = name;
@@ -110,5 +114,13 @@ public class SubClub extends CreatedAudit {
 
     public void setAdmin(User admin) {
         this.admin = admin;
+    }
+
+    public ClubStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ClubStatus status) {
+        this.status = status;
     }
 }

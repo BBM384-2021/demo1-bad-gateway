@@ -29,10 +29,10 @@ class ClubsItem extends Component{
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                    <a>
+                    <h5>
                         <Icon name='user' />
                         {subClub.members.length} Member
-                    </a>
+                    </h5>
                 </Card.Content>
             </Card>
         )

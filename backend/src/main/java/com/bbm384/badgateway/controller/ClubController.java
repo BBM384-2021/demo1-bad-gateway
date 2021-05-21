@@ -1,10 +1,8 @@
 package com.bbm384.badgateway.controller;
-
-
-import com.bbm384.badgateway.model.Category;
 import com.bbm384.badgateway.payload.ClubInfoResponse;
 import com.bbm384.badgateway.payload.ClubPayload;
 import com.bbm384.badgateway.payload.PagedResponse;
+import com.bbm384.badgateway.payload.SubClubPayload;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.service.ClubService;
@@ -54,9 +52,19 @@ public class ClubController {
         return clubService.deleteClub(currentUser, id);
     }
 
+
     @GetMapping("/enrolled")
     public List<ClubInfoResponse> getEnrolledClubs(@CurrentUser UserPrincipal currentUser){
         return clubService.getEnrolledClubs(currentUser);
+
+    @GetMapping("/subClub/list")
+    public List<SubClubPayload> getSubClubList(@RequestParam(value = "clubId") long clubId){
+        return clubService.getAllSubClubs(clubId);
+    }
+    @GetMapping("/all")
+    public List<ClubInfoResponse> getAllClubs(){
+        return clubService.getAllClubs();
+
     }
 
 }

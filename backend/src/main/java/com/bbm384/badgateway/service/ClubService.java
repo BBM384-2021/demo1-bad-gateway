@@ -3,16 +3,16 @@ package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.ClubOperationFlowException;
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
-import com.bbm384.badgateway.model.Category;
-import com.bbm384.badgateway.model.Club;
-import com.bbm384.badgateway.model.QClub;
+import com.bbm384.badgateway.model.*;
 import com.bbm384.badgateway.model.constants.ClubStatus;
 import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.ClubInfoResponse;
 import com.bbm384.badgateway.payload.ClubPayload;
 import com.bbm384.badgateway.payload.PagedResponse;
+import com.bbm384.badgateway.payload.SubClubPayload;
 import com.bbm384.badgateway.repository.CategoryRepository;
 import com.bbm384.badgateway.repository.ClubRepository;
+import com.bbm384.badgateway.repository.SubClubRepository;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.AppConstants;
 import com.bbm384.badgateway.util.ModelMapper;
@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,6 +37,9 @@ public class ClubService {
 
     @Autowired
     ClubRepository clubRepository;
+
+    @Autowired
+    SubClubRepository subClubRepository;
 
     @Autowired
     CategoryRepository categoryRepository;
@@ -138,6 +142,20 @@ public class ClubService {
         return ModelMapper.mapToClubInfoResponse(club);
     }
 
+    public List<SubClubPayload> getAllSubClubs( long clubId){
+        Club club = clubRepository.findById(clubId).orElseThrow(
+                () -> new ResourceNotFoundException("Club", "id", String.valueOf(clubId))
+        );
+        QSubClub root = QSubClub.subClub;
+        BooleanExpression query = root.id.isNotNull();
+        query = query.and(root.parentClub.eq(club));
+        List<SubClub> subClubList = (List<SubClub>) subClubRepository.findAll(query);
+        List<SubClubPayload> subClubPayloadResponse = new ArrayList<>();
+        for(SubClub subClub : subClubList){
+            subClubPayloadResponse.add(ModelMapper.mapToSubClubInfoResponse(subClub));
+        }
+        return subClubPayloadResponse;
+    }
 
     public List<ClubInfoResponse> getEnrolledClubs(UserPrincipal currentUser){
         if (currentUser.getUser().getUserType().equals(UserType.ADMIN)){
