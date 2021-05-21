@@ -105,6 +105,7 @@ public class ModelMapper {
                 .id(event.getId())
                 .name(event.getName())
                 .address(event.getAddress())
+                .description(event.getDescription())
                 .eventType(event.getEventType())
                 .attendees(event.getAttendees())
                 .eventDate(event.getEventDate())

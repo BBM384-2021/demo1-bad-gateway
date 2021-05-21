@@ -55,4 +55,14 @@ public class EventController {
     public ApiResponse deleteEvent(@RequestParam(value = "id") long id){
         return eventService.deleteEvent(id);
     }
+
+    @GetMapping("/attend")
+    public EventPayload attendEvent(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "eventId") long eventId) {
+        return eventService.attendEvent(currentUser, eventId);
+    }
+
+    @GetMapping("/delete_attendee")
+    public EventPayload deleteAttendee(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "eventId") long eventId) {
+        return eventService.deleteAttendee(currentUser, eventId);
+    }
 }

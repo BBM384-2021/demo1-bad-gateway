@@ -36,6 +36,9 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     PrivateMessageRepository privateMessageRepository;
 
+    @Autowired
+    EventRepository eventRepository;
+
     @Override
     public void run(String... args) {
         if(false){
@@ -156,6 +159,26 @@ public class DataInitializer implements CommandLineRunner {
             Role subClubAdminRole = new Role(subClubAdmin, UserRole.SUB_CLUB_ADMIN);
             roleRepository.save(subClubAdminRole);
 
+
+            Event pyCon = new Event();
+            pyCon.setName("PyCon Ankara");
+            pyCon.setAddress("Beytepe Kongre ve Kültür Merkezi");
+            pyCon.setDescription("For the first time in history, PyCon is in Turkey. Well, virtually. And it’s free! PyCon Turkey 2020 is more than just a stream of talks and presentations. " +
+                    "In addition to two tracks of talks, you will also have an opportunity to ask questions to the speakers, meet our sponsors, and have random chats with other participants. " +
+                    "PyCon is a global event brand for conferences organized by Python programming language users in over 40 countries each year. " +
+                    "PyCon Turkey aims to announce our Python Istanbul community to the world, as well as to strengthen the Python culture in our country.");
+            pyCon.setEventType(EventType.OFFLINE);
+            pyCon.setEventDate(Instant.now());
+            eventRepository.save(pyCon);
+
+
+            Event gameTalks = new Event();
+            gameTalks.setName("Game Talks");
+            gameTalks.setAddress("https://zoom.us/");
+            gameTalks.setDescription("An event about game industry");
+            gameTalks.setEventType(EventType.ONLINE);
+            gameTalks.setEventDate(Instant.now());
+            eventRepository.save(gameTalks);
 
         }
     }
