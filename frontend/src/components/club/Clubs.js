@@ -95,7 +95,7 @@ class Clubs extends Component {
     if (status !== LoadingStates.LOADED) {
       return (
         <Loader active>
-          Yükleniyor...
+          Loading...
         </Loader>
       )
     }

@@ -7,7 +7,9 @@ import {
   API_SUB_CLUB_DELETE,
   API_SUB_CLUB_INFO_URL,
   API_SUB_CLUB_LIST_URL,
+  API_SUB_CLUB_ENROLLED
 } from '../../constants/urls';
+
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";
 
@@ -26,9 +28,9 @@ export const subClubInfoService = (id, callback) => {
 }
 
 // returns all sub clubs of given club.
-export const getAllSubClubsService = (id, callback) => {
+export const getEnrolledSubClubsService = (clubId, callback) => {
     return new Promise(((resolve, reject) => {
-        axios.get(encodeURI(API_SUB_CLUB_ALL+"?id="+id),
+        axios.get(encodeURI(API_SUB_CLUB_ENROLLED+"?clubId="+clubId),
             getHeaderWithToken())
             .then(function (response) {
                 resolve(response);

@@ -13,9 +13,9 @@ export const subClubInfoAction = (id, callback) => {
 }
 
 
-export const getAllSubClubsAction = (id, callback) => {
+export const getEnrolledSubClubsAction = (clubId, callback) => {
     return (dispatch, getStatus) => {
-        return subClubService.getAllSubClubsService(id).then(
+        return subClubService.getEnrolledSubClubsService(clubId).then(
             (result) => {
                 callback(result.data);
             },

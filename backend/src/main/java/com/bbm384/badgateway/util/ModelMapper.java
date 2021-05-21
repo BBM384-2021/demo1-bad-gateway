@@ -110,7 +110,11 @@ public class ModelMapper {
                 .eventDate(event.getEventDate())
                 .club(event.getClub())
                 .subClub(event.getSubClub())
+                .clubId(event.getClub().getId())
                 .build();
+        if (event.getSubClub() != null){
+            eventPayload.setSubClubId(event.getSubClub().getId());
+        }
         return eventPayload;
     }
 }

@@ -26,5 +26,7 @@ public class EventPayload extends UpdatedAudit {
     private Instant eventDate;
     private Club club;
     private SubClub subClub;
+    private Long clubId;
+    private Long subClubId;
 
 }

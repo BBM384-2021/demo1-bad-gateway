@@ -4,7 +4,7 @@ import {listPeopleAction, loadNewAction, sendMessageAction, messageListAction} f
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import Page from "../base/Page";
-import {Button, Form, Loader, Segment, Grid, Header, SegmentGroup, Image, Card} from "semantic-ui-react";
+import {Button, Form, Loader, Segment, Grid, Header, SegmentGroup, Image, Card, Label} from "semantic-ui-react";
 import Message from "../chat/Message";
 import "../../static/css/common/Chat.css"
 import {LoadingStates} from "../../constants/common";
@@ -252,13 +252,14 @@ class PrivateMessage extends Component {
                                 <Grid.Column width={3}>
                                     {
                                         this.state.people.map((person) =>
-                                            <Button color='blue' style={styles.button} onClick={this.handlePeopleSelect(person)}>
-                                                <img src={defaultPhoto} width={"40px"}/>
+                                            <Label size={'big'} style={styles.button} color='blue' as={'a'} onClick={this.handlePeopleSelect(person)}>
+                                                <Image avatar src={defaultPhoto} width={"40px"}/>
                                                 &nbsp;&nbsp;&nbsp;
                                                 {person.name}
-                                            </Button>
+                                            </Label>
                                         )
                                     }
+
                                 </Grid.Column>
 
                                 <Grid.Column width={width}>
@@ -399,8 +400,7 @@ const styles = {
         marginLeft: "200px"
     },
     button: {
-        width: 300,
-        height: 100,
+        width: "100%",
         marginBottom: 10
     }
 };

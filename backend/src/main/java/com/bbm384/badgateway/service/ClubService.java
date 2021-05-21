@@ -5,6 +5,7 @@ import com.bbm384.badgateway.exception.ClubOperationFlowException;
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
 import com.bbm384.badgateway.model.*;
 import com.bbm384.badgateway.model.constants.ClubStatus;
+import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.ClubInfoResponse;
 import com.bbm384.badgateway.payload.ClubPayload;
 import com.bbm384.badgateway.payload.PagedResponse;
@@ -156,8 +157,14 @@ public class ClubService {
         return subClubPayloadResponse;
     }
 
-    public List<ClubInfoResponse> getAllClubs(){
-        return  clubRepository.findAll().stream().map(
+    public List<ClubInfoResponse> getEnrolledClubs(UserPrincipal currentUser){
+        if (currentUser.getUser().getUserType().equals(UserType.ADMIN)){
+            return clubRepository.findAll().stream().map(
+                    club -> ModelMapper.mapToClubInfoResponse(club)
+            ).collect(Collectors.toList());
+        }
+
+        return  clubRepository.findAllByMembers(currentUser.getUser()).stream().map(
                 club -> ModelMapper.mapToClubInfoResponse(club)
         ).collect(Collectors.toList());
     }
