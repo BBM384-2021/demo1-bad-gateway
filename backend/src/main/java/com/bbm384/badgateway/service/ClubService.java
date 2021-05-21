@@ -169,5 +169,11 @@ public class ClubService {
         ).collect(Collectors.toList());
     }
 
+    public List<ClubInfoResponse> getAllClubs(){
+        return  clubRepository.findAll().stream().map(
+                club -> ModelMapper.mapToClubInfoResponse(club)
+        ).collect(Collectors.toList());
+    }
+
 
 }

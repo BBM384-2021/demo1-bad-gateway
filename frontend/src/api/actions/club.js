@@ -121,3 +121,16 @@ export const getEnrolledClubsAction = (callback) => {
             });
     }
 }
+
+
+export const getAllClubsAction = (callback) => {
+    return (dispatch, getStatus) => {
+        return clubService.getAllClubsService().then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
+}

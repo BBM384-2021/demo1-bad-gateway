@@ -154,3 +154,18 @@ export const getEnrolledClubsService = () => {
             });
     }));
 }
+
+
+// returns all sub clubs of given club.
+export const getAllClubsService = () => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_CLUB_ALL),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
+}
