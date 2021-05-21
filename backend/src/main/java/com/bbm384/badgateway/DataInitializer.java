@@ -155,8 +155,6 @@ public class DataInitializer implements CommandLineRunner {
 
             Role subClubAdminRole = new Role(subClubAdmin, UserRole.SUB_CLUB_ADMIN);
             roleRepository.save(subClubAdminRole);
-
-
         }
     }
 }
