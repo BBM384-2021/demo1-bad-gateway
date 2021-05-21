@@ -34,7 +34,7 @@ class CreateEvent extends Component {
     constructor(props) {
         super(props);
         this.submitForm = this.submitForm.bind(this);
-        this.submitFormCallBack = this.submitFormCallBack.bind(this);
+        this.submitFormCallback = this.submitFormCallback.bind(this);
     }
 
     handleEventTypeInputChange = (e, {value}) => this.setState({
@@ -103,7 +103,7 @@ class CreateEvent extends Component {
     };
 
 
-    submitFormCallBack(response) {
+    submitFormCallback(response) {
         this.setState({
             isHidden: false,
             messageHeader: "Event Created",

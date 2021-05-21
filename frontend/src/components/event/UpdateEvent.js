@@ -36,7 +36,7 @@ class UpdateEvent extends Component {
 
     constructor(props) {
         super(props);
-        this.submitFormCallBack = this.submitFormCallBack.bind(this);
+        this.submitFormCallback = this.submitFormCallback.bind(this);
         this.submitForm = this.submitForm.bind(this);
         this.handleEventInfo = this.handleEventInfo.bind(this);
     }
@@ -117,7 +117,7 @@ class UpdateEvent extends Component {
     };
 
 
-    submitFormCallBack = (response) => {
+    submitFormCallback = (response) => {
         this.setState({
             isHidden: false,
             messageHeader: "Event Updated Successfully",
@@ -144,7 +144,7 @@ class UpdateEvent extends Component {
             })
             return;
         }
-        console.log(this.submitFormCallBack);
+        console.log(typeof this.submitFormCallback);
         this.props.updateEvent(this.state.data, this.submitFormCallback);
 
     }
@@ -249,7 +249,6 @@ class UpdateEvent extends Component {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         updateEvent: (data, callback) => {
-            console.log(callback);
             dispatch(eventActions.eventUpdateAction(data, callback));
         },
         getEventInfo: (id, callback) => {
