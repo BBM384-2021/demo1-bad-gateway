@@ -159,7 +159,6 @@ public class DataInitializer implements CommandLineRunner {
             Role subClubAdminRole = new Role(subClubAdmin, UserRole.SUB_CLUB_ADMIN);
             roleRepository.save(subClubAdminRole);
 
-
             Event pyCon = new Event();
             pyCon.setName("PyCon Ankara");
             pyCon.setAddress("Beytepe Kongre ve Kültür Merkezi");
@@ -179,7 +178,6 @@ public class DataInitializer implements CommandLineRunner {
             gameTalks.setEventType(EventType.ONLINE);
             gameTalks.setEventDate(Instant.now());
             eventRepository.save(gameTalks);
-
         }
     }
 }
