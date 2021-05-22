@@ -52,4 +52,10 @@ public class SubClubController {
     public SubClubPayload deleteSubClub(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "id") Long id){
         return subClubService.deleteSubClub(currentUser, id);
     }
+
+    @GetMapping("/all")
+    public List<String> getAllSubClubs(){
+        return subClubService.getAllSubClubs();
+    }
+
 }

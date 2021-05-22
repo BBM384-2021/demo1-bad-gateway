@@ -155,8 +155,6 @@ export const getEnrolledClubsService = () => {
     }));
 }
 
-
-// returns all sub clubs of given club.
 export const getAllClubsService = () => {
     return new Promise(((resolve, reject) => {
         axios.get(encodeURI(API_CLUB_ALL),

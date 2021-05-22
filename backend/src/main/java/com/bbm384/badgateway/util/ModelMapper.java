@@ -94,8 +94,12 @@ public class ModelMapper {
         commentPayload.setSender(comment.getSender());
         commentPayload.setContent(comment.getContent());
         commentPayload.setRate(comment.getRate());
-        commentPayload.setClub(comment.getClub());
-        commentPayload.setSubClub(comment.getSubClub());
+        if(comment.getClub() != null){
+            commentPayload.setClub(comment.getClub());
+        }
+        else if(comment.getSubClub() != null){
+            commentPayload.setSubClub(comment.getSubClub().getName());
+        }
         commentPayload.setSentAt(comment.getSentAt());
         return commentPayload;
     }

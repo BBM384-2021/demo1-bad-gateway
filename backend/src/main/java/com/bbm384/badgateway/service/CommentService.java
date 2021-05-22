@@ -35,7 +35,6 @@ public class CommentService {
         comment.setSender(currentUser.getUser());
         comment.setContent(commentPayload.getContent());
         comment.setRate(commentPayload.getRate());
-        comment.setSubClub(commentPayload.getSubClub());
         comment.setSentAt(Instant.now());
         if(commentPayload.getClub() != null){
             comment.setClub(commentPayload.getClub());
@@ -47,7 +46,10 @@ public class CommentService {
             }
         }
         else if(commentPayload.getSubClub() != null){
-            comment.setSubClub(commentPayload.getSubClub());
+            SubClub subClub = subClubRepository.findByName(commentPayload.getSubClub()).orElseThrow(
+                    () -> new ResourceNotFoundException("SubClub", "name", String.valueOf(commentPayload.getSubClub()))
+            );
+            comment.setSubClub(subClub);
             boolean exists = commentRepository.existsCommentBySubClubAndSenderAndContent(comment.getSubClub(),
                     comment.getSender(), comment.getContent());
             if(!exists){
