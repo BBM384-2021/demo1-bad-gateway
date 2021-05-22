@@ -4,7 +4,9 @@ import {
     API_EVENT_INFO_URL,
     API_EVENT_CREATE_URL,
     API_EVENT_UPDATE_URL,
-    API_EVENT_DELETE_URL
+    API_EVENT_DELETE_URL,
+    API_EVENT_ATTEND_URL,
+    API_EVENT_DELETE_ATTENDEE_URL
 } from "../../constants/urls";
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";
@@ -93,3 +95,36 @@ export const eventDeleteService = (id, callback) => {
             });
     }));
 }
+
+
+export const attendEventService = (eventId) => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_EVENT_ATTEND_URL+"?eventId="+eventId),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
+}
+
+
+export const deleteAttendeeService = (eventId) => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_EVENT_DELETE_ATTENDEE_URL+"?eventId="+eventId),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
+}
+
+
+
+
+

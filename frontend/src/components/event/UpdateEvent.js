@@ -27,6 +27,7 @@ class UpdateEvent extends Component {
             id: "",
             name: "",
             address: "",
+            description: "",
             eventType: "",
             clubId: "",
             subClubId: "",
@@ -144,7 +145,7 @@ class UpdateEvent extends Component {
             })
             return;
         }
-        console.log(typeof this.submitFormCallback);
+
         this.props.updateEvent(this.state.data, this.submitFormCallback);
 
     }
@@ -184,6 +185,16 @@ class UpdateEvent extends Component {
                                     value={this.state.data.address}
                                     required
                                     id={"address"}
+                                    onChange={this.handleInputChange}/>
+                            </Form.Field>
+                            <Form.Field>
+                                <Form.Input
+                                    label={"Description"}
+                                    placeholder='Description'
+                                    type='text'
+                                    value={this.state.data.description}
+                                    required
+                                    id={"description"}
                                     onChange={this.handleInputChange}/>
                             </Form.Field>
                             <p>Club *</p>
