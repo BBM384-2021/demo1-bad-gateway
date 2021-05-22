@@ -168,6 +168,7 @@ public class DataInitializer implements CommandLineRunner {
                     "PyCon Turkey aims to announce our Python Istanbul community to the world, as well as to strengthen the Python culture in our country.");
             pyCon.setEventType(EventType.OFFLINE);
             pyCon.setEventDate(Instant.now());
+            pyCon.setClub(artClub);
             eventRepository.save(pyCon);
 
 
@@ -177,6 +178,7 @@ public class DataInitializer implements CommandLineRunner {
             gameTalks.setDescription("An event about game industry");
             gameTalks.setEventType(EventType.ONLINE);
             gameTalks.setEventDate(Instant.now());
+            gameTalks.setClub(gameClub);
             eventRepository.save(gameTalks);
         }
     }
