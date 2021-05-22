@@ -3,10 +3,7 @@ package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.EventOperationFlowException;
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
-import com.bbm384.badgateway.model.Club;
-import com.bbm384.badgateway.model.Event;
-import com.bbm384.badgateway.model.QEvent;
-import com.bbm384.badgateway.model.SubClub;
+import com.bbm384.badgateway.model.*;
 import com.bbm384.badgateway.model.constants.EventType;
 import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.ApiResponse;
@@ -27,9 +24,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.PreRemove;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class EventService {
@@ -245,8 +244,10 @@ public class EventService {
         Event event = eventRepository.findById(eventId).orElseThrow(
                 () -> new ResourceNotFoundException("Event", "id", String.valueOf(eventId))
         );
-
-        event.getAttendees().remove(currentUser.getUser());
+        
+        Set<User> attendees = event.getAttendees();
+        attendees.removeIf(user -> user.getId().equals(currentUser.getUser().getId()));
+        event.setAttendees(attendees);
         eventRepository.save(event);
 
         return ModelMapper.mapToEventPayload(event);
