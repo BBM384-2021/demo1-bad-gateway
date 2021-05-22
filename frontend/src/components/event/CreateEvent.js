@@ -24,6 +24,7 @@ class CreateEvent extends Component {
         data: {
             name: "",
             address: "",
+            description: "",
             eventType: "",
             clubId: "",
             subClubId: "",
@@ -73,8 +74,6 @@ class CreateEvent extends Component {
                 }
             })
         } else if (data.value) {
-            console.log(data);
-            console.log("sadasdasd");
             this.setState({
                 data: {
                     ...this.state.data,
@@ -170,6 +169,16 @@ class CreateEvent extends Component {
                                     value={this.state.data.address}
                                     required
                                     id={"address"}
+                                    onChange={this.handleInputChange}/>
+                            </Form.Field>
+                            <Form.Field>
+                                <Form.Input
+                                    label={"Description"}
+                                    placeholder='Description'
+                                    type='text'
+                                    value={this.state.data.description}
+                                    required
+                                    id={"description"}
                                     onChange={this.handleInputChange}/>
                             </Form.Field>
                             <p>Club *</p>

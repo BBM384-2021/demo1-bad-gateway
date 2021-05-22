@@ -59,3 +59,5 @@ export const API_EVENT_INFO_URL = urljoin(API_BASE, 'event', 'info');
 export const API_EVENT_CREATE_URL = urljoin(API_BASE, 'event', 'create');
 export const API_EVENT_UPDATE_URL = urljoin(API_BASE, 'event', 'update');
 export const API_EVENT_DELETE_URL = urljoin(API_BASE, 'event', 'delete');
+export const API_EVENT_ATTEND_URL = urljoin(API_BASE, 'event', 'attend');
+export const API_EVENT_DELETE_ATTENDEE_URL = urljoin(API_BASE, 'event', 'delete_attendee');
