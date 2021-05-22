@@ -7,7 +7,7 @@ import {
   API_SUB_CLUB_DELETE,
   API_SUB_CLUB_INFO_URL,
   API_SUB_CLUB_LIST_URL,
-  API_SUB_CLUB_ENROLLED
+  API_SUB_CLUB_ENROLLED, API_SUB_CLUB_UPDATE,
 } from '../../constants/urls';
 
 import {getHeaderWithToken} from "../../utils/auth";
@@ -115,6 +115,32 @@ export const createSubClubService = (body) => {
       })
       .catch(function (error) {
         apiError(error, reject);
+      });
+  }));
+}
+
+export const getAllSubClubsService = () => {
+  return new Promise(((resolve, reject) => {
+    axios.get(encodeURI(API_SUB_CLUB_ALL),
+      getHeaderWithToken())
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        apiError(error, reject);
+      });
+  }));
+}
+
+export const editSubClubService = (body) => {
+  return new Promise(((resolve, reject) => {
+    axios.put(encodeURI(API_SUB_CLUB_UPDATE), body,
+      getHeaderWithToken())
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        //axiosError(error, reject);
       });
   }));
 }
