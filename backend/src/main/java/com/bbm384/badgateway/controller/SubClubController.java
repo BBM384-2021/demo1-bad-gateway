@@ -42,13 +42,20 @@ public class SubClubController {
         return subClubService.updateSubClub(subClubPayload);
     }
 
-    @GetMapping("/all")
-    public List<SubClubPayload> getAllSubClubs(long clubId){
-        return subClubService.getAllSubClubs(clubId);
+    @GetMapping("/enrolled")
+    public List<SubClubPayload> getEnrolledSubClubs(@CurrentUser UserPrincipal currentUser,
+                                                    @RequestParam(value = "clubId") long clubId){
+        return subClubService.getEnrolledSubClubs(currentUser, clubId);
     }
 
     @GetMapping("/delete")
     public SubClubPayload deleteSubClub(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "id") Long id){
         return subClubService.deleteSubClub(currentUser, id);
     }
+
+    @GetMapping("/all")
+    public List<String> getAllSubClubs(){
+        return subClubService.getAllSubClubs();
+    }
+
 }

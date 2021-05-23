@@ -45,11 +45,11 @@ public class PasswordService {
         resetPassword.setCreatedAt(Instant.now());
         resetPassword.setExpiryDate(resetPassword.getCreatedAt().plus(Period.ofDays(1)));
         resetPasswordRepository.save(resetPassword);
-        /*String body = "Sayın "+ user.getName() + ",\n" +
+        String body = "Mr/Mrs "+ user.getName() + ",\n" +
                 "\n" +
-                "OYAK Emeklilik Portalında kullanmakta olduğunuz şifrenizi yenilemeniz için bu e-posta size gönderilmiştir. Aşağıdaki linke tıklayarak şifrenizi yeniden belirleyebilirsiniz \n" + "\n" +
+                "This email sent to reset your password on SpiritsUp. You can reset your password by clicking the link below. \n" + "\n" +
                 "http://localhost:3000/forgot-password/" + resetPassword.getToken();
-        emailService.sendMail(user.getEmail(), "Şifre Sıfırlama İşleminizi Tamamlayınız\n", body);*/
+        emailService.sendMail(user.getEmail(), "Reset your password.\n", body);
         return new ApiResponse(true, "ok");
     }
 

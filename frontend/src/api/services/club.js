@@ -8,7 +8,9 @@ import {
     API_CLUB_SUBCLUB_LIST_URL,
     API_CLUB_COMMENT_LIST_URL,
     API_COMMENT_CREATE,
-    API_CLUB_ALL, API_CLUB_PHOTO_UPLOAD
+    API_CLUB_ALL,
+    API_CLUB_PHOTO_UPLOAD,
+    API_CLUB_ENROLLED
 } from '../../constants/urls';
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";
@@ -60,7 +62,6 @@ export const clubCreateService = (data) => {
             });
     }));
 }
-
 export const updateClubService = (data) => {
     return new Promise(((resolve, reject) => {
         axios.put(encodeURI(API_CLUB_UPDATE_URL),data,
@@ -141,6 +142,19 @@ export const commentCreateService = (data, callback) => {
 
 
 // returns all sub clubs of given club.
+export const getEnrolledClubsService = () => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_CLUB_ENROLLED),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
+}
+
 export const getAllClubsService = () => {
     return new Promise(((resolve, reject) => {
         axios.get(encodeURI(API_CLUB_ALL),

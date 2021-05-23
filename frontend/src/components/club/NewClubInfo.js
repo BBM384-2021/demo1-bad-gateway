@@ -8,7 +8,6 @@ import {
   List,
   Grid,
   Header,
-  Icon,
   Divider,
   Loader,
   Message,
@@ -156,7 +155,6 @@ class NewClubInfo extends Component {
 
         <Grid divided centered padded="vertically" columns={3} relaxed='very'>
           <Grid.Column width={4}>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <Header as='h3' textAlign='center'>
               <Header.Content style={{color: "#009933"}}>MEMBERS</Header.Content>
             </Header>
@@ -203,7 +201,6 @@ class NewClubInfo extends Component {
           </Grid.Column>
 
           <Grid.Column width={4} textAlign="justified">
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <Comment.Group>
               <Header as='h3' textAlign='center'>
                 <Header.Content style={{color: "#009933"}}>COMMENTS</Header.Content>
@@ -220,6 +217,7 @@ class NewClubInfo extends Component {
                   <Rating maxRating={5} icon='star' size='huge' selected onRate={this.handleRate} />
                 </div>
                 <Form.TextArea
+                  placeholder='Evaluate the Club!'
                   id={"content"}
                   type="text"
                   value={this.state.fields.content}

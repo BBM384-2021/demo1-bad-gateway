@@ -110,6 +110,19 @@ export const commentCreateAction = (data, callback) => {
 }
 
 
+export const getEnrolledClubsAction = (callback) => {
+    return (dispatch, getStatus) => {
+        return clubService.getEnrolledClubsService().then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
+}
+
+
 export const getAllClubsAction = (callback) => {
     return (dispatch, getStatus) => {
         return clubService.getAllClubsService().then(

@@ -18,9 +18,16 @@ import CreateClub from "../../components/club/CreateClub";
 import UpdateClub from "../../components/club/UpdateClub";
 import SubClubChat from "../../components/chat/SubClubChat";
 import PrivateMessage from "../../components/privateMessage/PrivateMessage";
+import Events from "../../components/event/Events";
+import EventInfo from "../../components/event/EventInfo";
+import CreateEvent from "../../components/event/CreateEvent";
+import UpdateEvent from "../../components/event/UpdateEvent";
 import SubClubs from '../../components/subClub/SubClubs';
 import SubClubInfo from '../../components/subClub/SubClubInfo';
 import CreateSubClub from '../../components/subClub/CreateSubClub';
+import UpdateSubClub from '../../components/subClub/UpdateSubClub';
+import AddCategory from '../../components/club/AddCategory';
+
 
 const roleMapping = [
     {
@@ -111,6 +118,30 @@ const roleMapping = [
         permission: [],
     },
     {
+        component: Events,
+        path: '/event/list',
+        title: 'Events',
+        permission: [],
+    },
+    {
+        component: EventInfo,
+        path: '/event/info/:id',
+        title: 'Event Detail',
+        permission: [],
+    },
+    {
+        component: CreateEvent,
+        path: '/event/create/',
+        title: 'Create Event',
+        permission: [Roles.ADMIN.key],
+    },
+    {
+        component: UpdateEvent,
+        path: '/event/update/:id',
+        title: 'Create Event',
+        permission: [Roles.ADMIN.key],
+     },
+  {
         component: SubClubs,
         path: '/sub_club/list',
         title: 'SubClubs',
@@ -128,6 +159,19 @@ const roleMapping = [
         title: 'Sub-Club Create',
         permission: [Roles.ADMIN.key,],
     },
+    {
+        component: UpdateSubClub,
+        path: '/sub_club/update/:id',
+        title: 'Sub-Club Update',
+        permission: [Roles.ADMIN.key,Roles.SUB_CLUB_ADMIN],
+    },
+    {
+        component: AddCategory,
+        path: '/add_category',
+        title: 'Add Category',
+        permission: [Roles.ADMIN.key,],
+    }
+  
 
 ];
 

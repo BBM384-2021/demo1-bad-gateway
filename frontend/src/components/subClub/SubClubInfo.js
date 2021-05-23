@@ -69,7 +69,7 @@ class SubClubInfo extends Component {
       id: this.state.fields.id,
       content: content,
       rate: rate,
-      subClub: this.state.subClub,
+      subClub: this.state.subClub.name,
     }
     if(this.state.fields.content != "" && this.state.fields.rate !=""){
       this.props.createCommentInfo(data, this.handleCommentCreate);
@@ -126,7 +126,7 @@ class SubClubInfo extends Component {
 
     return (
       <Page>
-        {roles ? roles.find((item)=> item==="ADMIN") && <div style={{display:"flex",justifyContent:"flex-end",paddingBottom:"2rem"}}>
+        {roles ? roles.find((item)=> item==="ADMIN" || "SUB_CLUB_ADMIN") && <div style={{display:"flex",justifyContent:"flex-end",paddingBottom:"2rem"}}>
           <Link to={`/sub_club/update/${this.state.subClub.id}`} style={{color: "#702BBA"}}>
             <Button primary>
               Update Sub-Club
@@ -141,7 +141,6 @@ class SubClubInfo extends Component {
 
         <Grid divided centered padded="vertically" columns={3} relaxed='very'>
           <Grid.Column width={4}>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <Header as='h3' textAlign='center'>
               <Header.Content style={{color: "#009933"}}>MEMBERS</Header.Content>
             </Header>
@@ -177,7 +176,6 @@ class SubClubInfo extends Component {
           </Grid.Column>
 
           <Grid.Column width={4} textAlign="justified">
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <Comment.Group>
               <Header as='h3' textAlign='center'>
                 <Header.Content style={{color: "#009933"}}>COMMENTS</Header.Content>
@@ -195,6 +193,7 @@ class SubClubInfo extends Component {
                 </div>
                 <Form.TextArea
                   id={"content"}
+                  placeholder='Evaluate the Sub-Club!'
                   type="text"
                   value={this.state.fields.content}
                   required

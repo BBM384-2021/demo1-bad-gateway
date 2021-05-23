@@ -28,9 +28,12 @@ public class EventController {
                                                      @RequestParam(value = "name") Optional<String> name,
                                                      @RequestParam(value = "eventType") Optional<EventType> eventType,
                                                      @RequestParam(value = "beforeEventDate") Optional<Instant> beforeEventDate,
-                                                     @RequestParam(value = "afterEventDate") Optional<Instant> afterEventDate) {
+                                                     @RequestParam(value = "afterEventDate") Optional<Instant> afterEventDate,
+                                                     @RequestParam(value = "clubId") Optional<Long> clubId,
+                                                     @RequestParam(value = "subClubId") Optional<Long> subClubId){
 
-        return eventService.getEventsList(currentUser, page, name, eventType, beforeEventDate, afterEventDate);
+
+        return eventService.getEventsList(currentUser, page, name, eventType, beforeEventDate, afterEventDate, clubId, subClubId);
     }
 
     @GetMapping("/info")
@@ -51,5 +54,15 @@ public class EventController {
     @DeleteMapping("/delete")
     public ApiResponse deleteEvent(@RequestParam(value = "id") long id){
         return eventService.deleteEvent(id);
+    }
+
+    @GetMapping("/attend")
+    public EventPayload attendEvent(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "eventId") long eventId) {
+        return eventService.attendEvent(currentUser, eventId);
+    }
+
+    @GetMapping("/delete_attendee")
+    public EventPayload deleteAttendee(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "eventId") long eventId) {
+        return eventService.deleteAttendee(currentUser, eventId);
     }
 }
