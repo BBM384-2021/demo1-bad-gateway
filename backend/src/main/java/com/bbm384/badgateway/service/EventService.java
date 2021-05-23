@@ -145,7 +145,10 @@ public class EventService {
             subClub = subClubRepository.findById(eventPayload.getSubClubId()).orElseThrow(
                     () -> new ResourceNotFoundException("Sub Club", "id", String.valueOf(eventPayload.getSubClubId()))
             );
+            subClub.setActivity(Instant.now());
+            subClubRepository.save(subClub);
         }
+
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
@@ -154,6 +157,7 @@ public class EventService {
         LocalDateTime localDateTime = LocalDateTime.from(temporalAccessor);
         ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
         Instant eventDate = Instant.from(zonedDateTime);
+
 
         Event event = new Event();
         event.setName(eventPayload.getName());
@@ -167,8 +171,9 @@ public class EventService {
         event.setEventDate(eventDate);
         event.setUpdatedBy(currentUser.getId());
         event.setUpdatedAt(Instant.now());
-
         eventRepository.save(event);
+
+
         response.setSuccess(true);
         response.setMessage("Event created with success");
 

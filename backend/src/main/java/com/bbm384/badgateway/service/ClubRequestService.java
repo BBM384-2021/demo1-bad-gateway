@@ -2,12 +2,23 @@ package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
 import com.bbm384.badgateway.model.ClubRequest;
+import com.bbm384.badgateway.model.QClubRequest;
+import com.bbm384.badgateway.model.QSubClub;
+import com.bbm384.badgateway.model.SubClub;
 import com.bbm384.badgateway.payload.ApiResponse;
 import com.bbm384.badgateway.payload.ClubRequestPayload;
+import com.bbm384.badgateway.payload.PagedResponse;
+import com.bbm384.badgateway.payload.SubClubPayload;
 import com.bbm384.badgateway.repository.ClubRequestRepository;
 import com.bbm384.badgateway.security.UserPrincipal;
+import com.bbm384.badgateway.util.AppConstants;
 import com.bbm384.badgateway.util.ModelMapper;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,10 +41,26 @@ public class ClubRequestService {
         return ModelMapper.mapToClubRequestPayload(clubRequest);
     }
 
-    public List<ClubRequestPayload> getAllClubRequest() {
-        return clubRequestRepository.findAll().stream().map(
-                clubRequest -> ModelMapper.mapToClubRequestPayload(clubRequest)
-        ).collect(Collectors.toList());
+    public PagedResponse<ClubRequestPayload> getAllClubRequest(int page){
+        Pageable pageable = PageRequest.of(page, AppConstants.DEFAULT_PAGE_SIZE, Sort.Direction.DESC, "id");
+        Page<ClubRequest> clubRequests;
+
+        QClubRequest root = QClubRequest.clubRequest;
+        BooleanExpression query = root.id.isNotNull();
+
+        clubRequests = clubRequestRepository.findAll(query,pageable);
+
+        List<ClubRequestPayload> ClubRequestInfoResponse = clubRequests.map(clubRequest
+                -> ModelMapper.mapToClubRequestPayload(clubRequest)).getContent();
+
+
+        return new PagedResponse<ClubRequestPayload>(ClubRequestInfoResponse,
+                clubRequests.getNumber(),
+                clubRequests.getSize(),
+                clubRequests.getTotalElements(),
+                clubRequests.getTotalPages(),
+                clubRequests.isLast()
+        );
     }
 
     public ApiResponse createClubRequest(UserPrincipal currentUser, ClubRequestPayload clubRequestPayload) {
@@ -45,7 +72,6 @@ public class ClubRequestService {
             );
 
             if(clubRequest.getUser().contains(currentUser.getName())){
-                System.out.println("+++++++++++");
                 response.setSuccess(false);
                 response.setMessage("You have already made the same request.");
                 return response;

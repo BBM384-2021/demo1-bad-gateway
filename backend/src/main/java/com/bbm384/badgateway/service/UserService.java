@@ -1,6 +1,7 @@
 package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.AppException;
+import com.bbm384.badgateway.model.MemberBan;
 import com.bbm384.badgateway.model.constants.UserStatus;
 import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.repository.RoleRepository;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,6 +70,8 @@ public class UserService {
     }
 
     public UserFullInfo getUserFullInfo(long userId){
+        HashMap<String, String> bans = new HashMap<>();
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
@@ -77,6 +81,11 @@ public class UserService {
         userFullInfo.setId(user.getId());
         userFullInfo.setEmail(user.getEmail());
         userFullInfo.setPhone(user.getPhone());
+
+        for(MemberBan ban: user.getBans()){
+            bans.put(ban.getSubClub().getName(), ban.getStatus().getValue());
+        }
+        userFullInfo.setBans(bans);
 
         return userFullInfo;
     }
@@ -104,4 +113,20 @@ public class UserService {
                 user -> ModelMapper.mapToUserInfoResponse(user)
         ).collect(Collectors.toList());
     }
+
+    public User updateUser(UpdateUserRequest updateUserRequest, UserPrincipal currentUser){
+        System.out.println(updateUserRequest.toString());
+        User targetUser = userRepository.findById(currentUser.getId()).orElseThrow(()->new AppException("User not found"));
+        System.out.println(targetUser.toString());
+        targetUser.setName(updateUserRequest.getName());
+        targetUser.setPhone(updateUserRequest.getPhone());
+        targetUser.setEmail(updateUserRequest.getEmail());
+        System.out.println(targetUser.toString());
+        userRepository.save(targetUser);
+
+        return targetUser;
+    }
+
+
+
 }
