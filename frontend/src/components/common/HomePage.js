@@ -36,7 +36,7 @@ class HomePage extends Component {
 
 
     handleSearchResult(data) {
-
+        console.log(data);
         this.setState({
             searchList: data,
             status: LoadingStates.LOADED
@@ -111,12 +111,17 @@ class HomePage extends Component {
                             )
                         }
                         {
-                            this.state.searchList.subClubs.map((subClub) =>
-                                <ClubsItem
-                                    key={subClub.id}
-                                    club={subClub}
-                                    isSubClub
-                                />
+                            this.state.searchList.subClubs.map((subClub) => {
+                                    if (!(subClub.name in this.props.auth.bans) ){
+                                        console.log("inside")
+                                        return (
+                                            <ClubsItem
+                                                key={subClub.id}
+                                                club={subClub}
+                                                isSubClub
+                                            />)
+                                    }
+                                }
                             )
                         }
                     </Card.Group>
