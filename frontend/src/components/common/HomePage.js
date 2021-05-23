@@ -16,6 +16,7 @@ import Page from "../base/Page";
 import {Link} from 'react-router-dom';
 import {searchAction} from "../../api/actions/search";
 import ClubsItem from "../club/ClubsItem";
+import AuthStates from "../../constants/common/auth";
 
 
 class HomePage extends Component {
@@ -123,14 +124,15 @@ class HomePage extends Component {
                         }
                         {
                             this.state.searchList.subClubs.map((subClub) => {
-                                    if (!(subClub.name in this.props.auth.bans) ){
-                                        console.log("inside")
-                                        return (
-                                            <ClubsItem
-                                                key={subClub.id}
-                                                club={subClub}
-                                                isSubClub
-                                            />)
+                                    if (this.props.auth.loginStatus === AuthStates.VALID) {
+                                        if (!(subClub.name in this.props.auth.bans)) {
+                                            return (
+                                                <ClubsItem
+                                                    key={subClub.id}
+                                                    club={subClub}
+                                                    isSubClub
+                                                />)
+                                        }
                                     }
                                 }
                             )
