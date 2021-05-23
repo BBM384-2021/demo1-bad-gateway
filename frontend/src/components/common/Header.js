@@ -9,20 +9,32 @@ import * as authActions from "../../api/actions/auth";
 
 import logo from '../../static/image/common/logo.png';
 import '../../static/css/common/Header.css';
-import {AuthStates} from "../../constants/common";
+import { AuthStates, LoadingStates } from '../../constants/common';
 
 import {getAllowedMenuRoutes} from "../../routes/Routes";
+import {getRoles} from "../../utils/auth";
 
 
 class Header extends Component {
     state = {
         activeItem: '',
+        roles:[],
     };
+
+    componentDidMount() {
+        const {auth} = this.props;
+        let roles = getRoles();
+        console.log("---------------------------")
+        console.log(roles[0])
+        this.setState({
+              roles:roles
+          }
+        )
+    }
 
     handleMenuClick = (e, { name }) => this.setState({ activeItem: name });
 
     render() {
-        const {activeItem} = this.state;
         const {auth} = this.props;
         const routes = getAllowedMenuRoutes();
 
@@ -64,6 +76,12 @@ class Header extends Component {
                                         <Dropdown.Menu>
                                             <Dropdown.Item as={Link} to={'/user/profile'}><Icon name='user circle' /> Profile</Dropdown.Item>
                                             <Dropdown.Item as={Link} to={'/user/change-password'}><Icon name='edit' /> Change Password</Dropdown.Item>
+                                            {getRoles() ? getRoles().find((item)=> item==="ADMIN") &&
+                                                <Dropdown.Item as={Link} to={'/club_request/list'}><Icon name='list' />Club Request List</Dropdown.Item>
+                                            : null}
+                                            {getRoles() ? getRoles().find((item)=> item==="MEMBER") &&
+                                              <Dropdown.Item as={Link} to={'/club_request/create'}><Icon name='pencil alternate' />Request Club</Dropdown.Item>
+                                              : null}
                                             <Dropdown.Item onClick={this.props.logout}><Icon name='sign-out' /> Logout</Dropdown.Item>
                                         </Dropdown.Menu>
                                    </Dropdown>
