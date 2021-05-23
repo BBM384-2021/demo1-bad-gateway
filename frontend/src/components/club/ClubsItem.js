@@ -14,7 +14,6 @@ class ClubsItem extends Component{
 
     loadImage() {
         const {club} = this.props;
-
         if(club.photoFileName !== null){
             if (typeof(club.photoFileName) !== 'undefined'){
                 import(`../../static/image/common/${club.photoFileName}`)
