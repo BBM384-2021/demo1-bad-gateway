@@ -9,6 +9,12 @@ import ClubSelect from "../club/ClubSelect";
 import SubClubSelect from "../subClub/SubClubSelect";
 import SemanticDatepicker from "react-semantic-ui-datepickers";
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
+import {
+    DateInput,
+    TimeInput,
+    DateTimeInput,
+    DatesRangeInput
+} from 'semantic-ui-calendar-react';
 
 
 class CreateEvent extends Component {
@@ -28,7 +34,7 @@ class CreateEvent extends Component {
             eventType: "",
             clubId: "",
             subClubId: "",
-            eventDate: ""
+            eventDateCreate: ""
         }
     };
 
@@ -38,12 +44,6 @@ class CreateEvent extends Component {
         this.submitFormCallback = this.submitFormCallback.bind(this);
     }
 
-    handleEventTypeInputChange = (e, {value}) => this.setState({
-        data: {
-            ...this.state.data,
-            eventType: value
-        }
-    });
 
     handleClubInputChange = (value) => {
         this.setState({
@@ -55,6 +55,13 @@ class CreateEvent extends Component {
         })
     };
 
+    handleEventTypeInputChange = (e, {value}) => this.setState({
+        data: {
+            ...this.state.data,
+            eventType: value
+        }
+    });
+
     handleSubClubInputChange = (value) => {
         this.setState({
             data: {
@@ -64,24 +71,17 @@ class CreateEvent extends Component {
         })
     };
 
-    handleEventDateInputChange = (event, data) => {
-        event.preventDefault();
-        if (!data.value) {
+    handleEventDateInputChange = (event, {name, value}) => {
+
             this.setState({
                 data: {
                     ...this.state.data,
-                    eventDate: "",
+                    eventDateCreate: value
                 }
             })
-        } else if (data.value) {
-            this.setState({
-                data: {
-                    ...this.state.data,
-                    eventDate: data.value.toISOString(),
-                }
-            })
-        }
-    };
+
+
+    }
 
 
     handleInputChange = (event) => {
@@ -215,18 +215,15 @@ class CreateEvent extends Component {
                             </Form.Field>
                             <p>Event Date *</p>
                             <Form.Field>
-                                <SemanticDatepicker
-                                    id={"eventDate"}
-                                    placeholder="Event Date"
-                                    filterDate={(date) => {
-                                        const now = new Date();
-                                        return date >= now;
-                                    }}
+                                <DateTimeInput
+                                    name="dateTime"
+                                    placeholder="Date Time"
+                                    value={this.state.data.eventDateCreate}
+                                    iconPosition="left"
                                     onChange={this.handleEventDateInputChange}
-                                    type="basic"
-                                    keepOpenOnClear="true"
                                 />
                             </Form.Field>
+
                             <Button color='violet' type='submit'>Submit</Button>
                         </Form>
                     </Segment>

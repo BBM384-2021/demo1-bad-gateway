@@ -26,6 +26,11 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.PreRemove;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -144,6 +149,16 @@ public class EventService {
             subClubRepository.save(subClub);
         }
 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+        String timestamp = eventPayload.getEventDateCreate();
+        TemporalAccessor temporalAccessor = formatter.parse(timestamp);
+        LocalDateTime localDateTime = LocalDateTime.from(temporalAccessor);
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
+        Instant eventDate = Instant.from(zonedDateTime);
+
+
         Event event = new Event();
         event.setName(eventPayload.getName());
         event.setAddress(eventPayload.getAddress());
@@ -152,7 +167,8 @@ public class EventService {
         event.setAttendees(eventPayload.getAttendees());
         event.setClub(club);
         event.setSubClub(subClub);
-        event.setEventDate(eventPayload.getEventDate());
+
+        event.setEventDate(eventDate);
         event.setUpdatedBy(currentUser.getId());
         event.setUpdatedAt(Instant.now());
         eventRepository.save(event);
@@ -165,10 +181,11 @@ public class EventService {
     }
 
     public EventPayload updateEvent(UserPrincipal currentUser, EventPayload eventPayload){
+
         Optional<Event> eventExist = eventRepository.findByAddressAndEventDate(eventPayload.getAddress(), eventPayload.getEventDate());
 
         if (eventExist.isPresent()){
-           return null;
+            if (!eventExist.get().getId().equals(eventPayload.getId())) return null;
         }
 
         Event event = eventRepository.findById(eventPayload.getId()).orElseThrow(
@@ -191,6 +208,17 @@ public class EventService {
             );
         }
 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+        String timestamp = eventPayload.getEventDateCreate();
+        TemporalAccessor temporalAccessor = formatter.parse(timestamp);
+        LocalDateTime localDateTime = LocalDateTime.from(temporalAccessor);
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
+        Instant eventDate = Instant.from(zonedDateTime);
+
+        System.out.println(eventDate);
+
         event.setName(eventPayload.getName());
         event.setAddress(eventPayload.getAddress());
         event.setDescription(eventPayload.getDescription());
@@ -198,7 +226,7 @@ public class EventService {
         event.setAttendees(eventPayload.getAttendees());
         event.setClub(club);
         event.setSubClub(subClub);
-        event.setEventDate(eventPayload.getEventDate());
+        event.setEventDate(eventDate);
         event.setUpdatedBy(currentUser.getId());
         event.setUpdatedAt(Instant.now());
 
