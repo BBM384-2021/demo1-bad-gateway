@@ -10,6 +10,7 @@ import ClubSelect from "../club/ClubSelect";
 import SubClubSelect from "../subClub/SubClubSelect";
 import SemanticDatepicker from "react-semantic-ui-datepickers";
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
+import {DateTimeInput} from "semantic-ui-calendar-react";
 
 
 class UpdateEvent extends Component {
@@ -31,7 +32,8 @@ class UpdateEvent extends Component {
             eventType: "",
             clubId: "",
             subClubId: "",
-            eventDate: ""
+            eventDate: "",
+            eventDateCreate: ""
         }
     };
 
@@ -80,24 +82,15 @@ class UpdateEvent extends Component {
         })
     };
 
-    handleEventDateInputChange = (event, data) => {
-        event.preventDefault();
-        if (!data.value) {
-            this.setState({
-                data: {
-                    ...this.state.data,
-                    eventDate: "",
-                }
-            })
-        } else if (data.value) {
-            this.setState({
-                data: {
-                    ...this.state.data,
-                    eventDate: data.value.toISOString(),
-                }
-            })
-        }
-    };
+    handleEventDateInputChange = (event, {name, value}) => {
+
+        this.setState({
+            data: {
+                ...this.state.data,
+                eventDateCreate: value
+            }
+        })
+    }
 
 
     handleInputChange = (event) => {
@@ -231,16 +224,12 @@ class UpdateEvent extends Component {
                             </Form.Field>
                             <p>Event Date *</p>
                             <Form.Field>
-                                <SemanticDatepicker
-                                    id={"eventDate"}
-                                    placeholder="Event Date"
-                                    filterDate={(date) => {
-                                        const now = new Date();
-                                        return date >= now;
-                                    }}
+                                <DateTimeInput
+                                    name="dateTime"
+                                    placeholder="Date Time"
+                                    value={this.state.data.eventDateCreate}
+                                    iconPosition="left"
                                     onChange={this.handleEventDateInputChange}
-                                    type="basic"
-                                    keepOpenOnClear="true"
                                 />
                             </Form.Field>
                             <Button color='violet' type='submit'>Submit</Button>

@@ -6,7 +6,30 @@ import '../../static/css/common/Application.css'
 import { Link } from 'react-router-dom';
 
 
-class ClubsItem extends Component{
+class SubClubsItem extends Component{
+
+    state = {
+        photo: null
+    }
+
+    loadImage() {
+        const {subClub} = this.props;
+
+        if(subClub.photoFileName !== null){
+            if (typeof(subClub.photoFileName) !== 'undefined'){
+                import(`../../static/image/common/${subClub.photoFileName}`)
+                    .then(image => {
+                        this.setState({ photo: image.default })
+                    })
+            }
+
+        }
+    }
+
+    componentDidMount() {
+        this.loadImage()
+    }
+
 
     render(){
 
@@ -14,7 +37,10 @@ class ClubsItem extends Component{
 
         return(
             <Card style={{"word-wrap": "break-word"}}>
-                <Image src={defaultClub}/>
+                {subClub.photoFileName ?
+                    <Image src={this.state.photo}/>: <Image src={defaultClub}/>
+                }
+
                 <Card.Content>
                     <Card.Header>
                         <Link to={"/sub_club/info/" + subClub.id}>
@@ -39,4 +65,4 @@ class ClubsItem extends Component{
     }
 }
 
-export default ClubsItem;
+export default SubClubsItem;

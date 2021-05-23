@@ -1,4 +1,5 @@
 import * as subClubService from "../services/subClub";
+import * as clubService from "../services/club";
 
 export const subClubInfoAction = (id, callback) => {
     return (dispatch, getStatus) => {
@@ -110,4 +111,16 @@ export const editSubClubAction = (body, callback) => {
         // callback(messageError);
       });
   }
+}
+
+export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback) => {
+    return (dispatch, getStatus) => {
+        return subClubService.subClubPhotoUpload(name, data).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                uploadFileErrorCallback();
+            });
+    }
 }

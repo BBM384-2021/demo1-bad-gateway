@@ -8,6 +8,7 @@ const initialState = {
     email: "",
     name: "",
     phone: "",
+    bans: "",
 
     passwordReset: false,
 
@@ -16,9 +17,12 @@ const initialState = {
 
 export let auth = (state = initialState, action) => {
     const { payload } = action;
+    console.log("mösdmfndsnkjfnksfn");
+    console.log(payload);
 
     switch(action.type) {
         case USER_INFO:
+            console.log(payload);
             return{
                 ...state,
                 loginStatus: AuthStates.VALID,
@@ -27,6 +31,7 @@ export let auth = (state = initialState, action) => {
                 email: payload.email,
                 name: payload.name,
                 phone: payload.phone,
+                bans: payload.bans,
 
                 passwordReset: payload.passwordReset,
 

@@ -230,6 +230,7 @@ class CreateClub extends Component{
 					<Header className={"loginHeader"} size={"large"} >Create Club</Header>
 
 					<Form.Field>
+						<b>Photo:</b>
 						<FileInput selectFileCallback={this.selectFile('photo')} buttonIcon={"photo"} buttonText={"Photo"} fileTypes={FILE_UPLOAD_DOC_TYPES} />
 					</Form.Field>
 					<Form onSubmit={this.submitForm}>
