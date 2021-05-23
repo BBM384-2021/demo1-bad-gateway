@@ -3,6 +3,7 @@ package com.bbm384.badgateway.model;
 import com.bbm384.badgateway.model.audit.DateAudit;
 import com.bbm384.badgateway.model.constants.UserStatus;
 import com.bbm384.badgateway.model.constants.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -45,6 +46,7 @@ public class User extends DateAudit {
     @Size(max = 100)
     private String password;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Role> userRoles;
 
@@ -59,6 +61,12 @@ public class User extends DateAudit {
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private UserStatus status;
+
+    private String ppFileName;
+
+    private String ppFileExtension;
+
+    private String ppFilePath;
 
 
     public User() {

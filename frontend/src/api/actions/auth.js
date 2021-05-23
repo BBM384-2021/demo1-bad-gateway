@@ -54,6 +54,21 @@ export const loginAction = (data, callback) => {
                 dispatch(userInfoAction());
             },
             (error) =>{
+                callback(error);
+            });
+    }
+};
+
+export const signupAction = (data, callback) => {
+    return (dispatch, getState) => {
+        console.log("here");
+        return authorizeService.signupService(data).then((result) => {
+                if(callback){
+                    callback(result.data);
+                }
+            },
+            (error) =>{
+                callback(error);
             });
     }
 };

@@ -35,7 +35,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bbm384.badgateway.model.User.getUserDefaultPassword;
 
 @RestController
 @RequestMapping("${app.api_path}")
@@ -64,21 +63,6 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        String password = loginRequest.getPassword();
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(), loginRequest.getPassword());
-
-        try {
-            authenticationManager.authenticate(authenticationToken);
-        }
-        catch (BadCredentialsException ex){
-            User user = userRepository.findByUsername(loginRequest.getUsername())
-                    .orElseThrow(() -> new UsernameNotFoundException("The user does not exist : " +
-                            loginRequest.getUsername()));
-
-            if (!user.isPasswordReset())
-                password = getUserDefaultPassword();
-        }
 
         Authentication authentication = null;
 
@@ -86,13 +70,12 @@ public class AuthController {
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
-                            password
+                            loginRequest.getPassword()
                     )
             );
         }catch (BadCredentialsException e){
             throw new BadCredentialsException("Username or password wrong!");
         }
-
 
         UserPrincipal currentUser = (UserPrincipal) authentication.getPrincipal();
         if (currentUser.getUser().getStatus() == UserStatus.PASSIVE)
@@ -139,11 +122,31 @@ public class AuthController {
     @PostMapping("/auth/signup")
     public ApiResponse signup(@Valid @RequestBody SignUpRequest signUpRequest) {
         ApiResponse apiResponse = new ApiResponse();
+
+        if(signUpRequest.getUsername().length() < 4) {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("Username must be more than 3 character.");
+            return apiResponse;
+        }
+
+        if(signUpRequest.getUsername().length() > 40) {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("Username must be less than 40 character.");
+            return apiResponse;
+        }
+
+        if (signUpRequest.getPassword().length() < 8) {
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage("Password must be more than 7 character.");
+            return apiResponse;
+        }
+
         if (!(signUpRequest.getPassword().equals(signUpRequest.getPasswordRepeat()))){
             apiResponse.setSuccess(false);
             apiResponse.setMessage("The passwords you entered do not match.");
             return apiResponse;
         }
+        
         PasswordValidator passwordValidator = new PasswordValidator();
         if(!passwordValidator.validate(signUpRequest.getPassword())){
             apiResponse.setSuccess(false);
@@ -181,7 +184,7 @@ public class AuthController {
             return passwordService.resetPassword(currentUser, passwordInfo);
         }
         catch (BadCredentialsException ex){
-            return new ApiResponse(false, "Mevcut şifrenizi yanlış girdiniz.");
+            return new ApiResponse(false, "Current Password Incorrect!");
         }
     }
 

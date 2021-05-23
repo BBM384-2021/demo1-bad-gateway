@@ -3,7 +3,6 @@ package com.bbm384.badgateway.service;
 import com.bbm384.badgateway.exception.AppException;
 import com.bbm384.badgateway.model.constants.UserStatus;
 import com.bbm384.badgateway.payload.*;
-import com.bbm384.badgateway.repository.MessageRepository;
 import com.bbm384.badgateway.repository.RoleRepository;
 import com.bbm384.badgateway.repository.UserRepository;
 import com.bbm384.badgateway.security.UserPrincipal;
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,9 +34,6 @@ public class UserService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-
-    @Autowired
-    MessageRepository messageRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -100,5 +97,11 @@ public class UserService {
         userRepository.save(targetUser);
 
         return new ApiResponse(true, "ok");
+    }
+
+    public List<UserInfo> getAllUsers() {
+        return  userRepository.findAll().stream().map(
+                user -> ModelMapper.mapToUserInfoResponse(user)
+        ).collect(Collectors.toList());
     }
 }

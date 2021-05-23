@@ -1,16 +1,9 @@
 package com.bbm384.badgateway.util;
 
 
-import com.bbm384.badgateway.model.Club;
-import com.bbm384.badgateway.model.Message;
-import com.bbm384.badgateway.model.Notification;
-import com.bbm384.badgateway.model.SubClub;
-import com.bbm384.badgateway.model.User;
-import com.bbm384.badgateway.payload.ClubInfoResponse;
-import com.bbm384.badgateway.payload.MessageResponse;
-import com.bbm384.badgateway.payload.NotificationResponse;
-import com.bbm384.badgateway.payload.SubClubPayload;
-import com.bbm384.badgateway.payload.UserInfo;
+import com.bbm384.badgateway.model.*;
+import com.bbm384.badgateway.payload.*;
+
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -32,9 +25,20 @@ public class ModelMapper {
         clubInfoResponse.setMembers(club.getMembers());
         clubInfoResponse.setUpdatedAt(club.getUpdatedAt());
         clubInfoResponse.setUpdatedBy(club.getUpdatedBy());
+        clubInfoResponse.setPhotoFileName(club.getPhotoFileName());
+        clubInfoResponse.setPhotoFileExtension(club.getPhotoFileExtension());
+        clubInfoResponse.setPhotoFilePath(clubInfoResponse.getPhotoFilePath());
 
 
         return clubInfoResponse;
+    }
+
+    public static CategoryPayload mapToCategoryResponse(Category category) {
+        CategoryPayload categoryPayload = new CategoryPayload();
+        categoryPayload.setId(category.getId());
+        categoryPayload.setName(category.getName());
+
+        return categoryPayload;
     }
 
     public static UserInfo mapToUserInfoResponse(User user) {
@@ -51,13 +55,65 @@ public class ModelMapper {
 
     public static SubClubPayload mapToSubClubInfoResponse(SubClub subClub) {
         SubClubPayload subClubPayload = new SubClubPayload();
+        subClubPayload.setId(subClub.getId());
         subClubPayload.setName(subClub.getName());
-        subClubPayload.setParentClub(subClub.getParentClub());
-        subClubPayload.setCategory(subClub.getCategory());
+        subClubPayload.setParentClub(subClub.getParentClub().getName());
+        subClubPayload.setDescription(subClub.getDescription());
+        subClubPayload.setCategory(subClub.getCategory().getName());
         subClubPayload.setMembers(subClub.getMembers());
-        subClubPayload.setAdmin(subClub.getAdmin());
+        subClubPayload.setAdmin(subClub.getAdmin().getName());
         subClub.setCreatedAt(subClub.getCreatedAt());
         subClub.setCreatedBy(subClub.getCreatedBy());
         return subClubPayload;
+    }
+
+    public static SubClubChatList mapToMessageList(SubClubChat message) {
+        SubClubChatList messageList = SubClubChatList.builder()
+                .senderName(message.getSenderName())
+                .id(message.getId())
+                .message(message.getMessage())
+                .subClub(message.getSubClub())
+                .sentAt(message.getSentAt())
+                .readAt(message.getReadAt())
+                .sender(mapToUserInfoResponse(message.getSender()))
+                .build();
+        return messageList;
+    }
+
+    public static PrivateMessageList mapToPrivateMessageList(PrivateMessage message) {
+        PrivateMessageList messageList = PrivateMessageList.builder()
+                .id(message.getId())
+                .message(message.getMessage())
+                .sentAt(message.getSentAt())
+                .sender(mapToUserInfoResponse(message.getSender()))
+                .receiver(mapToUserInfoResponse(message.getReceiver()))
+                .build();
+        return messageList;
+    }
+
+    public static CommentPayload mapToCommentInfoResponse(Comment comment) {
+        CommentPayload commentPayload = new CommentPayload();
+        commentPayload.setId(comment.getId());
+        commentPayload.setSender(comment.getSender());
+        commentPayload.setContent(comment.getContent());
+        commentPayload.setRate(comment.getRate());
+        commentPayload.setClub(comment.getClub());
+        commentPayload.setSubClub(comment.getSubClub());
+        commentPayload.setSentAt(comment.getSentAt());
+        return commentPayload;
+    }
+
+    public static EventPayload mapToEventPayload(Event event){
+        EventPayload eventPayload = EventPayload.builder()
+                .id(event.getId())
+                .name(event.getName())
+                .address(event.getAddress())
+                .eventType(event.getEventType())
+                .attendees(event.getAttendees())
+                .eventDate(event.getEventDate())
+                .club(event.getClub())
+                .subClub(event.getSubClub())
+                .build();
+        return eventPayload;
     }
 }

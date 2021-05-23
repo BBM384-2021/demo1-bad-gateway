@@ -3,6 +3,7 @@ package com.bbm384.badgateway.model;
 
 import com.bbm384.badgateway.model.audit.UpdatedAudit;
 import com.bbm384.badgateway.model.constants.ClubStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.annotations.QueryEntity;
 
 import javax.persistence.*;
@@ -43,6 +44,16 @@ public class Club extends UpdatedAudit {
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private ClubStatus status = ClubStatus.ACTIVE;
+
+    @JsonIgnore
+    @OneToMany(mappedBy="club")
+    private Set<Comment> comments;
+
+    private String photoFileName;
+
+    private String photoFileExtension;
+
+    private String photoFilePath;
 
     public Club() {
     }
@@ -104,5 +115,35 @@ public class Club extends UpdatedAudit {
         this.status = status;
     }
 
+    public Set<Comment> getComments() {
+        return comments;
+    }
 
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public String getPhotoFileName() {
+        return photoFileName;
+    }
+
+    public void setPhotoFileName(String photoFileName) {
+        this.photoFileName = photoFileName;
+    }
+
+    public String getPhotoFileExtension() {
+        return photoFileExtension;
+    }
+
+    public void setPhotoFileExtension(String photoFileExtension) {
+        this.photoFileExtension = photoFileExtension;
+    }
+
+    public String getPhotoFilePath() {
+        return photoFilePath;
+    }
+
+    public void setPhotoFilePath(String photoFilePath) {
+        this.photoFilePath = photoFilePath;
+    }
 }

@@ -4,7 +4,6 @@ import {Segment, Icon, Loader, Form, Message, Button} from "semantic-ui-react";
 import {LoadingStates} from "../../constants/common";
 import {connect} from "react-redux";
 import * as userActions from "../../api/actions/user";
-
 import Page from "../base/Page";
 
 
@@ -82,7 +81,7 @@ class EditUser extends Component {
         if (status !== LoadingStates.LOADED) {
             return (
                 <Loader active>
-                    Yükleniyor...
+                    Loading...
                 </Loader>
             )
         }
@@ -90,7 +89,7 @@ class EditUser extends Component {
         return (
             <Page>
                 <Page.Header>
-                    <Page.Header.Item>Kullanıcı</Page.Header.Item>
+                    <Page.Header.Item>User</Page.Header.Item>
                     <Page.Header.Item>Update ({this.state.fields.username})</Page.Header.Item>
                 </Page.Header>
                 <Page.Operation>
@@ -106,22 +105,22 @@ class EditUser extends Component {
                         <Form onSubmit={this.onFormSubmit}>
                             <Form.Group widths={"equal"}>
                                 <Form.Input id={"name"}
-                                            placeholder='Ad'
-                                            label='Ad'
+                                            placeholder='Name'
+                                            label='Name'
                                             value={this.state.fields.name}
                                             onChange={this.handleInputChange}
                                             maxLength="40"
                                 />
                                 <Form.Input id={"phone"}
-                                            placeholder='Telefon Numarası'
-                                            label='Telefon Numarası'
+                                            placeholder='Phone Number'
+                                            label='Phone Number'
                                             value={this.state.fields.phone}
                                             onChange={this.handleInputChange}
                                             maxLength="10"
                                 />
                                 <Form.Input id={"email"}
-                                            placeholder='Mail Adresi'
-                                            label='Mail Adresi'
+                                            placeholder='Email'
+                                            label='Email'
                                             value={this.state.fields.email}
                                             onChange={this.handleInputChange}
                                             maxLength="40"
@@ -139,7 +138,7 @@ class EditUser extends Component {
                             <Icon name='checkmark'/>
                             <Message.Content>
                                 <Message.Header>
-                                    Kullanıcı başarıyla güncellenmiştir.
+                                    User updated successfully.
                                 </Message.Header>
                             </Message.Content>
                         </Message>

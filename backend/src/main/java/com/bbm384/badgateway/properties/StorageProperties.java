@@ -1,13 +1,15 @@
 package com.bbm384.badgateway.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-@ConfigurationProperties(prefix = "file")
+@Component
+@ConfigurationProperties(prefix = "app.storage")
 public class StorageProperties {
     private String uploadDir;
-    private String letterSourceDir;
-    private String letterArchiveDir;
 
     public String getUploadDir() {
         return uploadDir;
@@ -17,19 +19,7 @@ public class StorageProperties {
         this.uploadDir = uploadDir;
     }
 
-    public String getLetterSourceDir() {
-        return letterSourceDir;
-    }
-
-    public void setLetterSourceDir(String letterSourceDir) {
-        this.letterSourceDir = letterSourceDir;
-    }
-
-    public String getLetterArchiveDir() {
-        return letterArchiveDir;
-    }
-
-    public void setLetterArchiveDir(String letterArchiveDir) {
-        this.letterArchiveDir = letterArchiveDir;
+    public Path getUploadPath() {
+        return Paths.get(this.uploadDir);
     }
 }

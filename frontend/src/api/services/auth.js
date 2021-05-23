@@ -2,7 +2,7 @@ import axios from 'axios';
 import {
     API_AUTH_FORGOT_PASSWORD_URL,
     API_AUTH_LOGIN_URL,
-    API_AUTH_PASSWORD_RESET_URL,
+    API_AUTH_PASSWORD_RESET_URL, API_AUTH_SIGNUP_URL,
     API_USER_INFO_URL
 } from "../../constants/urls";
 import {getHeaderWithToken} from "../../utils/auth";
@@ -45,12 +45,26 @@ export const loginService = (data) => {
                 resolve(response);
             })
             .catch(function (error) {
-                apiError(error, reject);
+                // popup -> apiError(error, reject);
                 reject(error);
             });
     }));
 };
 
+
+export const signupService = (data) => {
+    return new Promise(((resolve, reject) => {
+        console.log("here2");
+        axios.post(API_AUTH_SIGNUP_URL, data)
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                // popup -> apiError(error, reject);
+                reject(error);
+            });
+    }));
+};
 
 export const userInfoService = () => {
     return new Promise(((resolve, reject) => {

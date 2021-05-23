@@ -7,7 +7,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "ROLES")
+
+@Table(name = "ROLES",uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "USER_ID",
+                "USER_ROLE"
+        })
+} )
 public class Role {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

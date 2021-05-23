@@ -9,11 +9,11 @@ import java.util.Set;
 public class SubClubPayload extends CreatedAudit {
     private Long id;
     private String name;
-    private Club parentClub;
+    private String parentClub;
     private String description;
-    private Category category;
+    private String category;
     private Set<User> members;
-    private User admin;
+    private String admin;
 
     public Long getId() {
         return id;
@@ -31,14 +31,6 @@ public class SubClubPayload extends CreatedAudit {
         this.name = name;
     }
 
-    public Club getParentClub() {
-        return parentClub;
-    }
-
-    public void setParentClub(Club parentClub) {
-        this.parentClub = parentClub;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -47,11 +39,19 @@ public class SubClubPayload extends CreatedAudit {
         this.description = description;
     }
 
-    public Category getCategory() {
+    public String getParentClub() {
+        return parentClub;
+    }
+
+    public void setParentClub(String parentClub) {
+        this.parentClub = parentClub;
+    }
+
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 
@@ -63,11 +63,11 @@ public class SubClubPayload extends CreatedAudit {
         this.members = members;
     }
 
-    public User getAdmin() {
+    public String getAdmin() {
         return admin;
     }
 
-    public void setAdmin(User admin) {
+    public void setAdmin(String admin) {
         this.admin = admin;
     }
 }

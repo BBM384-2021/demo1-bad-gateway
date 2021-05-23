@@ -93,7 +93,7 @@ class Users extends Component {
         if (status !== LoadingStates.LOADED) {
             return (
                 <Loader active>
-                    Yükleniyor...
+                    Loading...
                 </Loader>
             )
         }
@@ -101,13 +101,12 @@ class Users extends Component {
         return (
             <Page>
                 <Page.Header>
-                    <Page.Header.Item>Kullanıcı Listesi</Page.Header.Item>
+                    <Page.Header.Item>User List</Page.Header.Item>
                 </Page.Header>
                 <Page.Operation>
                     <Page.Operation.Buttons>
                         <Link to={"/user/create/"}>
-                            <Button compact size={"small"}><Icon name={"add"} color={"blue"}/>Yeni kullanıcı
-                                ekle</Button>
+                            <Button compact size={"small"}><Icon name={"add"} color={"blue"}/>Add New User</Button>
                         </Link>
                     </Page.Operation.Buttons>
 
@@ -134,9 +133,9 @@ class Users extends Component {
                             <Table.Header>
                                 <Table.Row>
                                     <Table.HeaderCell/>
-                                    <Table.HeaderCell>Kullanıcı</Table.HeaderCell>
-                                    <Table.HeaderCell>Ad/Soyad</Table.HeaderCell>
-                                    <Table.HeaderCell>Durum</Table.HeaderCell>
+                                    <Table.HeaderCell>Username</Table.HeaderCell>
+                                    <Table.HeaderCell>Name/Surname</Table.HeaderCell>
+                                    <Table.HeaderCell>Status</Table.HeaderCell>
                                 </Table.Row>
                             </Table.Header>
                             <Table.Body>
@@ -144,7 +143,7 @@ class Users extends Component {
                                     this.state.userList.length === 0 ?
                                         <Table.Row textAlign={"center"}>
                                             <Table.Cell colSpan={5}>
-                                                <Message color={"red"}>Kullanıcı Bulunamadı</Message>
+                                                <Message color={"red"}>User does not exist</Message>
                                             </Table.Cell>
                                         </Table.Row> :
 

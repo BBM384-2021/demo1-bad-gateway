@@ -75,6 +75,6 @@ export const PrivateRoutes = (props) => {
         return <Redirect to="/" />;
 
     return (
-        <MapAllowedRoutes routes={allowedRoutes} basePath={BASE} defaultUrl={""} isAddNotFound />
+        <MapAllowedRoutes routes={allowedRoutes} basePath={BASE} defaultUrl={"/club/list"} isAddNotFound />
     );
 };
