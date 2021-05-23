@@ -10,10 +10,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -53,29 +50,17 @@ public class MemberBan extends CreatedAudit {
         this.totalBanCounter += 1;
         if(this.totalBanCounter <= 3){
             this.status = BannedMemberStatus.BANNED;
-/*
-            ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Istanbul"));
-            ZonedDateTime nextRun = now.withHour(0).withMinute(0).withSecond(30);
-            if(now.compareTo(nextRun) > 0)
-                nextRun = nextRun.plusDays(1);
-
-            Duration duration = Duration.between(now, nextRun);
-            long initalDelay = duration.getSeconds();
-
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.scheduleAtFixedRate(this.activateMember(),
-                    initalDelay,
-                    TimeUnit.DAYS.toSeconds(1),
-                    TimeUnit.SECONDS);*/
-
         }else{
             this.status = BannedMemberStatus.DISMISSED;
         }
     }
 
-    public Runnable activateMember(){
-        System.out.println("------------------------IM HERE -----------------------------");
-        this.setStatus(BannedMemberStatus.ACTIVE);
-        return null;
+    public boolean checkActivateMember(){
+        Instant expiryDate = this.bannedDate.plus(Period.ofDays(3));
+        if( Instant.now().compareTo(expiryDate) > 0 && this.status == BannedMemberStatus.DISMISSED){
+            this.setStatus(BannedMemberStatus.ACTIVE);
+            return true;
+        }
+        return false;
     }
 }

@@ -37,6 +37,10 @@ public class DataInitializer implements CommandLineRunner {
     PrivateMessageRepository privateMessageRepository;
 
     @Autowired
+
+    MemberBanRepository memberBanRepository;
+
+     @Autowired
     QuestionRepository questionRepository;
 
     @Autowired
@@ -44,6 +48,7 @@ public class DataInitializer implements CommandLineRunner {
   
     @Autowired
     EventRepository eventRepository;
+
 
     @Override
     public void run(String... args) {
@@ -165,6 +170,19 @@ public class DataInitializer implements CommandLineRunner {
             Role subClubAdminRole = new Role(subClubAdmin, UserRole.SUB_CLUB_ADMIN);
             roleRepository.save(subClubAdminRole);
 
+
+            MemberBan memberBan = new MemberBan();
+            memberBan.setMember(member);
+            memberBan.setSubClub(drawing);
+            memberBan.setBannedDate(Instant.now());
+            memberBanRepository.save(memberBan);
+
+            MemberBan memberBan2 = new MemberBan();
+            memberBan2.setMember(member_2);
+            memberBan2.setSubClub(drawing);
+            memberBan2.setBannedDate(Instant.now());
+            memberBanRepository.save(memberBan2);
+
             Question question = new Question("What you would do in your free time ?",sportClub);
             questionRepository.save(question);
             Answers answer = new Answers("I would go to gym",25,question);
@@ -210,6 +228,7 @@ public class DataInitializer implements CommandLineRunner {
             gameTalks.setEventDate(Instant.now());
             gameTalks.setClub(gameClub);
             eventRepository.save(gameTalks);
+
         }
     }
 }
