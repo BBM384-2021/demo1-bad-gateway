@@ -41,6 +41,10 @@ public class Club extends UpdatedAudit {
     @JoinColumn(name = "MEMBERS")
     private Set<User> members;
 
+    @JsonIgnore
+    @OneToMany(mappedBy="club")
+    private Set<Question> questions;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private ClubStatus status = ClubStatus.ACTIVE;
@@ -48,6 +52,12 @@ public class Club extends UpdatedAudit {
     @JsonIgnore
     @OneToMany(mappedBy="club")
     private Set<Comment> comments;
+
+    private String photoFileName;
+
+    private String photoFileExtension;
+
+    private String photoFilePath;
 
     public Club() {
     }
@@ -117,5 +127,34 @@ public class Club extends UpdatedAudit {
         this.comments = comments;
     }
 
+    public Set<Question> getQuestions() {
+        return questions;
+    }
 
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
+    public String getPhotoFileName() {
+        return photoFileName;
+    }
+
+    public void setPhotoFileName(String photoFileName) {
+        this.photoFileName = photoFileName;
+    }
+
+    public String getPhotoFileExtension() {
+        return photoFileExtension;
+    }
+
+    public void setPhotoFileExtension(String photoFileExtension) {
+        this.photoFileExtension = photoFileExtension;
+    }
+
+    public String getPhotoFilePath() {
+        return photoFilePath;
+    }
+
+    public void setPhotoFilePath(String photoFilePath) {
+        this.photoFilePath = photoFilePath;
+    }
 }

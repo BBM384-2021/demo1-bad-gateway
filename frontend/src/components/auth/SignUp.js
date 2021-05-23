@@ -49,7 +49,7 @@ class SignUp extends Component {
     submitFormCallback = (response) => {
         let message = "";
         if (response.success) {
-            this.props.history.push("/login");
+            this.props.history.push(`/questionnarie/answer/${response.userId}`);
         }
         // Backend throws 400 or 500.
         else if(response.response){

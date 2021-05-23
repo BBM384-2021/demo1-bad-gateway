@@ -13,6 +13,9 @@ public interface AppConstants {
     String FILE_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     String FILE_XLS = "application/vnd.ms-excel";
     String FILE_PDF = "application/pdf";
+    String FILE_PNG = "image/png";
+    String FILE_JPEG = "image/jpeg";
+    int MAX_FILE_SIZE = 5;
 
     String FILE_LATEST = "1";
     String FILE_ORIGINAL = "2";

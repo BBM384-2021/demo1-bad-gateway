@@ -37,6 +37,12 @@ public class DataInitializer implements CommandLineRunner {
     PrivateMessageRepository privateMessageRepository;
 
     @Autowired
+    QuestionRepository questionRepository;
+
+    @Autowired
+    AnswersRepository answersRepository;
+  
+    @Autowired
     EventRepository eventRepository;
 
     @Override
@@ -158,6 +164,30 @@ public class DataInitializer implements CommandLineRunner {
 
             Role subClubAdminRole = new Role(subClubAdmin, UserRole.SUB_CLUB_ADMIN);
             roleRepository.save(subClubAdminRole);
+
+            Question question = new Question("What you would do in your free time ?",sportClub);
+            questionRepository.save(question);
+            Answers answer = new Answers("I would go to gym",25,question);
+            Answers answer2 = new Answers("I play basketball with my friends",18,question);
+            Answers answer3 = new Answers("I would hangout with my friends",12,question);
+            Answers answer4 = new Answers("I would prefer to stay home",5,question);
+
+            answersRepository.save(answer);
+            answersRepository.save(answer2);
+            answersRepository.save(answer3);
+            answersRepository.save(answer4);
+
+            Question question2 = new Question("What you would do in the evening during lockdown ?",gameClub);
+            questionRepository.save(question2);
+            Answers answer21 = new Answers("I would do some sport at home",5,question);
+            Answers answer22 = new Answers("I would play video games",25,question);
+            Answers answer23 = new Answers("I would like to chat with my friends",18,question);
+            Answers answer24 = new Answers("I would watch some tv shows",12,question);
+
+            answersRepository.save(answer21);
+            answersRepository.save(answer22);
+            answersRepository.save(answer23);
+            answersRepository.save(answer24);
 
             Event pyCon = new Event();
             pyCon.setName("PyCon Ankara");

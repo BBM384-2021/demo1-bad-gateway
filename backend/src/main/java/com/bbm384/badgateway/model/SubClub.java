@@ -47,6 +47,12 @@ public class SubClub extends CreatedAudit {
     @Column(name = "STATUS")
     private ClubStatus status = ClubStatus.ACTIVE;
 
+    private String photoFileName;
+
+    private String photoFileExtension;
+
+    private String photoFilePath;
+
     public SubClub(String name, Club parentClub, String description, Category category, Set<User> members, User admin) {
         this.name = name;
         this.parentClub = parentClub;
