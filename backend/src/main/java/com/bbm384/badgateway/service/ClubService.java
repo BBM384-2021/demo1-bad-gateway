@@ -213,10 +213,7 @@ public class ClubService {
             throw new FileStorageException("Photo size must be less than 10MB");
         }
 
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-
-        Path relativePath = storageProperties.getUploadPath().resolve(String.valueOf(year)).resolve(String.valueOf(month));
+        Path relativePath = storageProperties.getUploadPath();
 
         try {
             Files.createDirectories(relativePath);
@@ -236,7 +233,7 @@ public class ClubService {
             fileExtension = "png";
         }
 
-        String fileName = club.getName() +  "_" + fileExtension;
+        String fileName = club.getName() +  "." + fileExtension;
         Path filePath = relativePath.resolve(fileName);
 
         try {

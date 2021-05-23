@@ -27,7 +27,7 @@ public class ModelMapper {
         clubInfoResponse.setUpdatedBy(club.getUpdatedBy());
         clubInfoResponse.setPhotoFileName(club.getPhotoFileName());
         clubInfoResponse.setPhotoFileExtension(club.getPhotoFileExtension());
-        clubInfoResponse.setPhotoFilePath(clubInfoResponse.getPhotoFilePath());
+        clubInfoResponse.setPhotoFilePath(club.getPhotoFilePath());
 
 
         return clubInfoResponse;
