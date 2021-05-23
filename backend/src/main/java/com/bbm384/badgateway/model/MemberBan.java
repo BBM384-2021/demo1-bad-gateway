@@ -53,7 +53,7 @@ public class MemberBan extends CreatedAudit {
         this.totalBanCounter += 1;
         if(this.totalBanCounter <= 3){
             this.status = BannedMemberStatus.BANNED;
-
+/*
             ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Istanbul"));
             ZonedDateTime nextRun = now.withHour(0).withMinute(0).withSecond(30);
             if(now.compareTo(nextRun) > 0)
@@ -66,7 +66,7 @@ public class MemberBan extends CreatedAudit {
             scheduler.scheduleAtFixedRate(this.activateMember(),
                     initalDelay,
                     TimeUnit.DAYS.toSeconds(1),
-                    TimeUnit.SECONDS);
+                    TimeUnit.SECONDS);*/
 
         }else{
             this.status = BannedMemberStatus.DISMISSED;

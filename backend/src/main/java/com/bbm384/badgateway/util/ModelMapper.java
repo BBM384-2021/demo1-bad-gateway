@@ -25,6 +25,9 @@ public class ModelMapper {
         clubInfoResponse.setMembers(club.getMembers());
         clubInfoResponse.setUpdatedAt(club.getUpdatedAt());
         clubInfoResponse.setUpdatedBy(club.getUpdatedBy());
+        clubInfoResponse.setPhotoFileName(club.getPhotoFileName());
+        clubInfoResponse.setPhotoFileExtension(club.getPhotoFileExtension());
+        clubInfoResponse.setPhotoFilePath(club.getPhotoFilePath());
 
 
         return clubInfoResponse;
@@ -94,8 +97,12 @@ public class ModelMapper {
         commentPayload.setSender(comment.getSender());
         commentPayload.setContent(comment.getContent());
         commentPayload.setRate(comment.getRate());
-        commentPayload.setClub(comment.getClub());
-        commentPayload.setSubClub(comment.getSubClub());
+        if(comment.getClub() != null){
+            commentPayload.setClub(comment.getClub());
+        }
+        else if(comment.getSubClub() != null){
+            commentPayload.setSubClub(comment.getSubClub().getName());
+        }
         commentPayload.setSentAt(comment.getSentAt());
         return commentPayload;
     }
@@ -105,6 +112,7 @@ public class ModelMapper {
                 .id(event.getId())
                 .name(event.getName())
                 .address(event.getAddress())
+                .description(event.getDescription())
                 .eventType(event.getEventType())
                 .attendees(event.getAttendees())
                 .eventDate(event.getEventDate())

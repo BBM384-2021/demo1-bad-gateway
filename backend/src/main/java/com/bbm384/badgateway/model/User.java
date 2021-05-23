@@ -62,6 +62,12 @@ public class User extends DateAudit {
     @Column(name = "STATUS")
     private UserStatus status;
 
+    private String ppFileName;
+
+    private String ppFileExtension;
+
+    private String ppFilePath;
+
 
     public User() {
 

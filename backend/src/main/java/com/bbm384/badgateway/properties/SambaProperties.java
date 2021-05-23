@@ -1,8 +1,9 @@
 package com.bbm384.badgateway.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-
+@Component
 @ConfigurationProperties(prefix = "samba")
 public class SambaProperties {
     private String domain;

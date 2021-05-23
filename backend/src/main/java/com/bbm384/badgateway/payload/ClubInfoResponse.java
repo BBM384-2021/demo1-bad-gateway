@@ -14,14 +14,21 @@ public class ClubInfoResponse extends UpdatedAudit {
     private Category category;
     private Set<User> members;
     private ClubStatus status;
+    private String photoFileName;
+    private String photoFileExtension;
+    private String photoFilePath;
 
 
-    public ClubInfoResponse(String name, String description, Category category, Set<User> members, ClubStatus status) {
+    public ClubInfoResponse(String name, String description, Category category, Set<User> members, ClubStatus status,
+                            String photoFileName, String photoFileExtension, String photoFilePath) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.members = members;
         this.status = status;
+        this.photoFileName = photoFileName;
+        this.photoFileExtension = photoFileExtension;
+        this.photoFilePath = photoFilePath;
     }
 
     public ClubInfoResponse() {
@@ -73,5 +80,29 @@ public class ClubInfoResponse extends UpdatedAudit {
 
     public void setStatus(ClubStatus status) {
         this.status = status;
+    }
+
+    public String getPhotoFileName() {
+        return photoFileName;
+    }
+
+    public void setPhotoFileName(String photoFileName) {
+        this.photoFileName = photoFileName;
+    }
+
+    public String getPhotoFileExtension() {
+        return photoFileExtension;
+    }
+
+    public void setPhotoFileExtension(String photoFileExtension) {
+        this.photoFileExtension = photoFileExtension;
+    }
+
+    public String getPhotoFilePath() {
+        return photoFilePath;
+    }
+
+    public void setPhotoFilePath(String photoFilePath) {
+        this.photoFilePath = photoFilePath;
     }
 }

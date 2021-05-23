@@ -47,7 +47,6 @@ class Events extends Component {
     }
 
     handleEventList(data) {
-        console.log(data.content);
         this.setState({
             eventList: data.content,
             status: LoadingStates.LOADED
@@ -228,7 +227,7 @@ class Events extends Component {
                         <Card.Group itemsPerRow={3}>
                             {
                                 this.state.eventList.length === 0 ?
-                                    <div textAlign={"center"}><Message color={"red"}>No event is available to
+                                    <div  textAlign={"center"}><Message size={"large"} color={"red"}>No event is available to
                                         show</Message>
                                     </div> :
                                     this.state.eventList.map((event) =>
