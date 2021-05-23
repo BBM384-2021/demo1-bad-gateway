@@ -27,6 +27,7 @@ import SubClubInfo from '../../components/subClub/SubClubInfo';
 import CreateSubClub from '../../components/subClub/CreateSubClub';
 import UpdateSubClub from '../../components/subClub/UpdateSubClub';
 import AddCategory from '../../components/club/AddCategory';
+import CreateQuestionnarie from '../../components/questionnarrie/CreateQuestionnarie';
 import CreateClubRequest from '../../components/clubRequest/CreateClubRequest';
 import ClubRequestList from '../../components/clubRequest/ClubRequestList';
 
@@ -162,7 +163,11 @@ const roleMapping = [
         permission: [Roles.ADMIN.key,],
     },
     {
-        component: UpdateSubClub,
+        component: CreateQuestionnarie,
+        path: '/questionnarie/create/:id',
+        title: 'Create Questionnarie',
+    },
+    { component: UpdateSubClub,
         path: '/sub_club/update/:id',
         title: 'Sub-Club Update',
         permission: [Roles.ADMIN.key,Roles.SUB_CLUB_ADMIN],
@@ -185,7 +190,6 @@ const roleMapping = [
         title: 'Club Request List',
         permission: [Roles.ADMIN.key],
     }
-
 
 
 ];

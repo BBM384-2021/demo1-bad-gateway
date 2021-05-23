@@ -11,8 +11,9 @@ import {
   API_CLUB_ALL,
   API_CLUB_ENROLLED,
   API_CLUB_NAME_ALL,
+  API_CLUB_PHOTO_UPLOAD,
+  API_CLUB_ENROLLED
 } from '../../constants/urls';
-
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";
 
@@ -180,4 +181,18 @@ export const getAllClubNamesService = () => {
         apiError(error, reject);
       });
   }));
+}
+
+
+export const clubPhotoUpload = (name, data, callback) => {
+    return new Promise(((resolve, reject) => {
+        axios.post(encodeURI(API_CLUB_PHOTO_UPLOAD+"?name="+name), data,
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                //axiosError(error, reject);
+            });
+    }));
 }

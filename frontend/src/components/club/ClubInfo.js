@@ -22,7 +22,8 @@ class ClubInfo extends Component {
     state = {
         status: LoadingStates.NOT_LOADED,
         club: {},
-        roles:[]
+        roles:[],
+        photo: null
     };
 
     constructor(props) {
@@ -35,19 +36,31 @@ class ClubInfo extends Component {
     componentDidMount() {
         const {id} = this.props.match.params;
         const {auth} = this.props;
-        console.log(auth)
         this.props.getClubInfo(id, this.handleClubInfo);
+    }
+
+    loadImage() {
+        const {club} = this.state.club;
+        if(club.photoFileName !== null){
+            import(`../../static/image/common/${club.photoFileName}`)
+                .then(image => {
+                    this.setState({ photo: image.default })
+                })
+        }
+
     }
 
     handleClubInfo(data) {
         let roles = getRoles();
-        console.log(roles)
+
         this.setState({
                 club: data,
                 status: LoadingStates.LOADED,
                 roles:roles
             }
         )
+
+        this.loadImage()
     }
     handleDeleteInfo(data) {
         console.log("delete")

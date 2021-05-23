@@ -3,7 +3,8 @@ import Login from "../../components/auth/Login";
 import {ForgotPassword, SetPassword} from "../../components/auth";
 import PasswordReset from "../../components/auth/PasswordReset";
 import SignUp from "../../components/auth/SignUp";
-
+import AnswerQuestions from "../../components/questionnarrie/AnswerQuestions";
+import AddCategory from '../../components/club/AddCategory';
 
 const routes = [
     {
@@ -33,7 +34,12 @@ const routes = [
         path: '/password-reset',
         title: 'Şifre Sıfırlama',
     },
-  
+    {
+        component: AnswerQuestions,
+        path: '/questionnarie/answer/:id',
+        title: 'Answer Questionnarie',
+    },
+
 ];
 
 export default routes;

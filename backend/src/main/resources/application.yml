@@ -1,5 +1,4 @@
 
-
 server:
   servlet:
     context-path: '/'
@@ -8,6 +7,9 @@ app:
   api_path: '/api'
   jwtSecret: 'asdfg'
   jwtExpirationInMs: 43200000
+
+  storage:
+    upload-dir: /Users/betulkaragoz/Desktop/projects/badgateway/demo1-bad-gateway/frontend/src/static/image/common
 
 spring:
   datasource:

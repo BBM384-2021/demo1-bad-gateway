@@ -7,6 +7,8 @@ import Page from "../base/Page";
 import * as clubActions from "../../api/actions/club";
 import {Button, Form, Dropdown, Segment, Header, Message} from "semantic-ui-react";
 import * as categoryActions from "../../api/actions/category";
+import {FILE_UPLOAD_DOC_TYPES, FILE_UPLOAD_STATUS_SUCCESS} from "../../constants/common/file";
+import FileInput from "../base/FileInput";
 
 
 const statusOptions = [
@@ -29,6 +31,14 @@ class UpdateClub extends Component{
 			categoryInput: "",
 			status:"ACTIVE",
 
+			photo: null,
+			photoMessage: null,
+
+			submitStatus: null,
+			submitErrors: {},
+			isFormSubmitting: false,
+
+
 			isHidden: true,
 			isSuccess: false,
 			isError: false,
@@ -41,6 +51,9 @@ class UpdateClub extends Component{
 		this.handleClubInfo = this.handleClubInfo.bind(this);
 		this.handleDismiss = this.handleDismiss(this);
 		this.handleGetCategories = this.handleGetCategories.bind(this);
+		this.uploadFileCallback = this.uploadFileCallback.bind(this);
+		this.uploadFileErrorCallback = this.uploadFileErrorCallback.bind(this);
+		this.selectFile = this.selectFile.bind(this);
 	}
 	handleClubInfo(data) {
 		console.log("handle")
@@ -65,6 +78,57 @@ class UpdateClub extends Component{
 			}
 		)
 	}
+
+	uploadFileCallback = (result) => {
+		if (result.success) {
+			this.setState({
+				submitStatus: FILE_UPLOAD_STATUS_SUCCESS,
+				submitErrors: {},
+				isFormSubmitting: false,
+				photo: null,
+			});
+		}
+	};
+
+	uploadFileErrorCallback = () => {
+		this.setState({
+			isFormSubmitting: false,
+		});
+	};
+
+
+	resetInputFile = (event) => event.target.value = null;
+
+	dismissMessage = (state) => {
+		return (event) => {
+			this.setState({
+				[state + 'Message']: null,
+			});
+		}
+	};
+
+	renderMessage(message, state, messagePrefix){
+		return (
+			<Message
+				icon={message.icon}
+				color={message.color}
+				content={<React.Fragment>{messagePrefix && <b>{messagePrefix}:</b> }{message.content} </React.Fragment>}
+				onDismiss={this.dismissMessage(state)}
+			/>
+		)
+	}
+
+	selectFile = (state) => {
+		return (event, file, message) => {
+			this.setState({
+				[state]: file,
+				[state + 'Message']: message
+			});
+
+
+		}
+	};
+
 
 	handleDismiss = () => {
 		this.setState({isHidden: true})
@@ -93,10 +157,23 @@ class UpdateClub extends Component{
 		}))
 		console.log("after set state")
 	}
+
 	submitFormCallback = (error) => {
 		//console.log(this.state.usernameInput)
-		console.log("error")
-		console.log(error)
+		this.setState({
+			isFormSubmitting: true,
+			submitStatus: null,
+		});
+
+		const formData = new FormData();
+
+		if(this.state.photo){
+			formData.append("photo", this.state.photo);
+		}
+
+		this.props.uploadFiles(this.state.club.name, formData, this.uploadFileCallback, this.uploadFileErrorCallback)
+
+
 		this.setState({
 			isHidden: false,
 			messageHeader: "Club Updated Successfully",
@@ -113,8 +190,12 @@ class UpdateClub extends Component{
 
 	submitForm(event){
 		event.preventDefault();
-		const {club,categoryName} = this.state
-		console.log(club)
+		const {club,categoryName, photo} = this.state
+
+		this.setState({
+			photoMessage: null,
+		});
+
 		if(categoryName===""){
 			this.setState({
 				isError:true,
@@ -133,12 +214,14 @@ class UpdateClub extends Component{
 			members:club.members,
 			status:club.status
 		};
-		console.log(data)
+
 		this.props.updateClub(data, this.submitFormCallback);
 	}
+
 	capitalizeFirstLetter(string) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	}
+
 	render() {
 		const{club,categoryName}=this.state;
 		return (
@@ -154,6 +237,9 @@ class UpdateClub extends Component{
 					/>
 					<Segment  >
 						<Header className={"loginHeader"} size={"large"} >Update {club? club.name : "Club"}</Header>
+						<Form.Field>
+							<FileInput selectFileCallback={this.selectFile('photo')} buttonIcon={"photo"} buttonText={"Photo"} fileTypes={FILE_UPLOAD_DOC_TYPES} />
+						</Form.Field>
 						<Form onSubmit={this.submitForm}>
 							<Form.Field>
 								<Form.Input
@@ -218,8 +304,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		getClubInfo: (id, callback) => {
 			dispatch(clubActions.clubInfoAction(id, callback));
-		},getCategories: (callback) => {
+		},
+		getCategories: (callback) => {
 			dispatch(categoryActions.getAllCategoriesAction(callback));
+		},
+		uploadFiles: (id, data, callback, uploadFileErrorCallback) => {
+			dispatch(clubActions.uploadPhotoAction(id, data, callback, uploadFileErrorCallback))
 		},
 	}
 };
