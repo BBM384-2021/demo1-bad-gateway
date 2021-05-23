@@ -1,5 +1,7 @@
 package com.bbm384.badgateway.controller;
 
+import com.bbm384.badgateway.model.MemberBan;
+import com.bbm384.badgateway.repository.MemberBanRepository;
 import com.bbm384.badgateway.service.*;
 import com.bbm384.badgateway.model.Role;
 import com.bbm384.badgateway.model.constants.UserRole;
@@ -60,6 +62,9 @@ public class AuthController {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    MemberBanRepository memberBanRepository;
+
 
     @PostMapping("/auth/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -91,6 +96,8 @@ public class AuthController {
         rolesArray = roles.toArray(rolesArray);
 
         String jwt = tokenProvider.generateToken(authentication);
+        System.out.println("enjhfjfjhw");
+        checkBanStatus();
         return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, rolesArray));
     }
 
@@ -185,6 +192,16 @@ public class AuthController {
         }
         catch (BadCredentialsException ex){
             return new ApiResponse(false, "Current Password Incorrect!");
+        }
+    }
+
+    public void checkBanStatus(){
+        List<MemberBan> memberBans = memberBanRepository.findAll();
+
+        for(MemberBan memberBan: memberBans){
+            if(memberBan.checkActivateMember()){
+                memberBanRepository.save(memberBan);
+            }
         }
     }
 
