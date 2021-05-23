@@ -170,16 +170,17 @@ export const getAllClubsService = () => {
 }
 
 export const getAllClubNamesService = () => {
-  return new Promise(((resolve, reject) => {
-    axios.get(encodeURI(API_CLUB_NAME_ALL),
-      getHeaderWithToken())
-      .then(function (response) {
-        resolve(response);
-      })
-      .catch(function (error) {
-        apiError(error, reject);
-      });
-  }));
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_CLUB_NAME_ALL),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
+}
 
 export const clubPhotoUpload = (name, data, callback) => {
     return new Promise(((resolve, reject) => {
