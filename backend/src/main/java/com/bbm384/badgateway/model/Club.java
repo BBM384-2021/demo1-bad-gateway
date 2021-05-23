@@ -49,6 +49,12 @@ public class Club extends UpdatedAudit {
     @OneToMany(mappedBy="club")
     private Set<Comment> comments;
 
+    private String photoFileName;
+
+    private String photoFileExtension;
+
+    private String photoFilePath;
+
     public Club() {
     }
 
@@ -117,5 +123,27 @@ public class Club extends UpdatedAudit {
         this.comments = comments;
     }
 
+    public String getPhotoFileName() {
+        return photoFileName;
+    }
 
+    public void setPhotoFileName(String photoFileName) {
+        this.photoFileName = photoFileName;
+    }
+
+    public String getPhotoFileExtension() {
+        return photoFileExtension;
+    }
+
+    public void setPhotoFileExtension(String photoFileExtension) {
+        this.photoFileExtension = photoFileExtension;
+    }
+
+    public String getPhotoFilePath() {
+        return photoFilePath;
+    }
+
+    public void setPhotoFilePath(String photoFilePath) {
+        this.photoFilePath = photoFilePath;
+    }
 }

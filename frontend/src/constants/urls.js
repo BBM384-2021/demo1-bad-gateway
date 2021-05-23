@@ -30,6 +30,7 @@ export const API_SC_COMMENT_LIST_URL = urljoin(API_BASE, 'comment', 'subClub', '
 export const API_COMMENT_CREATE = urljoin(API_BASE, 'comment', 'create');
 
 export const API_CLUB_ALL = urljoin(API_BASE, 'club', 'all');
+export const API_CLUB_PHOTO_UPLOAD = urljoin(API_BASE, 'club', 'photo');
 
 export const API_CATEGORY_ALL = urljoin(API_BASE, 'category', 'all');
 

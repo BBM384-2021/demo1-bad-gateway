@@ -1,14 +1,12 @@
 package com.bbm384.badgateway.controller;
-import com.bbm384.badgateway.payload.ClubInfoResponse;
-import com.bbm384.badgateway.payload.ClubPayload;
-import com.bbm384.badgateway.payload.PagedResponse;
-import com.bbm384.badgateway.payload.SubClubPayload;
+import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.service.ClubService;
 import com.bbm384.badgateway.util.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,8 +36,18 @@ public class ClubController {
     }
 
     @PostMapping("/create")
-    public ClubInfoResponse createClub(@CurrentUser UserPrincipal currentUser, @RequestBody ClubPayload clubPayload){
+    @ResponseBody
+    public ClubInfoResponse createClub(@CurrentUser UserPrincipal currentUser,
+                                       @RequestBody ClubPayload clubPayload){
         return clubService.createClub(currentUser, clubPayload);
+    }
+
+    @PostMapping("/photo")
+    @ResponseBody
+    public FileUploadResponse uploadPhoto(@CurrentUser UserPrincipal currentUser,
+                                          @RequestParam(value = "photo", required = false)  Optional<MultipartFile> photo,
+                                          @RequestParam(value = "name") String name){
+        return clubService.uploadPhoto(currentUser, photo, name);
     }
 
     @PutMapping("/update")

@@ -5,7 +5,9 @@ import '../../static/css/auth/auth.css'
 import Page from "../base/Page";
 import * as clubActions from "../../api/actions/club";
 import * as categoryActions from "../../api/actions/category";
-import {Button, Container, Divider, Form, Select, Dropdown, Segment, Header, Message} from "semantic-ui-react";
+import {Button, Container, Divider, Form, Select, Dropdown, Segment, Header, Message, Icon} from "semantic-ui-react";
+import {FILE_UPLOAD_DOC_TYPES, FILE_UPLOAD_STATUS_SUCCESS} from "../../constants/common/file";
+import FileInput from "../base/FileInput";
 
 
 const statusOptions = [
@@ -23,6 +25,13 @@ class CreateClub extends Component{
 			categoryInput: "",
 			status:"ACTIVE",
 
+			photo: null,
+			photoMessage: null,
+
+			submitStatus: null,
+			submitErrors: {},
+			isFormSubmitting: false,
+
 			isHidden: true,
 			isSuccess: false,
 			isError: false,
@@ -35,6 +44,9 @@ class CreateClub extends Component{
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleGetCategories = this.handleGetCategories.bind(this);
 		this.submitForm = this.submitForm.bind(this);
+		this.uploadFileCallback = this.uploadFileCallback.bind(this);
+		this.uploadFileErrorCallback = this.uploadFileErrorCallback.bind(this);
+		this.selectFile = this.selectFile.bind(this);
 	}
 
 	componentDidMount() {
@@ -46,6 +58,45 @@ class CreateClub extends Component{
 				...this.state,
 				categories: data,
 			}
+		)
+	}
+
+	uploadFileCallback = (result) => {
+		if (result.success) {
+			this.setState({
+				submitStatus: FILE_UPLOAD_STATUS_SUCCESS,
+				submitErrors: {},
+				isFormSubmitting: false,
+				photo: null,
+			});
+		}
+	};
+
+	uploadFileErrorCallback = () => {
+		this.setState({
+			isFormSubmitting: false,
+		});
+	};
+
+
+	resetInputFile = (event) => event.target.value = null;
+
+	dismissMessage = (state) => {
+		return (event) => {
+			this.setState({
+				[state + 'Message']: null,
+			});
+		}
+	};
+
+	renderMessage(message, state, messagePrefix){
+		return (
+			<Message
+				icon={message.icon}
+				color={message.color}
+				content={<React.Fragment>{messagePrefix && <b>{messagePrefix}:</b> }{message.content} </React.Fragment>}
+				onDismiss={this.dismissMessage(state)}
+			/>
 		)
 	}
 
@@ -71,6 +122,18 @@ class CreateClub extends Component{
 
 	submitFormCallback = (error) => {
 		this.setState({
+			isFormSubmitting: true,
+			submitStatus: null,
+		});
+
+		const formData = new FormData();
+
+		if(this.state.photo){
+			formData.append("photo", this.state.photo);
+		}
+
+		this.props.uploadFiles(this.state.nameInput, formData, this.uploadFileCallback, this.uploadFileErrorCallback)
+		this.setState({
 			isHidden: false,
 			messageHeader: "Club Created",
 			messageForm: error,
@@ -82,9 +145,36 @@ class CreateClub extends Component{
 		},2000)
 	};
 
+	selectFile = (state) => {
+		return (event, file, message) => {
+			this.setState({
+				[state]: file,
+				[state + 'Message']: message
+			});
+
+
+		}
+	};
+
 	submitForm(event){
 		event.preventDefault();
-		const {nameInput, descriptionInput, categoryInput, status} = this.state
+		const {nameInput, descriptionInput, categoryInput, status, photo} = this.state
+
+		this.setState({
+			photoMessage: null,
+		});
+
+		if (!photo)
+			return this.setState({
+				isFormSubmitting: false,
+				submitStatus: null,
+				generalMessage: {
+					icon: "cancel",
+					color: "red",
+					content: "Please select a file to submit",
+				}
+			});
+
 		if(categoryInput===""){
 			this.setState({
 				isError:true,
@@ -95,10 +185,7 @@ class CreateClub extends Component{
 			})
 			return;
 		}
-		console.log(nameInput,
-			descriptionInput,
-			categoryInput,
-			status)
+
 		const data = {
 			id:Math.random(),
 			name:nameInput,
@@ -112,7 +199,8 @@ class CreateClub extends Component{
 	}
 
 	render() {
-		console.log(this.state.categories)
+		const {isFormSubmitting, submitStatus, status} = this.state;
+
 		return (
 			<Page>
 				<Page.Content>
@@ -126,7 +214,11 @@ class CreateClub extends Component{
 					/>
 					<Segment  >
 					<Header className={"loginHeader"} size={"large"} >Create Club</Header>
+
 					<Form onSubmit={this.submitForm}>
+						<Form.Field>
+							<FileInput selectFileCallback={this.selectFile('photo')} buttonIcon={"photo"} buttonText={"Photo"} fileTypes={FILE_UPLOAD_DOC_TYPES} />
+						</Form.Field>
 						<Form.Field>
 							<Form.Input
 								label={"Name"}
@@ -171,8 +263,6 @@ class CreateClub extends Component{
 								onChange={this.handleInputChange}
 							/>
 						</Form.Field>
-
-
 						<Button color='violet' type='submit' >Submit</Button>
 					</Form>
 					</Segment>
@@ -190,7 +280,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		getCategories: (callback) => {
 			dispatch(categoryActions.getAllCategoriesAction(callback));
 		},
-
+		uploadFiles: (id, data, callback, uploadFileErrorCallback) => {
+			dispatch(clubActions.uploadPhotoAction(id, data, callback, uploadFileErrorCallback))
+		},
 	}
 };
 
