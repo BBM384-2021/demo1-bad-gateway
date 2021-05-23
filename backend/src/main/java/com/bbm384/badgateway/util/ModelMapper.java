@@ -63,8 +63,12 @@ public class ModelMapper {
         subClubPayload.setCategory(subClub.getCategory().getName());
         subClubPayload.setMembers(subClub.getMembers());
         subClubPayload.setAdmin(subClub.getAdmin().getName());
-        subClub.setCreatedAt(subClub.getCreatedAt());
-        subClub.setCreatedBy(subClub.getCreatedBy());
+        subClubPayload.setCreatedAt(subClub.getCreatedAt());
+        subClubPayload.setCreatedBy(subClub.getCreatedBy());
+        subClubPayload.setPhotoFileExtension(subClub.getPhotoFileExtension());
+        subClubPayload.setPhotoFileName(subClub.getPhotoFileName());
+        subClubPayload.setPhotoFilePath(subClub.getPhotoFilePath());
+        
         return subClubPayload;
     }
 

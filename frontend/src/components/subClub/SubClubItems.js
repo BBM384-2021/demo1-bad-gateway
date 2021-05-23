@@ -6,7 +6,7 @@ import '../../static/css/common/Application.css'
 import { Link } from 'react-router-dom';
 
 
-class ClubsItem extends Component{
+class SubClubsItem extends Component{
 
     state = {
         photo: null
@@ -65,4 +65,4 @@ class ClubsItem extends Component{
     }
 }
 
-export default ClubsItem;
+export default SubClubsItem;
