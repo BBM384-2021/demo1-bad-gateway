@@ -25,7 +25,7 @@ export const clubInfoAction = (id, callback) => {
     }
 }
 
-export const clubCreateAction = (data,callback) => {
+export const clubCreateAction = (data, callback) => {
     return (dispatch, getStatus) => {
         return clubService.clubCreateService(data).then(
             (result) => {
@@ -131,6 +131,18 @@ export const getAllClubsAction = (callback) => {
             },
             (error) =>{
                 // callback(messageError);
+            });
+    }
+}
+
+export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback) => {
+    return (dispatch, getStatus) => {
+        return clubService.clubPhotoUpload(name, data).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                uploadFileErrorCallback();
             });
     }
 }

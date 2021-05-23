@@ -75,8 +75,10 @@ class SubClubChat extends Component {
     loadNew = (event) => {
         if(this.state.id !== 0){
             if(this.state.messageList !== null && this.state.messageList.length !== 0){
-                console.log(this.state.messageList);
                 this.props.getSubClubChatNew(this.state.messageList[0].sentAt, this.state.id, this.handleBottomMessages);
+            }
+            else if((this.state.messageList === null || this.state.messageList.length === 0) && this.state.message !== null){
+                this.props.getSubClubChatNew(new Date("2021-01-03").toISOString(), this.state.id, this.handleBottomMessages);
             }
             else{
                 this.props.getSubClubChatNew(new Date("2999-01-03").toISOString(), this.state.id, this.handleBottomMessages);
@@ -278,10 +280,8 @@ class SubClubChat extends Component {
                                                         onChange={this.handleInputChange}
                                                         placeholder="Type a message and hit ENTER"
                                                     />
-                                                </form>
-
-                                                {this.state.showEmojis ? (
-                                                    <React.Fragment>
+                                                    {this.state.showEmojis ? (
+                                                        <React.Fragment>
                                                     <span style={styles.emojiPicker} ref={el => (this.emojiPicker = el)}>
                                                         <Picker
                                                             onSelect={this.addEmoji}
@@ -289,34 +289,18 @@ class SubClubChat extends Component {
                                                             title="SpiritsUp"
                                                         />
                                                       </span>
+                                                            <p style={styles.getEmojiButton} onClick={this.handleEmojis}>
+                                                                {String.fromCodePoint(0x1f60a)}
+                                                            </p>
+                                                        </React.Fragment>
+                                                    ) : (
                                                         <p style={styles.getEmojiButton} onClick={this.handleEmojis}>
                                                             {String.fromCodePoint(0x1f60a)}
                                                         </p>
-                                                    </React.Fragment>
-                                                ) : (
-                                                    <p style={styles.getEmojiButton} onClick={this.handleEmojis}>
-                                                        {String.fromCodePoint(0x1f60a)}
-                                                    </p>
-                                                )}
+                                                    )}
+                                                    <Button icon={"send"} color={'gray'} onClick={this.onFormSubmit}/>
+                                                </form>
                                             </div>
-
-
-
-
-                                            {/*<Form onSubmit={this.onFormSubmit}>*/}
-                                            {/*    <Form.Group widths={"equal"}>*/}
-                                            {/*        <Form.Input id={"message"}*/}
-                                            {/*                    placeholder='Yeni Mesaj'*/}
-                                            {/*                    value={this.state.message}*/}
-                                            {/*                    onChange={this.handleInputChange}*/}
-                                            {/*                    action={{*/}
-                                            {/*                        color: 'teal',*/}
-                                            {/*                        icon: 'send',*/}
-                                            {/*                    }}*/}
-                                            {/*        />*/}
-                                            {/*    </Form.Group>*/}
-                                            {/*</Form>*/}
-
                                         </Segment>
                                     </SegmentGroup>
                             }
@@ -394,6 +378,7 @@ const styles = {
         border: "none",
         margin: 0,
         cursor: "pointer",
+        size: "50px"
     },
     emojiPicker: {
         position: "absolute",

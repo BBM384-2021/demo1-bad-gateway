@@ -15,14 +15,16 @@ export const getRoles = () => {
     return [];
 };
 
-export const setLoginInfo = (tokenType, token, roles) => {
+export const setLoginInfo = (tokenType, token, roles,scores) => {
     localStorage.setItem('token', `${tokenType} ${token}`);
     localStorage.setItem('roles', JSON.stringify(roles));
+    localStorage.setItem('scores', JSON.stringify(scores));
 };
 
 export const resetLoginInfo = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('roles');
+    localStorage.removeItem('scores');
 };
 
 export const getHeaderWithToken = () => {

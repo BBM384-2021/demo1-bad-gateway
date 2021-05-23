@@ -25,8 +25,13 @@ import UpdateEvent from "../../components/event/UpdateEvent";
 import SubClubs from '../../components/subClub/SubClubs';
 import SubClubInfo from '../../components/subClub/SubClubInfo';
 import CreateSubClub from '../../components/subClub/CreateSubClub';
+<<<<<<< HEAD
+import CreateQuestionnarie from '../../components/questionnarrie/CreateQuestionnarie';
+//import AnswerQuestions from "../../components/questionnarrie/AnswerQuestions";
+=======
 import UpdateSubClub from '../../components/subClub/UpdateSubClub';
 import AddCategory from '../../components/club/AddCategory';
+>>>>>>> 8e22b3e056a0a981a055b7f048a0a28194b3fbe3
 
 
 const roleMapping = [
@@ -149,6 +154,13 @@ const roleMapping = [
         permission: [Roles.ADMIN.key,],
     },
     {
+<<<<<<< HEAD
+        component: CreateQuestionnarie,
+        path: '/questionnarie/create/:id',
+        title: 'Create Questionnarie',
+    },
+
+=======
         component: UpdateSubClub,
         path: '/sub_club/update/:id',
         title: 'Sub-Club Update',
@@ -161,6 +173,7 @@ const roleMapping = [
         permission: [Roles.ADMIN.key,],
     }
   
+>>>>>>> 8e22b3e056a0a981a055b7f048a0a28194b3fbe3
 
 ];
 
