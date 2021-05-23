@@ -9,7 +9,8 @@ import {
   API_CLUB_COMMENT_LIST_URL,
   API_COMMENT_CREATE,
   API_CLUB_ALL,
-  API_CLUB_ENROLLED
+  API_CLUB_ENROLLED,
+  API_CLUB_NAME_ALL,
 } from '../../constants/urls';
 
 import {getHeaderWithToken} from "../../utils/auth";
@@ -166,4 +167,17 @@ export const getAllClubsService = () => {
                 apiError(error, reject);
             });
     }));
+}
+
+export const getAllClubNamesService = () => {
+  return new Promise(((resolve, reject) => {
+    axios.get(encodeURI(API_CLUB_NAME_ALL),
+      getHeaderWithToken())
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        apiError(error, reject);
+      });
+  }));
 }

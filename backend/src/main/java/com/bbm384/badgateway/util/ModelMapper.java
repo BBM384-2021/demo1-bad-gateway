@@ -7,6 +7,7 @@ import com.bbm384.badgateway.payload.*;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -121,5 +122,15 @@ public class ModelMapper {
             eventPayload.setSubClubId(event.getSubClub().getId());
         }
         return eventPayload;
+    }
+
+    public static ClubRequestPayload mapToClubRequestPayload(ClubRequest clubRequest) {
+        ClubRequestPayload clubRequestPayload= ClubRequestPayload.builder()
+                .id(clubRequest.getId())
+                .clubName(clubRequest.getClubName())
+                .user(clubRequest.getUser())
+                .requestCount(clubRequest.getRequestCount())
+                .build();
+        return clubRequestPayload;
     }
 }

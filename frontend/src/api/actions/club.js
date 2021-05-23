@@ -1,4 +1,5 @@
 import * as clubService from "../services/club";
+import * as subClubService from '../services/subClub';
 
 export const clubListAction = (page, name, category, callback) => {
   return (dispatch, getState) => {
@@ -133,4 +134,16 @@ export const getAllClubsAction = (callback) => {
                 // callback(messageError);
             });
     }
+}
+
+export const getAllClubNamesAction = (callback) => {
+  return (dispatch, getStatus) => {
+    return clubService.getAllClubNamesService().then(
+      (result) => {
+        callback(result.data);
+      },
+      (error) =>{
+        // callback(messageError);
+      });
+  }
 }

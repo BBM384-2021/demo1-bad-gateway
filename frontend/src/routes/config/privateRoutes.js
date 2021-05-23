@@ -27,6 +27,8 @@ import SubClubInfo from '../../components/subClub/SubClubInfo';
 import CreateSubClub from '../../components/subClub/CreateSubClub';
 import UpdateSubClub from '../../components/subClub/UpdateSubClub';
 import AddCategory from '../../components/club/AddCategory';
+import CreateClubRequest from '../../components/clubRequest/CreateClubRequest';
+import ClubRequestList from '../../components/clubRequest/ClubRequestList';
 
 
 const roleMapping = [
@@ -170,8 +172,21 @@ const roleMapping = [
         path: '/add_category',
         title: 'Add Category',
         permission: [Roles.ADMIN.key,],
+    },
+    {
+        component: CreateClubRequest,
+        path: '/club_request/create',
+        title: 'Create Club Request',
+        permission: [Roles.MEMBER.key],
+    },
+    {
+        component: ClubRequestList,
+        path: '/club_request/list',
+        title: 'Club Request List',
+        permission: [Roles.ADMIN.key],
     }
-  
+
+
 
 ];
 
