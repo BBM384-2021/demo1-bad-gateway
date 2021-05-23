@@ -91,12 +91,7 @@ const roleMapping = [
     //     title: 'Club Info',
     //     permission: [],
     // },
-    {
-        component: NewClubInfo,
-        path: '/club/info/:id',
-        title: 'Club Info',
-        permission: [],
-    },
+
     {
         component: CreateClub,
         path: '/club/create',
@@ -149,12 +144,6 @@ const roleMapping = [
         component: SubClubs,
         path: '/sub_club/list',
         title: 'SubClubs',
-        permission: [],
-    },
-    {
-        component: SubClubInfo,
-        path: '/sub_club/info/:id',
-        title: 'Sub-Club Info',
         permission: [],
     },
     {

@@ -87,7 +87,11 @@ class Header extends Component {
                                    </Dropdown>
                                 </Grid.Column>
 
-                            </Grid> : null
+                            </Grid> : <Grid>>
+                                <Grid.Column style={{marginTop:"45px"}}>
+                                    <Link to={"/login"} style={{color:"white", marginLeft:"900px"}}>Login</Link>
+                                </Grid.Column>
+                            </Grid>
                     }
                 </div>
             </div>
