@@ -1,23 +1,21 @@
 package com.bbm384.badgateway.controller;
 
-import com.bbm384.badgateway.service.*;
+import com.bbm384.badgateway.exception.AppException;
 import com.bbm384.badgateway.model.Role;
+import com.bbm384.badgateway.model.User;
+import com.bbm384.badgateway.model.UserScores;
 import com.bbm384.badgateway.model.constants.UserRole;
 import com.bbm384.badgateway.model.constants.UserStatus;
-import com.bbm384.badgateway.payload.ApiResponse;
-import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.repository.RoleRepository;
 import com.bbm384.badgateway.repository.UserRepository;
-import com.bbm384.badgateway.exception.AppException;
-import com.bbm384.badgateway.model.User;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.JwtTokenProvider;
 import com.bbm384.badgateway.security.UserPrincipal;
-import com.bbm384.badgateway.util.PasswordValidator;
 import com.bbm384.badgateway.service.EmailService;
 import com.bbm384.badgateway.service.PasswordService;
+import com.bbm384.badgateway.service.QuestionService;
 import com.bbm384.badgateway.util.PasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,12 +24,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +55,9 @@ public class AuthController {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    QuestionService questionService;
 
 
     @PostMapping("/auth/login")
@@ -91,7 +90,10 @@ public class AuthController {
         rolesArray = roles.toArray(rolesArray);
 
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, rolesArray));
+        JwtAuthenticationResponse jwtAuthenticationResponse = new JwtAuthenticationResponse(jwt, rolesArray);
+        List<UserScores> userScores = questionService.getUserScores(currentUser.getId());
+        jwtAuthenticationResponse.setUserScores(userScores);
+        return ResponseEntity.ok(jwtAuthenticationResponse);
     }
 
     @PostMapping("/auth/forgot-password")
@@ -166,6 +168,7 @@ public class AuthController {
         roleRepository.save(role);
 
         apiResponse.setSuccess(true);
+        apiResponse.setUserId(user.getId());
         return apiResponse;
     }
 

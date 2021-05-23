@@ -1,11 +1,14 @@
 package com.bbm384.badgateway.model;
 
+import com.querydsl.core.annotations.QueryEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @Entity
+@QueryEntity
 @Table(name = "QUESTION")
 public class Question {
     @Id
@@ -16,12 +19,20 @@ public class Question {
     @NotNull
     private String question;
 
-    @NotNull
-    private int choice;
+    @OneToMany(mappedBy="question")
+    private Set<Answers> answers;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "QUESTIONNAIRE_ID")
-    private Questionnaire questionnaire;
+    @ManyToOne
+    @JoinColumn(name="club_id", nullable=false)
+    private Club club;
+
+    public Question() {
+    }
+
+    public Question(@Size(max = 200) @NotNull String question, @NotNull Club club) {
+        this.question = question;
+        this.club = club;
+    }
 
     public Long getId() {
         return id;
@@ -39,11 +50,19 @@ public class Question {
         this.question = question;
     }
 
-    public int getChoice() {
-        return choice;
+    public Club getClub() {
+        return club;
     }
 
-    public void setChoice(int choice) {
-        this.choice = choice;
+    public void setClub(Club club) {
+        this.club = club;
+    }
+
+    public Set<Answers> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<Answers> answers) {
+        this.answers = answers;
     }
 }

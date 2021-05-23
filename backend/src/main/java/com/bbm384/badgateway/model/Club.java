@@ -41,6 +41,10 @@ public class Club extends UpdatedAudit {
     @JoinColumn(name = "MEMBERS")
     private Set<User> members;
 
+    @JsonIgnore
+    @OneToMany(mappedBy="club")
+    private Set<Question> questions;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private ClubStatus status = ClubStatus.ACTIVE;
@@ -117,5 +121,11 @@ public class Club extends UpdatedAudit {
         this.comments = comments;
     }
 
+    public Set<Question> getQuestions() {
+        return questions;
+    }
 
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
 }
