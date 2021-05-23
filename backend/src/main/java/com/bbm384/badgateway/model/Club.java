@@ -133,6 +133,7 @@ public class Club extends UpdatedAudit {
 
     public void setQuestions(Set<Question> questions) {
         this.questions = questions;
+    }
     public String getPhotoFileName() {
         return photoFileName;
     }
