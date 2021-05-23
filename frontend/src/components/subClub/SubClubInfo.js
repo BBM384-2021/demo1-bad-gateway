@@ -23,6 +23,7 @@ class SubClubInfo extends Component {
     subClub: {},
     roles:[],
     commentInput:"",
+    photo: null
   };
 
   constructor(props) {
@@ -31,6 +32,7 @@ class SubClubInfo extends Component {
     this.sendDeleteRequest = this.sendDeleteRequest.bind(this);
     this.handleDeleteInfo = this.handleDeleteInfo.bind(this);
     this.handleCommentCreate = this.handleCommentCreate.bind(this);
+    this.loadImage = this.loadImage.bind(this);
 
   }
 
@@ -84,6 +86,8 @@ class SubClubInfo extends Component {
         roles:roles
       }
     )
+
+    this.loadImage()
   }
 
   handleDeleteInfo(data) {
@@ -92,6 +96,20 @@ class SubClubInfo extends Component {
       status: LoadingStates.LOADED
     })
     this.props.history.push("/sub_club/list")
+  }
+
+
+  loadImage() {
+
+    if(this.state.subClub.photoFileName !== null){
+      if (typeof(this.state.subClub.photoFileName) !== 'undefined') {
+        import(`../../static/image/common/${this.state.subClub.photoFileName}`)
+            .then(image => {
+              this.setState({photo: image.default})
+            })
+      }
+    }
+
   }
 
   sendDeleteRequest(){
@@ -162,7 +180,10 @@ class SubClubInfo extends Component {
           </Grid.Column>
 
           <Grid.Column width={8}>
-            <Image centered src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='small' circular />
+            {this.state.subClub.photoFileName ?
+                <Image src={this.state.photo}/>:
+                <Image centered src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='small' circular />
+            }
             <Header as='h1' icon textAlign='center'>
               <Header.Content style={{color: "#702BBA"}}>{this.state.subClub.name.toUpperCase()}
                 <h4 style={{color: "#000000"}}>{this.state.subClub.category.name}</h4>

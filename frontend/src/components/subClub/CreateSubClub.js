@@ -9,6 +9,8 @@ import * as SubClubActions from '../../api/actions/subClub';
 import * as categoryActions from '../../api/actions/category';
 import * as clubActions from '../../api/actions/club';
 import * as userActions from '../../api/actions/user';
+import {FILE_UPLOAD_DOC_TYPES, FILE_UPLOAD_STATUS_SUCCESS} from "../../constants/common/file";
+import FileInput from "../base/FileInput";
 
 
 class CreateSubClub extends Component {
@@ -21,6 +23,12 @@ class CreateSubClub extends Component {
       admin: "",
       description: "",
     },
+
+    photo: null,
+    photoMessage: null,
+
+    submitErrors: {},
+    isFormSubmitting: false,
 
     isHidden: true,
     isSuccess: false,
@@ -43,6 +51,9 @@ class CreateSubClub extends Component {
     this.handleGetClubs = this.handleGetClubs.bind(this);
     this.handleGetUsers= this.handleGetUsers.bind(this);
     this.handleGetSubClubs = this.handleGetSubClubs.bind(this);
+    this.uploadFileCallback = this.uploadFileCallback.bind(this);
+    this.uploadFileErrorCallback = this.uploadFileErrorCallback.bind(this);
+    this.selectFile = this.selectFile.bind(this);
   }
 
   componentDidMount() {
@@ -76,6 +87,46 @@ class CreateSubClub extends Component {
     )
   }
 
+  uploadFileCallback = (result) => {
+    if (result.success) {
+      this.setState({
+        submitStatus: FILE_UPLOAD_STATUS_SUCCESS,
+        submitErrors: {},
+        isFormSubmitting: false,
+        photo: null,
+      });
+    }
+  };
+
+  uploadFileErrorCallback = () => {
+    this.setState({
+      isFormSubmitting: false,
+    });
+  };
+
+
+  resetInputFile = (event) => event.target.value = null;
+
+  dismissMessage = (state) => {
+    return (event) => {
+      this.setState({
+        [state + 'Message']: null,
+      });
+    }
+  };
+
+  renderMessage(message, state, messagePrefix){
+    return (
+        <Message
+            icon={message.icon}
+            color={message.color}
+            content={<React.Fragment>{messagePrefix && <b>{messagePrefix}:</b> }{message.content} </React.Fragment>}
+            onDismiss={this.dismissMessage(state)}
+        />
+    )
+  }
+
+
 
   handleGetUsers(data) {
     this.setState({
@@ -93,7 +144,30 @@ class CreateSubClub extends Component {
     setTimeout(() => {
       this.props.history.push('/sub_club/list');
     },2000)
+
+    this.setState({
+      isFormSubmitting: true,
+      submitStatus: null,
+    });
+
+    const formData = new FormData();
+
+    if(this.state.photo){
+      formData.append("photo", this.state.photo);
+    }
+
+    this.props.uploadPhoto(this.state.subClubInfo.name, formData, this.uploadFileCallback, this.uploadFileErrorCallback)
+
   }
+
+  selectFile = (state) => {
+    return (event, file, message) => {
+      this.setState({
+        [state]: file,
+        [state + 'Message']: message
+      });
+    }
+  };
 
   handleInputChange = (event) => {
     const value = event.target.value;
@@ -161,6 +235,12 @@ class CreateSubClub extends Component {
       isHidden:true,
       isSuccess:true,
     });
+
+    this.setState({
+      photoMessage: null,
+    });
+
+
     this.props.createSubClub(this.state.subClubInfo, this.handleSubClubInfo);
   }
 
@@ -180,6 +260,10 @@ class CreateSubClub extends Component {
           />
           <Segment>
             <Header className={"loginHeader"} size={"large"} >Create Sub-Club</Header>
+            <Form.Field>
+              <b>Photo:</b>
+              <FileInput selectFileCallback={this.selectFile('photo')} buttonIcon={"photo"} buttonText={"Photo"} fileTypes={FILE_UPLOAD_DOC_TYPES} />
+            </Form.Field>
             <Form onSubmit={this.handleSubmit}>
                 <Form.Input id={"name"}
                             fluid
@@ -273,6 +357,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getSubClubs: (callback) => {
       dispatch(SubClubActions.getAllSubClubsAction(callback));
+    },
+    uploadPhoto: (id, data, callback, uploadFileErrorCallback) => {
+      dispatch(SubClubActions.uploadPhotoAction(id, data, callback, uploadFileErrorCallback))
     },
   };
 };
