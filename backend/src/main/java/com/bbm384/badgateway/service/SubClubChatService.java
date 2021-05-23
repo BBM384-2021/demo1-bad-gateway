@@ -103,6 +103,9 @@ public class SubClubChatService {
         message.setSenderName(currentUser.getUser().getName());
         message.setSentAt(Instant.now());
 
+        subclub.setActivity(Instant.now());
+        subClubRepository.save(subclub);
+
         String result = badWordsFound(sendMessageRequest.getMessage());
         if(result.contains("*")){
             Optional<MemberBan> memberBan = memberBanRepository.findMemberBanByMember(currentUser.getUser());

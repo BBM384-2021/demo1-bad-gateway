@@ -140,9 +140,9 @@ public class EventService {
             subClub = subClubRepository.findById(eventPayload.getSubClubId()).orElseThrow(
                     () -> new ResourceNotFoundException("Sub Club", "id", String.valueOf(eventPayload.getSubClubId()))
             );
+            subClub.setActivity(Instant.now());
+            subClubRepository.save(subClub);
         }
-
-
 
         Event event = new Event();
         event.setName(eventPayload.getName());
@@ -155,8 +155,9 @@ public class EventService {
         event.setEventDate(eventPayload.getEventDate());
         event.setUpdatedBy(currentUser.getId());
         event.setUpdatedAt(Instant.now());
-
         eventRepository.save(event);
+
+
         response.setSuccess(true);
         response.setMessage("Event created with success");
 
