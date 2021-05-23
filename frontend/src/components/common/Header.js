@@ -24,8 +24,6 @@ class Header extends Component {
     componentDidMount() {
         const {auth} = this.props;
         let roles = getRoles();
-        console.log("---------------------------")
-        console.log(roles[0])
         this.setState({
               roles:roles
           }
