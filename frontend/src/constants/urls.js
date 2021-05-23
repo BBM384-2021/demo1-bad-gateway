@@ -74,4 +74,5 @@ export const API_EVENT_DELETE_ATTENDEE_URL = urljoin(API_BASE, 'event', 'delete_
 export const API_SEARCH_URL = urljoin(API_BASE, 'search');
 
 export const API_CLUB_REQUEST_CREATE_URL = urljoin(API_BASE, 'club_request', 'create');
+export const API_CLUB_REQUEST_LIST_URL = urljoin(API_BASE, 'club_request', 'list');
 

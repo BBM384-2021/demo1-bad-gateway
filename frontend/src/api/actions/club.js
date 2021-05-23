@@ -147,7 +147,6 @@ export const getAllClubNamesAction = (callback) => {
       });
   }
 }
-
 export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback) => {
     return (dispatch, getStatus) => {
         return clubService.clubPhotoUpload(name, data).then(
