@@ -63,10 +63,15 @@ export const API_EVENT_CREATE_URL = urljoin(API_BASE, 'event', 'create');
 export const API_EVENT_UPDATE_URL = urljoin(API_BASE, 'event', 'update');
 export const API_EVENT_DELETE_URL = urljoin(API_BASE, 'event', 'delete');
 
+
 export const API_QUESTIONNARIE_CREATE_URL = urljoin(API_BASE, 'question', 'create');
 export const API_GET_QUESTIONS_URL = urljoin(API_BASE, 'question', 'list');
 export const API_ANSWER_QUESTIONS_URL = urljoin(API_BASE, 'question', 'answer');
 export const API_EVENT_ATTEND_URL = urljoin(API_BASE, 'event', 'attend');
 export const API_EVENT_DELETE_ATTENDEE_URL = urljoin(API_BASE, 'event', 'delete_attendee');
 
+
+export const API_SEARCH_URL = urljoin(API_BASE, 'search');
+
 export const API_CLUB_REQUEST_CREATE_URL = urljoin(API_BASE, 'club_request', 'create');
+

@@ -208,6 +208,7 @@ public class ClubService {
         ).collect(Collectors.toList());
     }
 
+
     private void savePhoto(MultipartFile file, Club club,  FileUploadResponse fileUploadResponse){
         if (!file.getContentType().equals(AppConstants.FILE_PNG) &&
                 !file.getContentType().equals(AppConstants.FILE_JPEG)){

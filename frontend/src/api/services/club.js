@@ -12,7 +12,6 @@ import {
   API_CLUB_ENROLLED,
   API_CLUB_NAME_ALL,
   API_CLUB_PHOTO_UPLOAD,
-  API_CLUB_ENROLLED
 } from '../../constants/urls';
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";

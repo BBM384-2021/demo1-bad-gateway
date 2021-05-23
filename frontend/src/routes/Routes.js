@@ -54,13 +54,16 @@ export const PublicRoutes = (props) => {
 
     let allowedRoutes = [];
 
-    if (auth.loginStatus !== AuthStates.VALID)
+    if (auth.loginStatus !== AuthStates.VALID){
         allowedRoutes = PublicRoutesConfig;
+        console.log(allowedRoutes);
+    }
+
     else
         return <Redirect to="/" />;
 
     return (
-        <MapAllowedRoutes routes={allowedRoutes} basePath={BASE} defaultUrl={"/login"} isAddNotFound />
+        <MapAllowedRoutes routes={allowedRoutes} basePath={BASE} defaultUrl={"/"} isAddNotFound />
     );
 };
 
@@ -75,6 +78,6 @@ export const PrivateRoutes = (props) => {
         return <Redirect to="/" />;
 
     return (
-        <MapAllowedRoutes routes={allowedRoutes} basePath={BASE} defaultUrl={"/club/list"} isAddNotFound />
+        <MapAllowedRoutes routes={allowedRoutes} basePath={BASE} defaultUrl={"/"} isAddNotFound />
     );
 };
