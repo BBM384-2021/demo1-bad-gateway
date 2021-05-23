@@ -30,7 +30,7 @@ export const userListService = (page, filters, callback) => {
 
 export const userInfoService = (id, callback) => {
     return new Promise(((resolve, reject) => {
-        axios.get(encodeURI(API_USER_VIEW_URL+"?id="+id),
+        axios.get(encodeURI(API_USER_VIEW_URL),
             getHeaderWithToken())
             .then(function (response) {
                 resolve(response);

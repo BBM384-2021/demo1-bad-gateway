@@ -1,5 +1,6 @@
 package com.bbm384.badgateway.controller;
 
+import com.bbm384.badgateway.model.User;
 import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
@@ -42,5 +43,11 @@ public class UserController {
     @GetMapping("/all")
     public List<UserInfo> allUsers(){
         return userService.getAllUsers();
+    }
+
+    @PutMapping("/update")
+    public User updateUser(@RequestBody UpdateUserRequest updateUserRequest, @CurrentUser UserPrincipal currentUser) {
+
+        return userService.updateUser(updateUserRequest, currentUser);
     }
 }
