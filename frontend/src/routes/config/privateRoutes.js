@@ -25,6 +25,8 @@ import UpdateEvent from "../../components/event/UpdateEvent";
 import SubClubs from '../../components/subClub/SubClubs';
 import SubClubInfo from '../../components/subClub/SubClubInfo';
 import CreateSubClub from '../../components/subClub/CreateSubClub';
+import CreateQuestionnarie from '../../components/questionnarrie/CreateQuestionnarie';
+//import AnswerQuestions from "../../components/questionnarrie/AnswerQuestions";
 
 
 const roleMapping = [
@@ -157,6 +159,12 @@ const roleMapping = [
         title: 'Sub-Club Create',
         permission: [Roles.ADMIN.key,],
     },
+    {
+        component: CreateQuestionnarie,
+        path: '/questionnarie/create/:id',
+        title: 'Create Questionnarie',
+    },
+
 
 ];
 

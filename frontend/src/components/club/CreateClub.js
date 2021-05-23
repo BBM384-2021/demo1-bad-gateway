@@ -70,6 +70,8 @@ class CreateClub extends Component{
 	}
 
 	submitFormCallback = (error) => {
+		console.log("asd")
+		console.log(error)
 		this.setState({
 			isHidden: false,
 			messageHeader: "Club Created",
@@ -78,7 +80,7 @@ class CreateClub extends Component{
 			isError: false,
 		})
 		setTimeout(() => {
-			this.props.history.push("/club/list");
+			this.props.history.push(`/questionnarie/create/${error.id}`);
 		},2000)
 	};
 
