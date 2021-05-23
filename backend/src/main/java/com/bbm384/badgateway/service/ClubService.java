@@ -229,7 +229,6 @@ public class ClubService {
             fileUploadResponse.setSuccess(false);
             throw new FileStorageException("Could not create the directory");
         }
-        System.out.println("here");
 
         String fileExtension = "";
 
@@ -240,8 +239,7 @@ public class ClubService {
             fileExtension = "png";
         }
 
-        String fileName = club.getName() +  "." + fileExtension;
-        Path filePath = relativePath.resolve(fileName);
+        Path filePath = relativePath.resolve(file.getOriginalFilename());
 
         try {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
@@ -249,10 +247,6 @@ public class ClubService {
             fileUploadResponse.setSuccess(false);
             e.printStackTrace();
         }
-
-        System.out.println(fileExtension);
-        System.out.println(file.getOriginalFilename());
-        System.out.println(filePath.toString());
 
         club.setPhotoFileExtension(fileExtension);
         club.setPhotoFileName(file.getOriginalFilename());

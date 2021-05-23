@@ -37,6 +37,10 @@ public class DataInitializer implements CommandLineRunner {
     PrivateMessageRepository privateMessageRepository;
 
     @Autowired
+
+    MemberBanRepository memberBanRepository;
+
+     @Autowired
     QuestionRepository questionRepository;
 
     @Autowired
@@ -45,9 +49,10 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     EventRepository eventRepository;
 
+
     @Override
     public void run(String... args) {
-        if(false){
+        if(true){
             User admin = new User();
             admin.setName("Betül Karagöz");
             admin.setUsername("admin");
@@ -165,6 +170,19 @@ public class DataInitializer implements CommandLineRunner {
             Role subClubAdminRole = new Role(subClubAdmin, UserRole.SUB_CLUB_ADMIN);
             roleRepository.save(subClubAdminRole);
 
+
+            MemberBan memberBan = new MemberBan();
+            memberBan.setMember(member);
+            memberBan.setSubClub(drawing);
+            memberBan.setBannedDate(Instant.now());
+            memberBanRepository.save(memberBan);
+
+            MemberBan memberBan2 = new MemberBan();
+            memberBan2.setMember(member_2);
+            memberBan2.setSubClub(drawing);
+            memberBan2.setBannedDate(Instant.now());
+            memberBanRepository.save(memberBan2);
+
             Question question = new Question("What you would do in your free time ?",sportClub);
             questionRepository.save(question);
             Answers answer = new Answers("I would go to gym",25,question);
@@ -179,10 +197,10 @@ public class DataInitializer implements CommandLineRunner {
 
             Question question2 = new Question("What you would do in the evening during lockdown ?",gameClub);
             questionRepository.save(question2);
-            Answers answer21 = new Answers("I would do some sport at home",5,question);
-            Answers answer22 = new Answers("I would play video games",25,question);
-            Answers answer23 = new Answers("I would like to chat with my friends",18,question);
-            Answers answer24 = new Answers("I would watch some tv shows",12,question);
+            Answers answer21 = new Answers("I would do some sport at home",5,question2);
+            Answers answer22 = new Answers("I would play video games",25,question2);
+            Answers answer23 = new Answers("I would like to chat with my friends",18,question2);
+            Answers answer24 = new Answers("I would watch some tv shows",12,question2);
 
             answersRepository.save(answer21);
             answersRepository.save(answer22);
@@ -210,6 +228,7 @@ public class DataInitializer implements CommandLineRunner {
             gameTalks.setEventDate(Instant.now());
             gameTalks.setClub(gameClub);
             eventRepository.save(gameTalks);
+
         }
     }
 }

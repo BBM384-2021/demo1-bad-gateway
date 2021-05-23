@@ -49,17 +49,17 @@ const routes = [
         path: '/club/info/:id',
         title: 'Club Info',
     },
-    {
-        component: HomePage,
-        path: '/',
-        title: 'Home Page'
-    },
+
     {
         component: AnswerQuestions,
         path: '/questionnarie/answer/:id',
         title: 'Answer Questionnarie',
     },
-
+    {
+        component: HomePage,
+        path: '/',
+        title: 'Home Page'
+    },
 ];
 
 export default routes;
