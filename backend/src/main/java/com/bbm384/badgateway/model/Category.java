@@ -32,6 +32,10 @@ public class Category extends CreatedAudit {
         this.id = id;
     }
 
+    public Category(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

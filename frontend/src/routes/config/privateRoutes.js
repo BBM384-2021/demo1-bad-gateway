@@ -25,6 +25,8 @@ import UpdateEvent from "../../components/event/UpdateEvent";
 import SubClubs from '../../components/subClub/SubClubs';
 import SubClubInfo from '../../components/subClub/SubClubInfo';
 import CreateSubClub from '../../components/subClub/CreateSubClub';
+import UpdateSubClub from '../../components/subClub/UpdateSubClub';
+import AddCategory from '../../components/club/AddCategory';
 
 
 const roleMapping = [
@@ -157,6 +159,19 @@ const roleMapping = [
         title: 'Sub-Club Create',
         permission: [Roles.ADMIN.key,],
     },
+    {
+        component: UpdateSubClub,
+        path: '/sub_club/update/:id',
+        title: 'Sub-Club Update',
+        permission: [Roles.ADMIN.key,Roles.SUB_CLUB_ADMIN],
+    },
+    {
+        component: AddCategory,
+        path: '/add_category',
+        title: 'Add Category',
+        permission: [Roles.ADMIN.key,],
+    }
+  
 
 ];
 

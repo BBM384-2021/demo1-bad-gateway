@@ -61,17 +61,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
-                    .and()
+                .and()
                 .csrf()
-                    .disable()
+                .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)
-                    .and()
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                    .antMatchers("/",
+                .antMatchers("/",
                         "/static/**",
                         "/manifest.json",
                         "/favicon.ico",
@@ -88,6 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/api/question/list")
                     .permitAll()
                     .antMatchers("/api/question/answer")
+                    .permitAll()
+                    .antMatchers("/api/search/**")
                     .permitAll()
                     .anyRequest()
                         .authenticated();

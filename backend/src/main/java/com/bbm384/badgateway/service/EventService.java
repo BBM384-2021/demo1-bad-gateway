@@ -3,10 +3,7 @@ package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.EventOperationFlowException;
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
-import com.bbm384.badgateway.model.Club;
-import com.bbm384.badgateway.model.Event;
-import com.bbm384.badgateway.model.QEvent;
-import com.bbm384.badgateway.model.SubClub;
+import com.bbm384.badgateway.model.*;
 import com.bbm384.badgateway.model.constants.EventType;
 import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.ApiResponse;
@@ -19,6 +16,7 @@ import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.AppConstants;
 import com.bbm384.badgateway.util.ModelMapper;
 import com.querydsl.core.types.dsl.BooleanExpression;
+//import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,9 +24,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.PreRemove;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class EventService {
@@ -147,6 +147,7 @@ public class EventService {
         Event event = new Event();
         event.setName(eventPayload.getName());
         event.setAddress(eventPayload.getAddress());
+        event.setDescription(eventPayload.getDescription());
         event.setEventType(eventPayload.getEventType());
         event.setAttendees(eventPayload.getAttendees());
         event.setClub(club);
@@ -191,6 +192,7 @@ public class EventService {
 
         event.setName(eventPayload.getName());
         event.setAddress(eventPayload.getAddress());
+        event.setDescription(eventPayload.getDescription());
         event.setEventType(eventPayload.getEventType());
         event.setAttendees(eventPayload.getAttendees());
         event.setClub(club);
@@ -221,6 +223,34 @@ public class EventService {
         response.setSuccess(true);
         response.setMessage("Event deleted with success");
         return response;
+    }
+
+
+    public EventPayload attendEvent(UserPrincipal currentUser, long eventId){
+
+        Event event = eventRepository.findById(eventId).orElseThrow(
+                () -> new ResourceNotFoundException("Event", "id", String.valueOf(eventId))
+        );
+
+        event.getAttendees().add(currentUser.getUser());
+        eventRepository.save(event);
+
+        return ModelMapper.mapToEventPayload(event);
+    }
+
+
+    public EventPayload deleteAttendee(UserPrincipal currentUser, long eventId){
+
+        Event event = eventRepository.findById(eventId).orElseThrow(
+                () -> new ResourceNotFoundException("Event", "id", String.valueOf(eventId))
+        );
+        
+        Set<User> attendees = event.getAttendees();
+        attendees.removeIf(user -> user.getId().equals(currentUser.getUser().getId()));
+        event.setAttendees(attendees);
+        eventRepository.save(event);
+
+        return ModelMapper.mapToEventPayload(event);
     }
 
 }

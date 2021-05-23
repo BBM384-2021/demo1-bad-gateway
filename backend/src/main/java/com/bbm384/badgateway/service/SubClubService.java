@@ -156,4 +156,10 @@ public class SubClubService {
 
         return ModelMapper.mapToSubClubInfoResponse(subClub);
     }
+
+    public List<String> getAllSubClubs(){
+        return  subClubRepository.findAll().stream().map(
+                subClub -> subClub.getName()
+        ).collect(Collectors.toList());
+    }
 }

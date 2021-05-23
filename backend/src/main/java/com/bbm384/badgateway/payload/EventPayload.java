@@ -21,6 +21,7 @@ public class EventPayload extends UpdatedAudit {
     private Long id;
     private String name;
     private String address;
+    private String description;
     private EventType eventType;
     private Set<User> attendees;
     private Instant eventDate;

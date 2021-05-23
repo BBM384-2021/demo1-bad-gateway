@@ -60,7 +60,7 @@ class SubClubs extends Component{
             <div className="card">
               <div className="content">
                 <div className="header" style={{color: "#0066cc"}}>
-                  <Link to={"/subClub/info/" + subClub.value.id}>{subClub.value.name.toUpperCase()}</Link>
+                  <Link to={"/sub_club/info/" + subClub.value.id}>{subClub.value.name.toUpperCase()}</Link>
                 </div>
                 <div as='h2' className="meta">
                   {subClub.value.admin.name}

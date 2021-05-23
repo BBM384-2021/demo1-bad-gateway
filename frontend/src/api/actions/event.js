@@ -65,3 +65,32 @@ export const eventDeleteAction = (id, callback) => {
             });
     }
 }
+
+
+export const attendEventAction = (eventId, callback) => {
+    return (dispatch, getStatus) => {
+        return eventService.attendEventService(eventId).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) => {
+                // callback(messageError);
+            });
+    }
+}
+
+
+export const deleteAttendeeAction = (eventId, callback) => {
+    return (dispatch, getStatus) => {
+        return eventService.deleteAttendeeService(eventId).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) => {
+                // callback(messageError);
+            });
+    }
+}
+
+
+
