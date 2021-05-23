@@ -20,6 +20,8 @@ export const API_USER_STATUS_TOGGLE_URL= urljoin(API_BASE, 'user', 'toggle');
 export const API_USER_ALL = urljoin(API_BASE, 'user', 'all');
 
 export const API_CLUB_ALL = urljoin(API_BASE, 'club', 'all');
+export const API_CLUB_NAME_ALL = urljoin(API_BASE, 'club', 'all_name');
+
 export const API_CLUB_LIST_URL = urljoin(API_BASE, 'club', 'list');
 export const API_CLUB_INFO_URL = urljoin(API_BASE, 'club', 'info');
 export const API_CLUB_CREATE_URL = urljoin(API_BASE, 'club', 'create');
@@ -61,8 +63,15 @@ export const API_EVENT_CREATE_URL = urljoin(API_BASE, 'event', 'create');
 export const API_EVENT_UPDATE_URL = urljoin(API_BASE, 'event', 'update');
 export const API_EVENT_DELETE_URL = urljoin(API_BASE, 'event', 'delete');
 
+
 export const API_QUESTIONNARIE_CREATE_URL = urljoin(API_BASE, 'question', 'create');
 export const API_GET_QUESTIONS_URL = urljoin(API_BASE, 'question', 'list');
 export const API_ANSWER_QUESTIONS_URL = urljoin(API_BASE, 'question', 'answer');
 export const API_EVENT_ATTEND_URL = urljoin(API_BASE, 'event', 'attend');
 export const API_EVENT_DELETE_ATTENDEE_URL = urljoin(API_BASE, 'event', 'delete_attendee');
+
+
+export const API_SEARCH_URL = urljoin(API_BASE, 'search');
+
+export const API_CLUB_REQUEST_CREATE_URL = urljoin(API_BASE, 'club_request', 'create');
+
