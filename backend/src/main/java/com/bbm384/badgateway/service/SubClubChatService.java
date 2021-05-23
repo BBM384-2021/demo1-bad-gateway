@@ -63,7 +63,6 @@ public class SubClubChatService {
             messageList = subClubMessageRepository.findBySubClubOrderBySentAtDesc(subclub, top10);
         }
 
-
         for(SubClubChat message: messageList){
             chat.add(ModelMapper.mapToMessageList(message));
         }

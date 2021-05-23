@@ -38,6 +38,7 @@ class NewClubInfo extends Component {
     club: {},
     roles:[],
     commentInput:"",
+    photo: null
   };
 
   constructor(props) {
@@ -45,8 +46,8 @@ class NewClubInfo extends Component {
     this.handleClubInfo = this.handleClubInfo.bind(this);
     this.sendDeleteRequest = this.sendDeleteRequest.bind(this);
     this.handleDeleteInfo = this.handleDeleteInfo.bind(this);
+    this.loadImage = this.loadImage.bind(this);
     this.handleCommentCreate = this.handleCommentCreate.bind(this);
-
   }
 
   componentDidMount() {
@@ -63,6 +64,19 @@ class NewClubInfo extends Component {
       })
       window.location.href = window.location.href;
     }
+  }
+
+
+  loadImage() {
+    console.log(this.state)
+
+    if(this.state.club.photoFileName !== null){
+      import(`../../static/image/common/${this.state.club.photoFileName}`)
+          .then(image => {
+            this.setState({ photo: image.default })
+          })
+    }
+
   }
 
   handleContentChange= (e, { value }) => this.setState({
@@ -99,6 +113,9 @@ class NewClubInfo extends Component {
         roles:roles
       }
     )
+    console.log(this.state);
+
+    this.loadImage()
   }
 
   handleDeleteInfo(data) {
@@ -178,7 +195,11 @@ class NewClubInfo extends Component {
           </Grid.Column>
 
           <Grid.Column width={8}>
-            <Image centered src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='small' circular />
+            {this.state.club.photoFileName ?
+                <Image src={this.state.photo}/>:
+                <Image centered src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='small' circular />
+            }
+
             <Header as='h1' icon textAlign='center'>
               <Header.Content style={{color: "#702BBA"}}>{this.state.club.name.toUpperCase()}
                 <h4 style={{color: "#000000"}}>{this.state.club.category.name}</h4>
