@@ -1,5 +1,4 @@
 import * as subClubService from "../services/subClub";
-import * as clubService from '../services/club';
 
 export const subClubInfoAction = (id, callback) => {
     return (dispatch, getStatus) => {

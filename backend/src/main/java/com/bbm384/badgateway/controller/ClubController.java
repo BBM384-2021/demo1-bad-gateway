@@ -78,4 +78,9 @@ public class ClubController {
         return clubService.getAllClubs();
     }
 
+    @GetMapping("/all_name")
+    public List<String> getAllClubNames(){
+        return clubService.getAllClubNames();
+    }
+
 }
