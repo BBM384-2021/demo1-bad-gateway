@@ -18,9 +18,20 @@ import CreateClub from "../../components/club/CreateClub";
 import UpdateClub from "../../components/club/UpdateClub";
 import SubClubChat from "../../components/chat/SubClubChat";
 import PrivateMessage from "../../components/privateMessage/PrivateMessage";
+import Events from "../../components/event/Events";
+import EventInfo from "../../components/event/EventInfo";
+import CreateEvent from "../../components/event/CreateEvent";
+import UpdateEvent from "../../components/event/UpdateEvent";
 import SubClubs from '../../components/subClub/SubClubs';
 import SubClubInfo from '../../components/subClub/SubClubInfo';
 import CreateSubClub from '../../components/subClub/CreateSubClub';
+import CreateQuestionnarie from '../../components/questionnarrie/CreateQuestionnarie';
+//import AnswerQuestions from "../../components/questionnarrie/AnswerQuestions";
+import UpdateSubClub from '../../components/subClub/UpdateSubClub';
+import AddCategory from '../../components/club/AddCategory';
+import CreateClubRequest from '../../components/clubRequest/CreateClubRequest';
+import ClubRequestList from '../../components/clubRequest/ClubRequestList';
+
 
 const roleMapping = [
     {
@@ -80,12 +91,7 @@ const roleMapping = [
     //     title: 'Club Info',
     //     permission: [],
     // },
-    {
-        component: NewClubInfo,
-        path: '/club/info/:id',
-        title: 'Club Info',
-        permission: [],
-    },
+
     {
         component: CreateClub,
         path: '/club/create',
@@ -111,15 +117,33 @@ const roleMapping = [
         permission: [],
     },
     {
-        component: SubClubs,
-        path: '/sub_club/list',
-        title: 'SubClubs',
+        component: Events,
+        path: '/event/list',
+        title: 'Events',
         permission: [],
     },
     {
-        component: SubClubInfo,
-        path: '/sub_club/info/:id',
-        title: 'Sub-Club Info',
+        component: EventInfo,
+        path: '/event/info/:id',
+        title: 'Event Detail',
+        permission: [],
+    },
+    {
+        component: CreateEvent,
+        path: '/event/create/',
+        title: 'Create Event',
+        permission: [Roles.ADMIN.key],
+    },
+    {
+        component: UpdateEvent,
+        path: '/event/update/:id',
+        title: 'Create Event',
+        permission: [Roles.ADMIN.key],
+     },
+  {
+        component: SubClubs,
+        path: '/sub_club/list',
+        title: 'SubClubs',
         permission: [],
     },
     {
@@ -128,6 +152,36 @@ const roleMapping = [
         title: 'Sub-Club Create',
         permission: [Roles.ADMIN.key,],
     },
+    {
+        component: CreateQuestionnarie,
+        path: '/questionnarie/create/:id',
+        title: 'Create Questionnarie',
+    },
+    {
+        component: UpdateSubClub,
+        path: '/sub_club/update/:id',
+        title: 'Sub-Club Update',
+        permission: [Roles.ADMIN.key,Roles.SUB_CLUB_ADMIN],
+    },
+    {
+        component: AddCategory,
+        path: '/add_category',
+        title: 'Add Category',
+        permission: [Roles.ADMIN.key,],
+    },
+    {
+        component: CreateClubRequest,
+        path: '/club_request/create',
+        title: 'Create Club Request',
+        permission: [Roles.MEMBER.key],
+    },
+    {
+        component: ClubRequestList,
+        path: '/club_request/list',
+        title: 'Club Request List',
+        permission: [Roles.ADMIN.key],
+    }
+
 
 ];
 

@@ -7,6 +7,7 @@ import com.bbm384.badgateway.payload.*;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -97,8 +98,12 @@ public class ModelMapper {
         commentPayload.setSender(comment.getSender());
         commentPayload.setContent(comment.getContent());
         commentPayload.setRate(comment.getRate());
-        commentPayload.setClub(comment.getClub());
-        commentPayload.setSubClub(comment.getSubClub());
+        if(comment.getClub() != null){
+            commentPayload.setClub(comment.getClub());
+        }
+        else if(comment.getSubClub() != null){
+            commentPayload.setSubClub(comment.getSubClub().getName());
+        }
         commentPayload.setSentAt(comment.getSentAt());
         return commentPayload;
     }
@@ -108,12 +113,27 @@ public class ModelMapper {
                 .id(event.getId())
                 .name(event.getName())
                 .address(event.getAddress())
+                .description(event.getDescription())
                 .eventType(event.getEventType())
                 .attendees(event.getAttendees())
                 .eventDate(event.getEventDate())
                 .club(event.getClub())
                 .subClub(event.getSubClub())
+                .clubId(event.getClub().getId())
                 .build();
+        if (event.getSubClub() != null){
+            eventPayload.setSubClubId(event.getSubClub().getId());
+        }
         return eventPayload;
+    }
+
+    public static ClubRequestPayload mapToClubRequestPayload(ClubRequest clubRequest) {
+        ClubRequestPayload clubRequestPayload= ClubRequestPayload.builder()
+                .id(clubRequest.getId())
+                .clubName(clubRequest.getClubName())
+                .user(clubRequest.getUser())
+                .requestCount(clubRequest.getRequestCount())
+                .build();
+        return clubRequestPayload;
     }
 }

@@ -11,7 +11,7 @@ public class CommentPayload {
     private String content;
     private Integer rate;
     private Club club;
-    private SubClub subClub;
+    private String subClub;
     private Instant sentAt;
 
 
@@ -59,19 +59,19 @@ public class CommentPayload {
         this.club = club;
     }
 
-    public SubClub getSubClub() {
-        return subClub;
-    }
-
-    public void setSubClub(SubClub subClub) {
-        this.subClub = subClub;
-    }
-
     public Instant getSentAt() {
         return sentAt;
     }
 
     public void setSentAt(Instant sentAt) {
         this.sentAt = sentAt;
+    }
+
+    public String getSubClub() {
+        return subClub;
+    }
+
+    public void setSubClub(String subClub) {
+        this.subClub = subClub;
     }
 }

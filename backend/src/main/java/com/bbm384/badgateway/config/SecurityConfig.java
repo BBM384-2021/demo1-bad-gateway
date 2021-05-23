@@ -61,17 +61,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
-                    .and()
+                .and()
                 .csrf()
-                    .disable()
+                .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)
-                    .and()
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                    .antMatchers("/",
+                .antMatchers("/",
                         "/static/**",
                         "/manifest.json",
                         "/favicon.ico",
@@ -82,11 +82,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js")
-                        .permitAll()
-                    .antMatchers("/api/auth/**")
-                        .permitAll()
-                    .anyRequest()
-                        .authenticated();
+                .permitAll()
+                .antMatchers("/api/auth/**")
+                .permitAll()
+                .antMatchers("/api/search/**")
+                .permitAll()
+                .antMatchers("/api/club/info")
+                .permitAll()
+                .antMatchers("/api/club/subClub/list")
+                .permitAll()
+                .antMatchers("/api/sub_club/info")
+                .permitAll()
+                .antMatchers("/api/comment/club/list")
+                .permitAll()
+                .antMatchers("/api/comment/subClub/list")
+                .permitAll()
+                .antMatchers("/api/question/list")
+                .permitAll()
+                .antMatchers("/api/question/answer")
+                .permitAll()
+                .anyRequest()
+                .authenticated();
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -1,6 +1,7 @@
 package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
+import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.model.constants.ClubStatus;
 import com.bbm384.badgateway.payload.PagedResponse;
 import com.bbm384.badgateway.model.*;
@@ -129,12 +130,18 @@ public class SubClubService {
     }
 
 
-    public List<SubClubPayload> getAllSubClubs(long clubId){
+    public List<SubClubPayload> getEnrolledSubClubs(UserPrincipal currentUser, long clubId){
         Club parentClub = clubRepository.findById(clubId).orElseThrow(
                 () -> new ResourceNotFoundException("Club", "id", String.valueOf(clubId))
         );
 
-        return subClubRepository.findAllByParentClub(parentClub).stream().map(
+        if (currentUser.getUser().getUserType().equals(UserType.ADMIN)){
+            return subClubRepository.findAllByParentClub(parentClub).stream().map(
+                    subClub -> ModelMapper.mapToSubClubInfoResponse(subClub)
+            ).collect(Collectors.toList());
+        }
+
+        return subClubRepository.findAllByMembersAndParentClub(currentUser.getUser(), parentClub).stream().map(
                 subClub -> ModelMapper.mapToSubClubInfoResponse(subClub)
         ).collect(Collectors.toList());
     }
@@ -148,5 +155,11 @@ public class SubClubService {
         subClubRepository.save(subClub);
 
         return ModelMapper.mapToSubClubInfoResponse(subClub);
+    }
+
+    public List<String> getAllSubClubs(){
+        return  subClubRepository.findAll().stream().map(
+                subClub -> subClub.getName()
+        ).collect(Collectors.toList());
     }
 }

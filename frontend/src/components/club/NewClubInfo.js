@@ -8,7 +8,6 @@ import {
   List,
   Grid,
   Header,
-  Icon,
   Divider,
   Loader,
   Message,
@@ -57,7 +56,7 @@ class NewClubInfo extends Component {
   }
 
   handleCommentCreate(data) {
-    if(data.content != "" && data.rate != ""){
+    if(data.content !== "" && data.rate !== ""){
       this.setState({
         fields: "",
         comment: "",
@@ -100,7 +99,7 @@ class NewClubInfo extends Component {
       rate: rate,
       club: this.state.club,
     }
-    if(this.state.fields.content != "" && this.state.fields.rate !=""){
+    if(this.state.fields.content !== "" && this.state.fields.rate !== ""){
       this.props.createCommentInfo(data, this.handleCommentCreate);
     }
   };
@@ -140,7 +139,7 @@ class NewClubInfo extends Component {
 
   render() {
     let buttonEnabled = true;
-    if(this.state.fields.content != ""  && this.state.fields.rate != "" ){
+    if(this.state.fields.content !== ""  && this.state.fields.rate !== "" ){
       buttonEnabled = true;
     } else {
       buttonEnabled = false;
@@ -173,7 +172,6 @@ class NewClubInfo extends Component {
 
         <Grid divided centered padded="vertically" columns={3} relaxed='very'>
           <Grid.Column width={4}>
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <Header as='h3' textAlign='center'>
               <Header.Content style={{color: "#009933"}}>MEMBERS</Header.Content>
             </Header>
@@ -224,7 +222,6 @@ class NewClubInfo extends Component {
           </Grid.Column>
 
           <Grid.Column width={4} textAlign="justified">
-            <br/><br/><br/><br/><br/><br/><br/><br/><br/>
             <Comment.Group>
               <Header as='h3' textAlign='center'>
                 <Header.Content style={{color: "#009933"}}>COMMENTS</Header.Content>
@@ -241,6 +238,7 @@ class NewClubInfo extends Component {
                   <Rating maxRating={5} icon='star' size='huge' selected onRate={this.handleRate} />
                 </div>
                 <Form.TextArea
+                  placeholder='Evaluate the Club!'
                   id={"content"}
                   type="text"
                   value={this.state.fields.content}

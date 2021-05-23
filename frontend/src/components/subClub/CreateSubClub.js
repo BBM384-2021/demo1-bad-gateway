@@ -18,12 +18,21 @@ class CreateSubClub extends Component {
       name: "",
       parentClub: "",
       category: "",
-      //admin: "",
+      admin: "",
       description: "",
     },
+
+    isHidden: true,
+    isSuccess: false,
+    isError: false,
+
+    messageHeader: "",
+    messageForm: "",
+
     categories: [],
     clubs:[],
     users:[],
+    allSubClubs:[],
     submitStatus: null,
   };
 
@@ -33,13 +42,14 @@ class CreateSubClub extends Component {
     this.handleGetCategories = this.handleGetCategories.bind(this);
     this.handleGetClubs = this.handleGetClubs.bind(this);
     this.handleGetUsers= this.handleGetUsers.bind(this);
-
+    this.handleGetSubClubs = this.handleGetSubClubs.bind(this);
   }
 
   componentDidMount() {
     this.props.getCategories(this.handleGetCategories);
     this.props.getClubs(this.handleGetClubs);
     this.props.getUsers(this.handleGetUsers);
+    this.props.getSubClubs(this.handleGetSubClubs);
   }
 
   handleGetCategories(data) {
@@ -58,6 +68,15 @@ class CreateSubClub extends Component {
     )
   }
 
+  handleGetSubClubs(data) {
+    this.setState({
+        ...this.state,
+      allSubClubs: data,
+      }
+    )
+  }
+
+
   handleGetUsers(data) {
     this.setState({
         ...this.state,
@@ -73,7 +92,7 @@ class CreateSubClub extends Component {
     })
     setTimeout(() => {
       this.props.history.push('/sub_club/list');
-    },3000)
+    },2000)
   }
 
   handleInputChange = (event) => {
@@ -82,12 +101,24 @@ class CreateSubClub extends Component {
     const newLineCharacter = "\n";
     if (value.length && (value.startsWith(spaceCharacter) || value.startsWith(newLineCharacter)))
       return;
+    if(this.state.allSubClubs.indexOf(value) > -1 ) {
+      this.setState({
+        isError:true,
+        isHidden:false,
+        isSuccess:false,
+        messageHeader:"Sub-club with that name already exists!",
+        messageFrom:"Sub-club with that name already exists!"
+      })
+      return;
+    }
     this.setState({
+      isError:false,
+      isHidden:true,
+      isSuccess:true,
       subClubInfo: {
         ...this.state.subClubInfo,
         [event.target.id]: value
       }
-
     })
   }
 
@@ -113,8 +144,22 @@ class CreateSubClub extends Component {
   });
 
   handleSubmit = (event) => {
+    if(this.state.subClubInfo.name === "" || this.state.subClubInfo.parentClub === "" || this.state.subClubInfo.category === "" ||
+                  this.state.subClubInfo.admin === "" || this.state.subClubInfo.description === ""){
+      this.setState({
+        isError:true,
+        isHidden:false,
+        isSuccess:false,
+        messageHeader:"Please fill in all fields in the form!",
+        messageFrom:"Please fill in all fields in the form!"
+      })
+      return;
+    }
     this.setState({
       submitStatus: true,
+      isError:false,
+      isHidden:true,
+      isSuccess:true,
     });
     this.props.createSubClub(this.state.subClubInfo, this.handleSubClubInfo);
   }
@@ -125,18 +170,26 @@ class CreateSubClub extends Component {
       <Page>
         <br/>
         <Page.Content>
+          <Message
+            hidden={this.state.isHidden}
+            success={this.state.isSuccess}
+            error={this.state.isError}
+            header={this.state.messageHeader}
+            content={this.state.messageForm}
+            className={"message-auth"}
+          />
           <Segment>
             <Header className={"loginHeader"} size={"large"} >Create Sub-Club</Header>
             <Form onSubmit={this.handleSubmit}>
                 <Form.Input id={"name"}
                             fluid
+                            required
                             placeholder='Name'
                             value={this.state.subClubInfo.name}
                             onChange={this.handleInputChange}
                             label='Name'
                             maxLength="100"
                             inline
-                            required
                 />
                 <Form.Select
                   search
@@ -194,7 +247,7 @@ class CreateSubClub extends Component {
             <Icon name='checkmark'/>
             <Message.Content>
               <Message.Header>
-                Sub-Club başarıyla oluşturulmuştur.
+                Sub-Club has been successfully created.
               </Message.Header>
             </Message.Content>
           </Message>
@@ -217,6 +270,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getUsers: (callback) => {
       dispatch(userActions.getAllUsersAction(callback));
+    },
+    getSubClubs: (callback) => {
+      dispatch(SubClubActions.getAllSubClubsAction(callback));
     },
   };
 };

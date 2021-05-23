@@ -5,9 +5,14 @@ import com.bbm384.badgateway.exception.ClubOperationFlowException;
 import com.bbm384.badgateway.exception.FileStorageException;
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
 import com.bbm384.badgateway.model.*;
-import com.bbm384.badgateway.model.constants.ClubStatus;
-import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.properties.StorageProperties;
+import com.bbm384.badgateway.model.constants.ClubStatus;
+import com.bbm384.badgateway.model.constants.UserType;
+import com.bbm384.badgateway.payload.ClubInfoResponse;
+import com.bbm384.badgateway.payload.FileUploadResponse;
+import com.bbm384.badgateway.payload.ClubPayload;
+import com.bbm384.badgateway.payload.PagedResponse;
+import com.bbm384.badgateway.payload.SubClubPayload;
 import com.bbm384.badgateway.repository.CategoryRepository;
 import com.bbm384.badgateway.repository.ClubRepository;
 import com.bbm384.badgateway.repository.SubClubRepository;
@@ -97,8 +102,6 @@ public class ClubService {
         );
     }
 
-
-
     public ClubInfoResponse createClub(UserPrincipal currentUser, ClubPayload clubPayload) {
         Optional<Club> club_check = clubRepository.findByName(clubPayload.getName());
         Club club;
@@ -181,11 +184,31 @@ public class ClubService {
         return subClubPayloadResponse;
     }
 
+    public List<ClubInfoResponse> getEnrolledClubs(UserPrincipal currentUser){
+        if (currentUser.getUser().getUserType().equals(UserType.ADMIN)){
+            return clubRepository.findAll().stream().map(
+                    club -> ModelMapper.mapToClubInfoResponse(club)
+            ).collect(Collectors.toList());
+        }
+
+        return  clubRepository.findAllByMembers(currentUser.getUser()).stream().map(
+                club -> ModelMapper.mapToClubInfoResponse(club)
+        ).collect(Collectors.toList());
+    }
+
     public List<ClubInfoResponse> getAllClubs(){
         return  clubRepository.findAll().stream().map(
                 club -> ModelMapper.mapToClubInfoResponse(club)
         ).collect(Collectors.toList());
     }
+
+
+    public List<String> getAllClubNames(){
+        return  clubRepository.findAll().stream().map(
+                club -> club.getName()
+        ).collect(Collectors.toList());
+    }
+
 
     private void savePhoto(MultipartFile file, Club club,  FileUploadResponse fileUploadResponse){
         if (!file.getContentType().equals(AppConstants.FILE_PNG) &&
@@ -232,5 +255,4 @@ public class ClubService {
         clubRepository.save(club);
         fileUploadResponse.setSuccess(true);
     }
-
 }

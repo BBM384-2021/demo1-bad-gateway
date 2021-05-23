@@ -36,6 +36,11 @@ public class Event extends UpdatedAudit {
     @Size(max = 250)
     private String address;
 
+    @Column(name = "DESCRIPTION")
+    @NotNull
+    @Size(max = 1000)
+    private String description;
+
     @Column(name = "EVENT_TYPE")
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -45,11 +50,11 @@ public class Event extends UpdatedAudit {
     @JoinColumn(name = "ATTENDEES")
     private Set<User> attendees;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.MERGE)
     @JoinColumn(name = "CLUB_ID")
     private Club club;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.MERGE)
     @JoinColumn(name = "SUB_CLUB_ID")
     private SubClub subClub;
 

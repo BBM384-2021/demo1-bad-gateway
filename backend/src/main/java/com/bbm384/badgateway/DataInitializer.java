@@ -37,11 +37,22 @@ public class DataInitializer implements CommandLineRunner {
     PrivateMessageRepository privateMessageRepository;
 
     @Autowired
+
     MemberBanRepository memberBanRepository;
+
+     @Autowired
+    QuestionRepository questionRepository;
+
+    @Autowired
+    AnswersRepository answersRepository;
+  
+    @Autowired
+    EventRepository eventRepository;
+
 
     @Override
     public void run(String... args) {
-        if(false){
+        if(true){
             User admin = new User();
             admin.setName("Betül Karagöz");
             admin.setUsername("admin");
@@ -159,6 +170,7 @@ public class DataInitializer implements CommandLineRunner {
             Role subClubAdminRole = new Role(subClubAdmin, UserRole.SUB_CLUB_ADMIN);
             roleRepository.save(subClubAdminRole);
 
+
             MemberBan memberBan = new MemberBan();
             memberBan.setMember(member);
             memberBan.setSubClub(drawing);
@@ -170,6 +182,53 @@ public class DataInitializer implements CommandLineRunner {
             memberBan2.setSubClub(drawing);
             memberBan2.setBannedDate(Instant.now());
             memberBanRepository.save(memberBan2);
+
+            Question question = new Question("What you would do in your free time ?",sportClub);
+            questionRepository.save(question);
+            Answers answer = new Answers("I would go to gym",25,question);
+            Answers answer2 = new Answers("I play basketball with my friends",18,question);
+            Answers answer3 = new Answers("I would hangout with my friends",12,question);
+            Answers answer4 = new Answers("I would prefer to stay home",5,question);
+
+            answersRepository.save(answer);
+            answersRepository.save(answer2);
+            answersRepository.save(answer3);
+            answersRepository.save(answer4);
+
+            Question question2 = new Question("What you would do in the evening during lockdown ?",gameClub);
+            questionRepository.save(question2);
+            Answers answer21 = new Answers("I would do some sport at home",5,question2);
+            Answers answer22 = new Answers("I would play video games",25,question2);
+            Answers answer23 = new Answers("I would like to chat with my friends",18,question2);
+            Answers answer24 = new Answers("I would watch some tv shows",12,question2);
+
+            answersRepository.save(answer21);
+            answersRepository.save(answer22);
+            answersRepository.save(answer23);
+            answersRepository.save(answer24);
+
+            Event pyCon = new Event();
+            pyCon.setName("PyCon Ankara");
+            pyCon.setAddress("Beytepe Kongre ve Kültür Merkezi");
+            pyCon.setDescription("For the first time in history, PyCon is in Turkey. Well, virtually. And it’s free! PyCon Turkey 2020 is more than just a stream of talks and presentations. " +
+                    "In addition to two tracks of talks, you will also have an opportunity to ask questions to the speakers, meet our sponsors, and have random chats with other participants. " +
+                    "PyCon is a global event brand for conferences organized by Python programming language users in over 40 countries each year. " +
+                    "PyCon Turkey aims to announce our Python Istanbul community to the world, as well as to strengthen the Python culture in our country.");
+            pyCon.setEventType(EventType.OFFLINE);
+            pyCon.setEventDate(Instant.now());
+            pyCon.setClub(artClub);
+            eventRepository.save(pyCon);
+
+
+            Event gameTalks = new Event();
+            gameTalks.setName("Game Talks");
+            gameTalks.setAddress("https://zoom.us/");
+            gameTalks.setDescription("An event about game industry");
+            gameTalks.setEventType(EventType.ONLINE);
+            gameTalks.setEventDate(Instant.now());
+            gameTalks.setClub(gameClub);
+            eventRepository.save(gameTalks);
+
         }
     }
 }

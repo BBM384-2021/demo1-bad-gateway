@@ -95,7 +95,7 @@ class Clubs extends Component {
     if (status !== LoadingStates.LOADED) {
       return (
         <Loader active>
-          Yükleniyor...
+          Loading...
         </Loader>
       )
     }
@@ -143,6 +143,9 @@ class Clubs extends Component {
                   <Grid.Column></Grid.Column>
                   <Grid.Column></Grid.Column>
                   <Grid.Column textAlign={'right'}>
+                  <Button positive as={Link} to={"/add_category"}>
+                      Add Category
+                    </Button>
                     <Button positive as={Link} to={"/club/create"}>
                       Create Club
                     </Button>

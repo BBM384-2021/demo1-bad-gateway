@@ -1,4 +1,5 @@
 import * as clubService from "../services/club";
+import * as subClubService from '../services/subClub';
 
 export const clubListAction = (page, name, category, callback) => {
   return (dispatch, getState) => {
@@ -110,6 +111,19 @@ export const commentCreateAction = (data, callback) => {
 }
 
 
+export const getEnrolledClubsAction = (callback) => {
+    return (dispatch, getStatus) => {
+        return clubService.getEnrolledClubsService().then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
+}
+
+
 export const getAllClubsAction = (callback) => {
     return (dispatch, getStatus) => {
         return clubService.getAllClubsService().then(
@@ -120,6 +134,18 @@ export const getAllClubsAction = (callback) => {
                 // callback(messageError);
             });
     }
+}
+
+export const getAllClubNamesAction = (callback) => {
+  return (dispatch, getStatus) => {
+    return clubService.getAllClubNamesService().then(
+      (result) => {
+        callback(result.data);
+      },
+      (error) =>{
+        // callback(messageError);
+      });
+  }
 }
 
 export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback) => {
