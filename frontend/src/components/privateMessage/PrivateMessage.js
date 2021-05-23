@@ -66,8 +66,10 @@ class PrivateMessage extends Component {
     loadNew = (event) => {
         if(this.state.receiverId !== 0){
             if(this.state.messageList !== null && this.state.messageList.length !== 0){
-                console.log(this.state.messageList);
                 this.props.getPrivateMessageNew(this.state.messageList[0].sentAt, this.state.receiverId, this.handleBottomMessages);
+            }
+            else if((this.state.messageList === null || this.state.messageList.length === 0) && this.state.message !== null){
+                this.props.getPrivateMessageNew(new Date("2021-01-03").toISOString(), this.state.receiverId, this.handleBottomMessages);
             }
             else{
                 this.props.getPrivateMessageNew(new Date("2999-01-03").toISOString(), this.state.receiverId, this.handleBottomMessages);

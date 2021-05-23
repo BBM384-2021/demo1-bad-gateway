@@ -15,7 +15,7 @@ class ClubsItem extends Component{
     return(
       <Card style={{"word-wrap": "break-word"}}>
 
-        <Image src={defaultClub}/>
+        <Image src={club.photoFileName}/>
         <Card.Content>
           <Card.Header>
             <Link to={"/club/info/" + club.id}>

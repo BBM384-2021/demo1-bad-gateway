@@ -133,6 +133,7 @@ class CreateClub extends Component{
 		}
 
 		this.props.uploadFiles(this.state.nameInput, formData, this.uploadFileCallback, this.uploadFileErrorCallback)
+
 		this.setState({
 			isHidden: false,
 			messageHeader: "Club Created",
@@ -151,8 +152,6 @@ class CreateClub extends Component{
 				[state]: file,
 				[state + 'Message']: message
 			});
-
-
 		}
 	};
 
@@ -163,17 +162,6 @@ class CreateClub extends Component{
 		this.setState({
 			photoMessage: null,
 		});
-
-		if (!photo)
-			return this.setState({
-				isFormSubmitting: false,
-				submitStatus: null,
-				generalMessage: {
-					icon: "cancel",
-					color: "red",
-					content: "Please select a file to submit",
-				}
-			});
 
 		if(categoryInput===""){
 			this.setState({
@@ -215,10 +203,10 @@ class CreateClub extends Component{
 					<Segment  >
 					<Header className={"loginHeader"} size={"large"} >Create Club</Header>
 
+					<Form.Field>
+						<FileInput selectFileCallback={this.selectFile('photo')} buttonIcon={"photo"} buttonText={"Photo"} fileTypes={FILE_UPLOAD_DOC_TYPES} />
+					</Form.Field>
 					<Form onSubmit={this.submitForm}>
-						<Form.Field>
-							<FileInput selectFileCallback={this.selectFile('photo')} buttonIcon={"photo"} buttonText={"Photo"} fileTypes={FILE_UPLOAD_DOC_TYPES} />
-						</Form.Field>
 						<Form.Field>
 							<Form.Input
 								label={"Name"}
