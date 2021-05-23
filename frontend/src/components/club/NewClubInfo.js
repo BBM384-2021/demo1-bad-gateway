@@ -55,7 +55,7 @@ class NewClubInfo extends Component {
   }
 
   handleCommentCreate(data) {
-    if(data.content != "" && data.rate != ""){
+    if(data.content !== "" && data.rate !== ""){
       this.setState({
         fields: "",
         comment: "",
@@ -85,7 +85,7 @@ class NewClubInfo extends Component {
       rate: rate,
       club: this.state.club,
     }
-    if(this.state.fields.content != "" && this.state.fields.rate !=""){
+    if(this.state.fields.content !== "" && this.state.fields.rate !== ""){
       this.props.createCommentInfo(data, this.handleCommentCreate);
     }
   };
@@ -122,7 +122,7 @@ class NewClubInfo extends Component {
 
   render() {
     let buttonEnabled = true;
-    if(this.state.fields.content != ""  && this.state.fields.rate != "" ){
+    if(this.state.fields.content !== ""  && this.state.fields.rate !== "" ){
       buttonEnabled = true;
     } else {
       buttonEnabled = false;

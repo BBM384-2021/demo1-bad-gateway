@@ -3,7 +3,6 @@ import Login from "../../components/auth/Login";
 import {ForgotPassword, SetPassword} from "../../components/auth";
 import PasswordReset from "../../components/auth/PasswordReset";
 import SignUp from "../../components/auth/SignUp";
-import AddCategory from '../../components/club/AddCategory';
 
 
 const routes = [

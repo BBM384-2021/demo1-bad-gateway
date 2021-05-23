@@ -175,5 +175,11 @@ public class ClubService {
         ).collect(Collectors.toList());
     }
 
+    public List<String> getAllClubNames(){
+        return  clubRepository.findAll().stream().map(
+                club -> club.getName()
+        ).collect(Collectors.toList());
+    }
+
 
 }
