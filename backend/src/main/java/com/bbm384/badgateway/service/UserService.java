@@ -104,4 +104,20 @@ public class UserService {
                 user -> ModelMapper.mapToUserInfoResponse(user)
         ).collect(Collectors.toList());
     }
+
+    public User updateUser(UpdateUserRequest updateUserRequest, UserPrincipal currentUser){
+        System.out.println(updateUserRequest.toString());
+        User targetUser = userRepository.findById(currentUser.getId()).orElseThrow(()->new AppException("User not found"));
+        System.out.println(targetUser.toString());
+        targetUser.setName(updateUserRequest.getName());
+        targetUser.setPhone(updateUserRequest.getPhone());
+        targetUser.setEmail(updateUserRequest.getEmail());
+        System.out.println(targetUser.toString());
+        userRepository.save(targetUser);
+
+        return targetUser;
+    }
+
+
+
 }

@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import {Button, Icon, Loader, Segment, Table} from "semantic-ui-react";
+import {Button, Icon, Loader, Segment, Table, Image} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router";
-
+import defaultImage from '../../static/image/white-image.png'
 import * as authActions from "../../api/actions/auth";
 
 import {LoadingStates} from "../../constants/common";
@@ -61,6 +61,12 @@ class Profile extends Component {
                 </Page.Operation>
                 <Page.Content>
                     <Segment>
+
+                    <Image
+                            centered
+                            size='medium'
+                            src={defaultImage}
+                        />
                         <Table celled striped>
                             <Table.Body>
                                 <Table.Row>

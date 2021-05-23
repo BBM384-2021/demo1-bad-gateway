@@ -71,6 +71,7 @@ class EditUser extends Component {
             email: this.state.fields.email,
             roles: this.state.fields.roles
         }
+        
         this.props.updateUserInfo(data, this.handleUserEdit);
     };
 

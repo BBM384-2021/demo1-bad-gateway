@@ -96,6 +96,8 @@ public class SubClubService {
                                                         Optional<String> name,
                                                         Optional<Long> parentClub,
                                                         Optional<Long> category) {
+        subCLubActivityStatus();
+
         Pageable pageable = PageRequest.of(page, AppConstants.DEFAULT_PAGE_SIZE, Sort.Direction.DESC, "id");
         Page<SubClub> subClubs;
 
@@ -161,5 +163,15 @@ public class SubClubService {
         return  subClubRepository.findAll().stream().map(
                 subClub -> subClub.getName()
         ).collect(Collectors.toList());
+    }
+
+    public void subCLubActivityStatus(){
+        List<SubClub> subClubs = subClubRepository.findAll();
+
+        for(SubClub subClub: subClubs){
+            if(subClub.checkActivity()){
+                subClubRepository.save(subClub);
+            }
+        }
     }
 }

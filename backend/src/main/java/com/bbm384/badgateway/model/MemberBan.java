@@ -2,6 +2,7 @@ package com.bbm384.badgateway.model;
 
 import com.bbm384.badgateway.model.audit.CreatedAudit;
 import com.bbm384.badgateway.model.constants.BannedMemberStatus;
+import com.bbm384.badgateway.model.constants.UserType;
 import com.querydsl.core.annotations.QueryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -47,6 +48,10 @@ public class MemberBan extends CreatedAudit {
 
     public void updateStatus(){
         this.setBannedDate(Instant.now());
+        if(this.member.getUserType() == UserType.SUB_CLUB_ADMIN){
+            this.member.setUserType(UserType.MEMBER);
+        }
+
         this.totalBanCounter += 1;
         if(this.totalBanCounter <= 3){
             this.status = BannedMemberStatus.BANNED;
