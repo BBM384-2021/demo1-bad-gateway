@@ -14,6 +14,9 @@ public class SubClubPayload extends CreatedAudit {
     private String category;
     private Set<User> members;
     private String admin;
+    private String photoFileName;
+    private String photoFileExtension;
+    private String photoFilePath;
 
     public Long getId() {
         return id;
@@ -69,5 +72,29 @@ public class SubClubPayload extends CreatedAudit {
 
     public void setAdmin(String admin) {
         this.admin = admin;
+    }
+
+    public String getPhotoFileName() {
+        return photoFileName;
+    }
+
+    public void setPhotoFileName(String photoFileName) {
+        this.photoFileName = photoFileName;
+    }
+
+    public String getPhotoFileExtension() {
+        return photoFileExtension;
+    }
+
+    public void setPhotoFileExtension(String photoFileExtension) {
+        this.photoFileExtension = photoFileExtension;
+    }
+
+    public String getPhotoFilePath() {
+        return photoFilePath;
+    }
+
+    public void setPhotoFilePath(String photoFilePath) {
+        this.photoFilePath = photoFilePath;
     }
 }
