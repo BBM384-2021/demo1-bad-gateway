@@ -22,10 +22,7 @@ class ClubsItem extends Component{
                         this.setState({ photo: image.default })
                     })
             }
-
         }
-
-
     }
 
     componentDidMount() {
