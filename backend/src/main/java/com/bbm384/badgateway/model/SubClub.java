@@ -1,12 +1,16 @@
 package com.bbm384.badgateway.model;
 
 import com.bbm384.badgateway.model.audit.CreatedAudit;
+import com.bbm384.badgateway.model.constants.BannedMemberStatus;
 import com.bbm384.badgateway.model.constants.ClubStatus;
 import com.querydsl.core.annotations.QueryEntity;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.Instant;
+import java.time.Period;
 import java.util.Set;
 
 @Entity
@@ -47,11 +51,22 @@ public class SubClub extends CreatedAudit {
     @Column(name = "STATUS")
     private ClubStatus status = ClubStatus.ACTIVE;
 
+    private Instant activity;
+
     private String photoFileName;
 
     private String photoFileExtension;
 
     private String photoFilePath;
+
+    public boolean checkActivity(){
+        Instant expiryDate = this.activity.plus(Period.ofDays(90));
+        if( Instant.now().compareTo(expiryDate) > 0 && this.status == ClubStatus.ACTIVE){
+            this.setStatus(ClubStatus.PASSIVE);
+            return true;
+        }
+        return false;
+    }
 
     public SubClub(String name, Club parentClub, String description, Category category, Set<User> members, User admin) {
         this.name = name;
@@ -128,5 +143,37 @@ public class SubClub extends CreatedAudit {
 
     public void setStatus(ClubStatus status) {
         this.status = status;
+    }
+
+    public Instant getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Instant activity) {
+        this.activity = activity;
+    }
+
+    public String getPhotoFileName() {
+        return photoFileName;
+    }
+
+    public void setPhotoFileName(String photoFileName) {
+        this.photoFileName = photoFileName;
+    }
+
+    public String getPhotoFileExtension() {
+        return photoFileExtension;
+    }
+
+    public void setPhotoFileExtension(String photoFileExtension) {
+        this.photoFileExtension = photoFileExtension;
+    }
+
+    public String getPhotoFilePath() {
+        return photoFilePath;
+    }
+
+    public void setPhotoFilePath(String photoFilePath) {
+        this.photoFilePath = photoFilePath;
     }
 }
