@@ -7,7 +7,6 @@ import HomePage from "../../components/common/HomePage";
 import SubClubInfo from "../../components/subClub/SubClubInfo";
 import NewClubInfo from "../../components/club/NewClubInfo";
 import AnswerQuestions from "../../components/questionnarrie/AnswerQuestions";
-import AddCategory from '../../components/club/AddCategory';
 
 
 
@@ -54,7 +53,12 @@ const routes = [
         path: '/',
         title: 'Home Page'
     },
-  
+    {
+        component: AnswerQuestions,
+        path: '/questionnarie/answer/:id',
+        title: 'Answer Questionnarie',
+    },
+
 ];
 
 export default routes;

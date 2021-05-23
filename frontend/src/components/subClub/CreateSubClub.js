@@ -144,8 +144,8 @@ class CreateSubClub extends Component {
   });
 
   handleSubmit = (event) => {
-    if(this.state.subClubInfo.name == "" || this.state.subClubInfo.parentClub == "" || this.state.subClubInfo.category == "" ||
-                  this.state.subClubInfo.admin == "" || this.state.subClubInfo.description == ""){
+    if(this.state.subClubInfo.name === "" || this.state.subClubInfo.parentClub === "" || this.state.subClubInfo.category === "" ||
+                  this.state.subClubInfo.admin === "" || this.state.subClubInfo.description === ""){
       this.setState({
         isError:true,
         isHidden:false,

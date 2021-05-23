@@ -202,6 +202,14 @@ public class ClubService {
         ).collect(Collectors.toList());
     }
 
+
+    public List<String> getAllClubNames(){
+        return  clubRepository.findAll().stream().map(
+                club -> club.getName()
+        ).collect(Collectors.toList());
+    }
+
+
     private void savePhoto(MultipartFile file, Club club,  FileUploadResponse fileUploadResponse){
         if (!file.getContentType().equals(AppConstants.FILE_PNG) &&
                 !file.getContentType().equals(AppConstants.FILE_JPEG)){
@@ -253,5 +261,4 @@ public class ClubService {
         clubRepository.save(club);
         fileUploadResponse.setSuccess(true);
     }
-
 }
