@@ -10,7 +10,7 @@ import {
     Message,
     Card,
     Dropdown,
-    Select
+    Select, Container, Divider
 } from 'semantic-ui-react';
 import Page from "../base/Page";
 import {Link} from 'react-router-dom';
@@ -78,28 +78,39 @@ class HomePage extends Component {
         return (
 
             <Page>
-                <Page.Header hasBackButton={false} dividerIcon={"world"}>
-                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"/>
-                    <Page.Header.Item><p style={{color: "black", fontFamily: 'Ubuntu Mono ', fontSize: "30px"}}>Home
-                        Page</p></Page.Header.Item>
-                </Page.Header>
-
                 <Page.Content>
-                    <Form onSubmit={this.handleSearch}>
-                        <Form.Group>
-                            <Form.Field>
-                                <Form.Input id={"name"}
-                                            placeholder=''
-                                            value={this.state.name}
-                                            onChange={this.handleInputChange}
-                                            inline
-                                />
-                            </Form.Field>
+                    <Grid>
+                        <Grid.Row columns={2}>
+                            <Grid.Column>
+                                <Page.Header hasBackButton={false} dividerIcon={"world"}>
+                                    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"/>
+                                    <Page.Header.Item><p style={{color: "black", fontFamily: 'Ubuntu Mono ', fontSize: "30px"}}>Home
+                                        Page</p></Page.Header.Item>
+                                </Page.Header>
 
-                            <Form.Button content='Search'/>
-                        </Form.Group>
-                    </Form>
+                            </Grid.Column>
+                            <Grid.Column floated='right' width={3}>
+                                <Form onSubmit={this.handleSearch} style={{marginTop: "20px"}}>
+                                    <Form.Group>
+                                        <Form.Field>
+                                            <Form.Input id={"name"}
+                                                        placeholder=''
+                                                        value={this.state.name}
+                                                        onChange={this.handleInputChange}
+                                                        inline
+                                            />
+                                        </Form.Field>
 
+                                        <Form.Button content='Search'/>
+                                    </Form.Group>
+                                </Form>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+
+                    <Divider inverted>
+                        Horizontal
+                    </Divider>
 
                     <Card.Group itemsPerRow={4}>
                         {
@@ -128,11 +139,7 @@ class HomePage extends Component {
 
                 </Page.Content>
             </Page>
-
-
         )
-
-
     }
 
 }
