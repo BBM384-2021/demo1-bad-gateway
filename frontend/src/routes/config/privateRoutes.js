@@ -182,6 +182,7 @@ const roleMapping = [
         permission: [Roles.ADMIN.key],
     }
 
+
 ];
 
 export default roleMapping;

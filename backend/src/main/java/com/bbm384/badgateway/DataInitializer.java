@@ -47,7 +47,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if(false){
+        if(true){
             User admin = new User();
             admin.setName("Betül Karagöz");
             admin.setUsername("admin");
@@ -179,10 +179,10 @@ public class DataInitializer implements CommandLineRunner {
 
             Question question2 = new Question("What you would do in the evening during lockdown ?",gameClub);
             questionRepository.save(question2);
-            Answers answer21 = new Answers("I would do some sport at home",5,question);
-            Answers answer22 = new Answers("I would play video games",25,question);
-            Answers answer23 = new Answers("I would like to chat with my friends",18,question);
-            Answers answer24 = new Answers("I would watch some tv shows",12,question);
+            Answers answer21 = new Answers("I would do some sport at home",5,question2);
+            Answers answer22 = new Answers("I would play video games",25,question2);
+            Answers answer23 = new Answers("I would like to chat with my friends",18,question2);
+            Answers answer24 = new Answers("I would watch some tv shows",12,question2);
 
             answersRepository.save(answer21);
             answersRepository.save(answer22);
