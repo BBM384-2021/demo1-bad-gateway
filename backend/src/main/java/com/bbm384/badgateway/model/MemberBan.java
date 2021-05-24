@@ -3,6 +3,7 @@ package com.bbm384.badgateway.model;
 import com.bbm384.badgateway.model.audit.CreatedAudit;
 import com.bbm384.badgateway.model.constants.BannedMemberStatus;
 import com.bbm384.badgateway.model.constants.UserType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.annotations.QueryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

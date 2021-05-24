@@ -42,6 +42,7 @@ export const API_CATEGORY_ADD = urljoin(API_BASE, 'category', 'add');
 export const API_SC_CHAT_MESSAGE_SEND = urljoin(API_BASE, 'sub_club_chat', 'send');
 export const API_SC_CHAT_VIEW_MESSAGES = urljoin(API_BASE, 'sub_club_chat', 'list');
 export const API_SC_CHAT_VIEW_NEW_MESSAGES = urljoin(API_BASE, 'sub_club_chat', 'listNew');
+export const API_SC_PHOTO_UPLOAD = urljoin(API_BASE, 'sub_club', 'photo');
 
 export const API_PC_CHAT_MESSAGE_SEND = urljoin(API_BASE, 'private_message', 'send');
 export const API_PC_CHAT_VIEW_MESSAGES = urljoin(API_BASE, 'private_message', 'list');
@@ -75,4 +76,5 @@ export const API_EVENT_DELETE_ATTENDEE_URL = urljoin(API_BASE, 'event', 'delete_
 export const API_SEARCH_URL = urljoin(API_BASE, 'search');
 
 export const API_CLUB_REQUEST_CREATE_URL = urljoin(API_BASE, 'club_request', 'create');
+export const API_CLUB_REQUEST_LIST_URL = urljoin(API_BASE, 'club_request', 'list');
 

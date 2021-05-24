@@ -9,6 +9,7 @@ import com.bbm384.badgateway.service.SubClubService;
 import com.bbm384.badgateway.util.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -68,6 +69,13 @@ public class SubClubController {
     public SubClub enrollClub(@PathVariable Long userId,@PathVariable Long subClubId  ){
         System.out.println(subClubId);
         return subClubService.enrollUser(userId,subClubId);
+    }
+    @PostMapping("/photo")
+    public FileUploadResponse uploadPhoto(@CurrentUser UserPrincipal currentUser,
+                                          @RequestParam(value = "photo", required = false)  Optional<MultipartFile> photo,
+                                          @RequestParam(value = "name") String name){
+        System.out.println("inside controller");
+        return subClubService.uploadPhoto(currentUser, photo, name);
     }
 
 }

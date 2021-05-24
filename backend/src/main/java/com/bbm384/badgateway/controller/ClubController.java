@@ -43,7 +43,6 @@ public class ClubController {
     }
 
     @PostMapping("/photo")
-    @ResponseBody
     public FileUploadResponse uploadPhoto(@CurrentUser UserPrincipal currentUser,
                                           @RequestParam(value = "photo", required = false)  Optional<MultipartFile> photo,
                                           @RequestParam(value = "name") String name){

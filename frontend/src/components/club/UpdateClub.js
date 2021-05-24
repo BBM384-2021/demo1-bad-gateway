@@ -238,6 +238,7 @@ class UpdateClub extends Component{
 					<Segment  >
 						<Header className={"loginHeader"} size={"large"} >Update {club? club.name : "Club"}</Header>
 						<Form.Field>
+							<b>Photo:</b>
 							<FileInput selectFileCallback={this.selectFile('photo')} buttonIcon={"photo"} buttonText={"Photo"} fileTypes={FILE_UPLOAD_DOC_TYPES} />
 						</Form.Field>
 						<Form onSubmit={this.submitForm}>

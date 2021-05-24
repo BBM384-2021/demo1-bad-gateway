@@ -60,11 +60,14 @@ public class SubClub extends CreatedAudit {
     private String photoFilePath;
 
     public boolean checkActivity(){
-        Instant expiryDate = this.activity.plus(Period.ofDays(90));
-        if( Instant.now().compareTo(expiryDate) > 0 && this.status == ClubStatus.ACTIVE){
-            this.setStatus(ClubStatus.PASSIVE);
-            return true;
+        if(this.activity != null){
+            Instant expiryDate = this.activity.plus(Period.ofDays(90));
+            if( Instant.now().compareTo(expiryDate) > 0 && this.status == ClubStatus.ACTIVE){
+                this.setStatus(ClubStatus.PASSIVE);
+                return true;
+            }
         }
+
         return false;
     }
 

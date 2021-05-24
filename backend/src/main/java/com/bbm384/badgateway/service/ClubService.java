@@ -202,7 +202,6 @@ public class ClubService {
         ).collect(Collectors.toList());
     }
 
-
     public List<String> getAllClubNames(){
         return  clubRepository.findAll().stream().map(
                 club -> club.getName()
@@ -255,4 +254,5 @@ public class ClubService {
         clubRepository.save(club);
         fileUploadResponse.setSuccess(true);
     }
+
 }

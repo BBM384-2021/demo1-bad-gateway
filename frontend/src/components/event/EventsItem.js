@@ -7,6 +7,7 @@ import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import * as eventActions from "../../api/actions/event";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
+import {dateParser, timeParser} from "../../utils/time";
 
 
 
@@ -75,9 +76,8 @@ class EventsItem extends Component {
 
 
     render() {
+        const {eventDate} = this.state.event;
 
-
-        //let eventDate = event.eventDate.toISOString();
 
         return (
             <Card style={{"word-wrap": "break-word"}} color="orange">
@@ -108,7 +108,17 @@ class EventsItem extends Component {
                             </Feed.Label>
                             <Feed.Content>
                                 <Feed.Summary>
-                                    {this.state.event.eventDate}
+                                    {dateParser(eventDate)}
+                                </Feed.Summary>
+                            </Feed.Content>
+                        </Feed.Event>
+                        <Feed.Event>
+                            <Feed.Label>
+                                <Icon name="clock"/>
+                            </Feed.Label>
+                            <Feed.Content>
+                                <Feed.Summary>
+                                   {timeParser(eventDate)}
                                 </Feed.Summary>
                             </Feed.Content>
                         </Feed.Event>

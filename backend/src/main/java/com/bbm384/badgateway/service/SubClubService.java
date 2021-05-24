@@ -1,15 +1,15 @@
 package com.bbm384.badgateway.service;
 
+import com.bbm384.badgateway.exception.FileStorageException;
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
 import com.bbm384.badgateway.model.*;
 import com.bbm384.badgateway.model.constants.ClubStatus;
 import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.PagedResponse;
-import com.bbm384.badgateway.payload.SubClubPayload;
-import com.bbm384.badgateway.repository.CategoryRepository;
-import com.bbm384.badgateway.repository.ClubRepository;
-import com.bbm384.badgateway.repository.SubClubRepository;
-import com.bbm384.badgateway.repository.UserRepository;
+import com.bbm384.badgateway.model.*;
+import com.bbm384.badgateway.payload.*;
+import com.bbm384.badgateway.properties.StorageProperties;
+import com.bbm384.badgateway.repository.*;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.AppConstants;
@@ -21,7 +21,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +47,10 @@ public class SubClubService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private StorageProperties storageProperties;
+
 
     public SubClubPayload createSubClub(@CurrentUser UserPrincipal currentUser, SubClubPayload subClubPayload){
         Club club = clubRepository.findByName(subClubPayload.getParentClub()).orElseThrow(
@@ -197,5 +206,65 @@ public class SubClubService {
         users.add(user);
         subClubRepository.save(subClub);
         return subClub;
+    }
+    public FileUploadResponse uploadPhoto(UserPrincipal currentUser, Optional<MultipartFile> photo, String name){
+        Optional<SubClub> subClub = subClubRepository.findByName(name);
+        FileUploadResponse fileUploadResponse = new FileUploadResponse();
+        fileUploadResponse.setSuccess(false);
+
+        System.out.println("here");
+
+        if(subClub.isPresent()){
+            System.out.println("subclub present");
+            savePhoto(photo.get(), subClub.get(), fileUploadResponse);
+        }
+
+        return fileUploadResponse;
+    }
+
+    private void savePhoto(MultipartFile file, SubClub subClub,  FileUploadResponse fileUploadResponse){
+        if (!file.getContentType().equals(AppConstants.FILE_PNG) &&
+                !file.getContentType().equals(AppConstants.FILE_JPEG)){
+            throw new FileStorageException("Wrong file format");
+        }
+
+        // file.getSize() returns size in bytes so convert it to mb.
+        if(file.getSize() / 1000000 > AppConstants.MAX_FILE_SIZE){
+            throw new FileStorageException("Photo size must be less than 10MB");
+        }
+
+        Path relativePath = storageProperties.getUploadPath();
+
+        try {
+            Files.createDirectories(relativePath);
+        }
+        catch (Exception ex) {
+            fileUploadResponse.setSuccess(false);
+            throw new FileStorageException("Could not create the directory");
+        }
+
+        String fileExtension = "";
+
+        if(file.getContentType().equals(AppConstants.FILE_JPEG)){
+            fileExtension = "jpeg";
+        }
+        else if(file.getContentType().equals(AppConstants.FILE_PNG)){
+            fileExtension = "png";
+        }
+
+        Path filePath = relativePath.resolve(file.getOriginalFilename());
+
+        try {
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            fileUploadResponse.setSuccess(false);
+            e.printStackTrace();
+        }
+
+        subClub.setPhotoFileExtension(fileExtension);
+        subClub.setPhotoFileName(file.getOriginalFilename());
+        subClub.setPhotoFilePath(filePath.toString());
+        subClubRepository.save(subClub);
+        fileUploadResponse.setSuccess(true);
     }
 }

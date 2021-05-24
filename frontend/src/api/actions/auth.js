@@ -127,6 +127,7 @@ const userInfo = (data) =>{
             email: data.email,
             name: data.name,
             phone: data.phone,
+            bans: data.bans,
 
             passwordReset: data.passwordReset,
 

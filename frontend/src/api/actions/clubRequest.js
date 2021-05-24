@@ -1,4 +1,5 @@
 import * as clubRequestService from '../services/clubRequest';
+import * as subClubService from '../services/subClub';
 
 
 export const createClubRequestAction = (body, callback) => {
@@ -13,3 +14,16 @@ export const createClubRequestAction = (body, callback) => {
       });
   }
 }
+
+export const ClubRequestListAction = (page, callback) => {
+  return (dispatch, getState) => {
+
+    return clubRequestService.clubRequestListService(page).then(
+      (result) => {
+        callback(result.data);
+      },
+      (error) =>{
+        // callback(messageError);
+      });
+  }
+};

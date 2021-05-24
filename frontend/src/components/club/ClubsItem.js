@@ -15,12 +15,13 @@ class ClubsItem extends Component{
     loadImage() {
         const {club} = this.props;
         if(club.photoFileName !== null){
-            import(`../../static/image/common/${club.photoFileName}`)
-                .then(image => {
-                    this.setState({ photo: image.default })
-                })
+            if (typeof(club.photoFileName) !== 'undefined'){
+                import(`../../static/image/common/${club.photoFileName}`)
+                    .then(image => {
+                        this.setState({ photo: image.default })
+                    })
+            }
         }
-
     }
 
     componentDidMount() {

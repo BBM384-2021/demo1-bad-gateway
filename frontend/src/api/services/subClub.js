@@ -1,13 +1,15 @@
 import axios from "axios";
 import {
-  API_COMMENT_CREATE,
-  API_SC_COMMENT_LIST_URL,
-  API_SUB_CLUB_ALL,
-  API_SUB_CLUB_CREATE,
-  API_SUB_CLUB_DELETE,
-  API_SUB_CLUB_INFO_URL,
-  API_SUB_CLUB_LIST_URL,
-  API_SUB_CLUB_ENROLLED, API_SUB_CLUB_UPDATE,
+    API_COMMENT_CREATE,
+    API_SC_COMMENT_LIST_URL,
+    API_SUB_CLUB_ALL,
+    API_SUB_CLUB_CREATE,
+    API_SUB_CLUB_DELETE,
+    API_SUB_CLUB_INFO_URL,
+    API_SUB_CLUB_LIST_URL,
+    API_SUB_CLUB_ENROLLED,
+    API_SUB_CLUB_UPDATE,
+    API_SC_PHOTO_UPLOAD,
 } from '../../constants/urls';
 
 import {getHeaderWithToken} from "../../utils/auth";
@@ -145,4 +147,17 @@ export const editSubClubService = (body) => {
         //axiosError(error, reject);
       });
   }));
+}
+
+export const subClubPhotoUpload = (name, data, callback) => {
+    return new Promise(((resolve, reject) => {
+        axios.post(encodeURI(API_SC_PHOTO_UPLOAD + "?name=" + name), data,
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                //axiosError(error, reject);
+            });
+    }));
 }
