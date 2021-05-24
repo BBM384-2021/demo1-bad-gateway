@@ -1,12 +1,15 @@
 package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
-import com.bbm384.badgateway.model.constants.UserType;
-import com.bbm384.badgateway.model.constants.ClubStatus;
-import com.bbm384.badgateway.payload.PagedResponse;
 import com.bbm384.badgateway.model.*;
-import com.bbm384.badgateway.payload.*;
-import com.bbm384.badgateway.repository.*;
+import com.bbm384.badgateway.model.constants.ClubStatus;
+import com.bbm384.badgateway.model.constants.UserType;
+import com.bbm384.badgateway.payload.PagedResponse;
+import com.bbm384.badgateway.payload.SubClubPayload;
+import com.bbm384.badgateway.repository.CategoryRepository;
+import com.bbm384.badgateway.repository.ClubRepository;
+import com.bbm384.badgateway.repository.SubClubRepository;
+import com.bbm384.badgateway.repository.UserRepository;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.AppConstants;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -173,5 +177,25 @@ public class SubClubService {
                 subClubRepository.save(subClub);
             }
         }
+    }
+
+    public SubClub enrollUser(Long userId,Long subClubId){
+        SubClub subClub = subClubRepository.findById(subClubId).orElseThrow(
+                () -> new ResourceNotFoundException("SubClub", "id", String.valueOf(subClubId))
+        );
+        System.out.println(userId);
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", String.valueOf(userId))
+        );
+        Set<User> users = subClub.getMembers();
+        for(User tempUser : users) {
+            if(tempUser.getId() == userId) {
+                return subClub;
+            }
+        }
+
+        users.add(user);
+        subClubRepository.save(subClub);
+        return subClub;
     }
 }

@@ -55,6 +55,7 @@ export const API_SUB_CLUB_DELETE = urljoin(API_BASE, 'sub_club', 'delete');
 export const API_SUB_CLUB_CREATE = urljoin(API_BASE, 'sub_club', 'create');
 export const API_SUB_CLUB_UPDATE = urljoin(API_BASE, 'sub_club', 'update');
 export const API_SUB_CLUB_ALL = urljoin(API_BASE, 'sub_club', 'all');
+export const API_ENROLL_SUB_CLUB = urljoin(API_BASE, 'sub_club', 'enroll');
 
 
 export const API_EVENT_LIST_URL = urljoin(API_BASE, 'event', 'list');

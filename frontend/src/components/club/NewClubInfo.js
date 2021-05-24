@@ -23,6 +23,7 @@ import CommentList from "./CommentList";
 import Page from "../base/Page";
 import {Link} from "react-router-dom";
 import {getRoles} from "../../utils/auth";
+import * as SubClubActions from "../../api/actions/subClub";
 
 // Club a üye olanlarda yorum yap butonu ve chat olacak
 class NewClubInfo extends Component {
@@ -36,6 +37,7 @@ class NewClubInfo extends Component {
     comment: {},
     club: {},
     roles:[],
+    enrolledClubs: [],
     commentInput:"",
     photo: null
   };
@@ -47,12 +49,14 @@ class NewClubInfo extends Component {
     this.handleDeleteInfo = this.handleDeleteInfo.bind(this);
     this.loadImage = this.loadImage.bind(this);
     this.handleCommentCreate = this.handleCommentCreate.bind(this);
+    this.handleGetEnrolledSubClubs = this.handleGetEnrolledSubClubs.bind(this);
   }
 
   componentDidMount() {
     const {id} = this.props.match.params;
     const {auth} = this.props;
     this.props.getClubInfo(id, this.handleClubInfo);
+    this.props.getEnrolledSubClubs(id, this.handleGetEnrolledSubClubs)
   }
 
   handleCommentCreate(data) {
@@ -65,7 +69,12 @@ class NewClubInfo extends Component {
     }
   }
 
-
+  handleGetEnrolledSubClubs(data){
+    this.setState({
+      ...this.state,
+      enrolledClubs:data
+    })
+  }
   loadImage() {
     console.log(this.state)
 
@@ -217,6 +226,7 @@ class NewClubInfo extends Component {
               <SubClubs
                 clubId={this.state.club.id}
                 club={this.state.club}
+                enrolledClubs={this.state.enrolledClubs}
               />
             </Card.Group>
           </Grid.Column>
@@ -267,6 +277,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     createCommentInfo: (data, callback) => {
       dispatch(clubActions.commentCreateAction(data, callback));
     },
+    getEnrolledSubClubs: (clubId, callback) => {
+      dispatch(SubClubActions.getEnrolledSubClubsAction(clubId,callback))
+    }
   }
 };
 

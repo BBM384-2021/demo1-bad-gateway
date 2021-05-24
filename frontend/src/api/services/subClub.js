@@ -33,6 +33,8 @@ export const getEnrolledSubClubsService = (clubId, callback) => {
         axios.get(encodeURI(API_SUB_CLUB_ENROLLED+"?clubId="+clubId),
             getHeaderWithToken())
             .then(function (response) {
+              console.log("response enrolled")
+              console.log(response)
                 resolve(response);
             })
             .catch(function (error) {
