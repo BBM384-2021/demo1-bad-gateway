@@ -39,6 +39,9 @@ public class SubClubChatService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserService userService;
+
     public List<SubClubChatList> getMessageList(UserPrincipal currentUser, Long subClubId, Optional<Instant> date){
         Pageable top10 = PageRequest.of(0, 10);
 
@@ -70,6 +73,7 @@ public class SubClubChatService {
         for(SubClubChat message: messageList){
             chat.add(ModelMapper.mapToMessageList(message));
         }
+
         return chat;
     }
 
@@ -134,6 +138,8 @@ public class SubClubChatService {
         }
 
         subClubMessageRepository.save(message);
+
+        userService.getUserFullInfo(currentUser.getUser().getId());
 
         if(result.contains("*")){
             return new ApiResponse(true, filterText(sendMessageRequest.getMessage(), currentUser.getUsername()));

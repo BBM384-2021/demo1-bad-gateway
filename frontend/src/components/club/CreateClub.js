@@ -20,7 +20,7 @@ class CreateClub extends Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			nameInput: "",
+			nameInput: this.props.match.params.clubName,
 			descriptionInput: "",
 			categoryInput: "",
 			status:"ACTIVE",

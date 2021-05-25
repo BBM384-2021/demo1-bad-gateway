@@ -12,8 +12,6 @@ import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import {timeParser} from "../../utils/time";
 import * as subClubActions from "../../api/actions/subClub";
-import SubClubItems from "../subClub/SubClubItems";
-import SubClubFeed from "../subClub/SubClubFeed";
 
 /* TODO SUBCLUB TÜM DATASINI ÇEK*/
 /* TODO EMOJI BIR DEFA BASINCA KAPANIYOR*/
@@ -108,6 +106,28 @@ class SubClubChat extends Component {
 
 
     handleMessageList(data) {
+        let message;
+        if(data.response){
+            if (data.response.data.status === 404) {
+                message = "Please enter a valid email address.";
+                return;
+            }
+            else if (data.response.data.status === 500) {
+                message = "This username and email exists.";
+                return;
+            }
+        }
+        else{
+            message = data.message;
+        }
+        this.setState({
+            isHidden: false,
+            messageHeader: "",
+            messageForm: message,
+            isSuccess: false,
+            isError: true,
+        })
+        
         let topMessage = null;
         let bottomMessage = null;
 
@@ -229,7 +249,7 @@ class SubClubChat extends Component {
             )
         }
 
-        let width = 13;
+        let width = 16;
 
         return (
             <Page>
@@ -306,7 +326,7 @@ class SubClubChat extends Component {
                             }
 
                         </Grid.Column>
-                        {this.state.subClub ?
+                       {/* {this.state.subClub ?
                             <Grid.Column width={3}>
                                 <div style={{marginTop: "10px"}}>
                                     <SubClubItems
@@ -317,7 +337,7 @@ class SubClubChat extends Component {
                                 <SubClubFeed></SubClubFeed>
                             </Grid.Column>:
                             ""
-                        }
+                        }*/}
 
                     </Grid>
                 </Page.Content>

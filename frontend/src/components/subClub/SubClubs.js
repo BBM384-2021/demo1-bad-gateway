@@ -13,12 +13,12 @@ import {
   Select
 } from 'semantic-ui-react';
 import * as SubClubActions from "../../api/actions/subClub";
-import SubClubItems from "./SubClubItems";
 import Page from "../base/Page";
 import { Link } from 'react-router-dom';
 import * as categoryActions from "../../api/actions/category";
 import * as clubActions from "../../api/actions/club";
 import {getRoles} from "../../utils/auth";
+import SubClubItems from "./SubClubItems";
 
 
 class SubClubs extends Component {
