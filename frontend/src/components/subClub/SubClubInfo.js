@@ -127,7 +127,7 @@ class SubClubInfo extends Component {
 
   render() {
     let buttonEnabled = true;
-    if(this.state.fields.content != ""  && this.state.fields.rate != "" ){
+    if(this.state.fields.content !== ""  && this.state.fields.rate !== "" ){
       buttonEnabled = true;
     } else {
       buttonEnabled = false;
