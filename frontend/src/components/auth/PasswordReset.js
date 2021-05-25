@@ -35,19 +35,19 @@ class PasswordReset extends Component {
 
     passwordRules = [
         {
-            title: "Şifreniz en az 8 karakter olmalıdır.",
+            title: "Your password must be at least 8 characters.",
             rule: (val) => val.length >= 8
         },
         {
-            title: "Şifreniz en az 1 rakam içermelidir.",
+            title: "Your password must contain at least 1 number.",
             rule: (val) => val.match(".*\\d.*")
         },
         {
-            title: "Şifreniz en az 1 karakter içermelidir.",
+            title: "Your password must contain at least 1 character.",
             rule: (val) => val.match(".*[a-zA-Z].*")
         },
         {
-            title: "Şifreniz &lt; &gt; ' ( ) \" özel karakterlerini içermemelidir.",
+            title: "Your password must contain &lt; &gt; ' ( ) \" special characters.",
             rule: (val) => !val.match(".*[<>'()\"].*")
         },
     ];
@@ -91,7 +91,7 @@ class PasswordReset extends Component {
             this.setState({
                 isHidden: false,
                 messageHeader: "",
-                messageForm: "Lütfen en az 1 harf 1 rakam ve 1 karakter içeren 8 karakterli şifre oluşturunuz.",
+                messageForm: "Plase create a password with at least one letter, one number and one character with he length of 8 characters.",
                 isSuccess: false,
                 isError: true,
             })
@@ -126,14 +126,14 @@ class PasswordReset extends Component {
 
             <Page>
                 <Page.Header>
-                    <Page.Header.Item>Profil</Page.Header.Item>
-                    <Page.Header.Item>Şifre Sıfırla</Page.Header.Item>
+                    <Page.Header.Item>Profile</Page.Header.Item>
+                    <Page.Header.Item>Reset Password</Page.Header.Item>
                 </Page.Header>
                 <Page.Operation>
                     <Page.Operation.Buttons>
                         <Button compact size={"small"} onClick={this.submitForm} disabled={!buttonEnabled}>
                             <Icon name='save' color={"blue"}/>
-                            Kaydet
+                            Save
                         </Button>
                     </Page.Operation.Buttons>
                 </Page.Operation>
@@ -152,8 +152,8 @@ class PasswordReset extends Component {
                                 <Form onSubmit={this.submitForm}>
                                     <Form.Field>
                                         <Form.Input
-                                            label={"Mevcut Şifre"}
-                                            placeholder='Mevcut şifrenizi giriniz.'
+                                            label={"Current password"}
+                                            placeholder='Please enter your current password'
                                             type='password'
                                             value={this.state.currentPassword}
                                             required
@@ -164,7 +164,7 @@ class PasswordReset extends Component {
                                     </Form.Field>
                                     <Form.Field>
                                         <Form.Input
-                                            label={"Yeni Şifre"}
+                                            label={"New Password"}
                                             placeholder='********'
                                             type='password'
                                             value={this.state.passwordInput}
@@ -175,7 +175,7 @@ class PasswordReset extends Component {
                                     </Form.Field>
                                     <Form.Field>
                                         <Form.Input
-                                            label={"Yeni Şifre Tekrar"}
+                                            label={"New Password Again"}
                                             placeholder='********'
                                             type='password'
                                             value={this.state.passwordInputRepeat}
@@ -193,7 +193,7 @@ class PasswordReset extends Component {
                                         <List.Item>
                                             {ruleIcon(() => this.state.currentPassword.length > 0, this.state.passwordInput)}
                                             <List.Content>
-                                                Mevcut Şifre boş olmamalıdır.
+                                                Current password must not be empty.
                                             </List.Content>
                                         </List.Item>
                                         <Divider/>
@@ -209,7 +209,7 @@ class PasswordReset extends Component {
                                         <List.Item>
                                             {ruleIcon((val) => val === this.state.passwordInputRepeat, this.state.passwordInput)}
                                             <List.Content>
-                                                Şifre ve tekrarı aynı olmalıdır.
+                                                Passwords should match.
                                             </List.Content>
                                         </List.Item>
                                     </List>

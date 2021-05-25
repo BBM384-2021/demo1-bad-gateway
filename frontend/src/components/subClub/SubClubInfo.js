@@ -2,13 +2,14 @@ import React, {Component} from "react";
 import * as subClubActions from "../../api/actions/subClub";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
-import {LoadingStates} from "../../constants/common";
+import {AuthStates, LoadingStates} from "../../constants/common";
 import {Button, List, Grid, Header, Divider, Loader, Message, Image, Card, Comment, Form, Rating} from 'semantic-ui-react';
 import MembersItem from "./MembersItem";
 import CommentList from "./CommentList";
 import Page from "../base/Page";
 import {Link} from "react-router-dom";
 import {getRoles} from "../../utils/auth";
+import SubClubChat from "../chat/SubClubChat";
 
 // Club a üye olanlarda yorum yap butonu ve chat olacak
 class SubClubInfo extends Component {
@@ -43,7 +44,7 @@ class SubClubInfo extends Component {
   }
 
   handleCommentCreate(data) {
-    if(data.content != "" && data.rate != ""){
+    if(data.content !== "" && data.rate !== ""){
       this.setState({
         fields: "",
         comment: "",
@@ -73,7 +74,7 @@ class SubClubInfo extends Component {
       rate: rate,
       subClub: this.state.subClub.name,
     }
-    if(this.state.fields.content != "" && this.state.fields.rate !=""){
+    if(this.state.fields.content !== "" && this.state.fields.rate !== ""){
       this.props.createCommentInfo(data, this.handleCommentCreate);
     }
   };
@@ -126,7 +127,7 @@ class SubClubInfo extends Component {
 
   render() {
     let buttonEnabled = true;
-    if(this.state.fields.content != ""  && this.state.fields.rate != "" ){
+    if(this.state.fields.content !== ""  && this.state.fields.rate !== "" ){
       buttonEnabled = true;
     } else {
       buttonEnabled = false;
@@ -156,8 +157,8 @@ class SubClubInfo extends Component {
 
         </div> : null}
 
-
-        <Grid divided centered padded="vertically" columns={3} relaxed='very'>
+        {!(this.state.subClub.name in this.props.auth.bans) ?
+          <Grid divided centered padded="vertically" columns={3} relaxed='very'>
           <Grid.Column width={4}>
             <Header as='h3' textAlign='center'>
               <Header.Content style={{color: "#009933"}}>MEMBERS</Header.Content>
@@ -181,7 +182,7 @@ class SubClubInfo extends Component {
 
           <Grid.Column width={8}>
             {this.state.subClub.photoFileName ?
-                <Image src={this.state.photo}/>:
+                <Image centered src={this.state.photo}/>:
                 <Image centered src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='small' circular />
             }
             <Header as='h1' icon textAlign='center'>
@@ -193,6 +194,11 @@ class SubClubInfo extends Component {
             <Header as='h4' icon textAlign='center'>
               <Header.Content>{this.state.subClub.description}</Header.Content>
             </Header>
+            {
+              this.props.auth.loginStatus === AuthStates.VALID ?
+                  <SubClubChat>
+                  </SubClubChat>:""
+            }
 
           </Grid.Column>
 
@@ -225,7 +231,7 @@ class SubClubInfo extends Component {
               </Form>
             </Comment.Group>
           </Grid.Column>
-        </Grid>
+          </Grid>:  <div textAlign={"center"} ><Message color={"red"}>You are banned from this sub club</Message></div>}
       </Page>
     )
   }
@@ -246,7 +252,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  return {}
+  const {auth} = state;
+
+  return {
+    auth
+  }
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SubClubInfo))

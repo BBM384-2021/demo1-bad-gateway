@@ -7,6 +7,12 @@ import javax.validation.constraints.Size;
 
 public class SignUpRequest {
     @NotBlank
+    private String name;
+
+    @NotBlank
+    private String phone;
+
+    @NotBlank
     private String username;
 
     @NotBlank
@@ -17,8 +23,17 @@ public class SignUpRequest {
     @NotBlank
     private String password;
 
+
     @NotBlank
     private String passwordRepeat;
+
+    public String getPhone() { return phone; }
+
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
 
     public String getUsername() {
         return username;

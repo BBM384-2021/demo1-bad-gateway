@@ -34,7 +34,7 @@ public class User extends DateAudit {
     private String username;
 
     @Column(name = "PHONE")
-    @Size(min = 10, max = 10)
+    @Size(min = 1, max = 10)
     private String phone;
 
     @Size(max = 40)
