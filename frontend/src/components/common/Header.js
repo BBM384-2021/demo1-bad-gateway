@@ -73,6 +73,7 @@ class Header extends Component {
                                    <Dropdown text={auth.username} style={{width: "100px", color:"white", marginLeft:"950px"}}>
                                         <Dropdown.Menu>
                                             <Dropdown.Item as={Link} to={'/user/profile'}><Icon name='user circle' /> Profile</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to={'/private_message'}><Icon name='facebook messenger' /> Messages </Dropdown.Item>
                                             <Dropdown.Item as={Link} to={'/user/change-password'}><Icon name='edit' /> Change Password</Dropdown.Item>
                                             {getRoles() ? getRoles().find((item)=> item==="ADMIN") &&
                                                 <Dropdown.Item as={Link} to={'/club_request/list'}><Icon name='list' />Club Request List</Dropdown.Item>

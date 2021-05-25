@@ -277,7 +277,7 @@ class PrivateMessage extends Component {
                                         content={this.state.receiver.name}
                                         />
                                     </Segment>
-                                <Segment className={"chat-container"}>
+                                <Segment className={"chat-container-private"}>
                                 <ul className={"chat"}>
                                     {this.state.topMessage &&
                                         <Button compact size={"mini"} icon={"angle double up"} content={"Load More"}
