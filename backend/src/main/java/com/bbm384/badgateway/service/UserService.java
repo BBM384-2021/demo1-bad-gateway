@@ -2,6 +2,7 @@ package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.AppException;
 import com.bbm384.badgateway.model.MemberBan;
+import com.bbm384.badgateway.model.constants.BannedMemberStatus;
 import com.bbm384.badgateway.model.constants.UserStatus;
 import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.repository.RoleRepository;
@@ -83,8 +84,11 @@ public class UserService {
         userFullInfo.setPhone(user.getPhone());
 
         for(MemberBan ban: user.getBans()){
-            bans.put(ban.getSubClub().getName(), ban.getStatus().getValue());
+            if(ban.getStatus() != BannedMemberStatus.ACTIVE){
+                bans.put(ban.getSubClub().getName(), ban.getStatus().getValue());
+            }
         }
+
         userFullInfo.setBans(bans);
 
         return userFullInfo;

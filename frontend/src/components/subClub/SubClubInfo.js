@@ -157,8 +157,8 @@ class SubClubInfo extends Component {
 
         </div> : null}
 
-
-        <Grid divided centered padded="vertically" columns={3} relaxed='very'>
+        {!(this.state.subClub.name in this.props.auth.bans) ?
+          <Grid divided centered padded="vertically" columns={3} relaxed='very'>
           <Grid.Column width={4}>
             <Header as='h3' textAlign='center'>
               <Header.Content style={{color: "#009933"}}>MEMBERS</Header.Content>
@@ -231,7 +231,7 @@ class SubClubInfo extends Component {
               </Form>
             </Comment.Group>
           </Grid.Column>
-        </Grid>
+          </Grid>:  <div textAlign={"center"} ><Message color={"red"}>You are banned from this sub club</Message></div>}
       </Page>
     )
   }

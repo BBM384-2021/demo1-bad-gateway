@@ -29,51 +29,51 @@ class ClubsItem extends Component{
     }
 
 
-  render(){
+    render(){
 
-      const {club, isSubClub} = this.props;
+        const {club, isSubClub} = this.props;
 
-    return(
-      <Card style={{"word-wrap": "break-word"}}>
+        return(
+            <Card style={{"word-wrap": "break-word"}}>
 
-          {club.photoFileName ?
-              <Image centered src={this.state.photo}/>: <Image src={defaultClub}/>
-          }
-          <Card.Content>
-              <Card.Header>
-                  {isSubClub ?
+                {club.photoFileName ?
+                    <Image centered src={this.state.photo}/>: <Image src={defaultClub}/>
+                }
+                <Card.Content>
+                    <Card.Header>
+                        {isSubClub ?
 
-                      <Link to={"/sub_club/info/" + club.id}>
-                          {club.name}
-                      </Link> : <Link to={"/club/info/" + club.id}>
-                          {club.name}
-                      </Link>
-                  }
-              </Card.Header>
-              <Card.Meta>
-                  {isSubClub ?
-                      <div>
-                          <span className='date'>by {club.parentClub}</span>
-                          <br/>
-                          <span className='date'>{club.category}</span>
-                      </div> :
-                      <span className='date'>{club.category.name}</span>
-                  }
+                            <Link to={"/sub_club/info/" + club.id}>
+                                {club.name}
+                            </Link> : <Link to={"/club/info/" + club.id}>
+                                {club.name}
+                            </Link>
+                        }
+                    </Card.Header>
+                    <Card.Meta>
+                        {isSubClub ?
+                            <div>
+                                <span className='date'>by {club.parentClub}</span>
+                                <br/>
+                                <span className='date'>{club.category}</span>
+                            </div> :
+                            <span className='date'>{club.category.name}</span>
+                        }
 
-              </Card.Meta>
-              <Card.Description style={{fontWeight: "bold"}}>
-                  {club.description}
-              </Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-              <a>
-                  <Icon name='user'/>
-                  {club.members.length} Member
-              </a>
-          </Card.Content>
-      </Card>
-    )
-  }
+                    </Card.Meta>
+                    <Card.Description style={{fontWeight: "bold"}}>
+                        {club.description}
+                    </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                    <a>
+                        <Icon name='user'/>
+                        {club.members.length} Member
+                    </a>
+                </Card.Content>
+            </Card>
+        )
+    }
 }
 
 export default ClubsItem;
