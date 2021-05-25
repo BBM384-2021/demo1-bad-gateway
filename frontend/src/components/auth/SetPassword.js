@@ -40,19 +40,19 @@ class SetPassword extends Component {
 
     passwordRules = [
         {
-            title: "Şifreniz en az 8 karakter olmalıdır.",
+            title: "Your password must be at least 8 characters.",
             rule: (val)=>val.length>=8
         },
         {
-            title: "Şifreniz en az 1 rakam içermelidir.",
+            title: "Your password must contain at least 1 number.",
             rule: (val)=>val.match(".*\\d.*")
         },
         {
-            title: "Şifreniz en az 1 karakter içermelidir.",
+            title: "Your password must contain at least 1 character.",
             rule: (val)=>val.match(".*[a-zA-Z].*")
         },
         {
-            title: "Şifreniz &lt; &gt; ' ( ) \" özel karakterlerini içermemelidir.",
+            title: "Your password must contain &lt; &gt; ' ( ) \" special characters.",
             rule: (val)=>!val.match(".*[<>'()\"].*")
         },
     ];
@@ -68,7 +68,7 @@ class SetPassword extends Component {
             passwordInputRepeat: '',
             isHidden: false,
             messageHeader: "",
-            messageForm: "Doğrulama Kodunuz Hatalı Lütfen Tekrar Deneyiniz.",
+            messageForm: "Your confirmation code is wrong, please try again.",
             isSuccess: false,
             isError: true,
         })
@@ -86,7 +86,7 @@ class SetPassword extends Component {
         this.setState({
             isHidden: false,
             messageHeader: "",
-            messageForm: "Şifreniz başarıyla değiştirilmiştir.",
+            messageForm: "Your password has changed succesfully.",
             isSuccess: true,
             isError: false,
         })
@@ -121,7 +121,7 @@ class SetPassword extends Component {
             this.setState({
                 isHidden: false,
                 messageHeader: "",
-                messageForm: "Lütfen en az 1 harf 1 rakam ve 1 karakter içeren 8 karakterli şifre oluşturunuz.",
+                messageForm: "Plase create a password with at least one letter, one number and one character with he length of 8 characters.",
                 isSuccess: false,
                 isError: true,
             })
@@ -154,16 +154,16 @@ class SetPassword extends Component {
         return (
             <Page>
                 <Page.Header>
-                    <Page.Header.Item>Giriş</Page.Header.Item>
-                    <Page.Header.Item>Şifremi Unuttum</Page.Header.Item>
-                    <Page.Header.Item>Şifre Belirle</Page.Header.Item>
+                    <Page.Header.Item>Login</Page.Header.Item>
+                    <Page.Header.Item>Forgot Password</Page.Header.Item>
+                    <Page.Header.Item>Set Password</Page.Header.Item>
 
                 </Page.Header>
                 <Page.Operation>
                     <Page.Operation.Buttons>
                         <Button compact size={"small"} onClick={this.onFormSubmit} disabled={!buttonEnabled}>
                             <Icon name='save' color={"blue"}/>
-                            Kaydet
+                            Save
                         </Button>
                     </Page.Operation.Buttons>
                 </Page.Operation>
@@ -184,7 +184,7 @@ class SetPassword extends Component {
                                     <Form onSubmit={this.onFormSubmit}>
                                         <Form.Field>
                                             <Form.Input
-                                                label={"Yeni Şifre"}
+                                                label={"New Password"}
                                                 placeholder='********'
                                                 type='password'
                                                 value={this.state.passwordInput}
@@ -195,7 +195,7 @@ class SetPassword extends Component {
                                         </Form.Field>
                                         <Form.Field>
                                             <Form.Input
-                                                label={"Yeni Şifre Tekrar"}
+                                                label={"New Password Again"}
                                                 placeholder='********'
                                                 type='password'
                                                 value={this.state.passwordInputRepeat}
@@ -213,7 +213,7 @@ class SetPassword extends Component {
                                             <List.Item>
                                                 {ruleIcon(()=>this.state.passwordInput.length>0, this.state.passwordInput)}
                                                 <List.Content>
-                                                    Mevcut Şifre boş olmamalıdır.
+                                                    Current Password should not be empty.
                                                 </List.Content>
                                             </List.Item>
                                             <Divider/>
@@ -229,7 +229,7 @@ class SetPassword extends Component {
                                             <List.Item>
                                                 {ruleIcon((val)=>val===this.state.passwordInputRepeat, this.state.passwordInput)}
                                                 <List.Content>
-                                                    Şifre ve tekrarı aynı olmalıdır.
+                                                    Passwords should match.
                                                 </List.Content>
                                             </List.Item>
                                         </List>
@@ -241,13 +241,12 @@ class SetPassword extends Component {
                             this.state.tokenStatus.message === "The request timed out." &&
                             <Grid>
                                 <Grid.Column width={8}>
-                                    <Segment><h4>Şifre sıfırlama talebinizin süresi
-                                        dolmuştur. Lütfen aşağıdaki "Şifremi Unuttum" linkine tıklayarak yeni bir şifre
-                                        sıfırlama talebi oluşturunuz.
+                                    <Segment><h4>
+                                        Your password request has been timed out. Please request again by using "Forgot Password" link.
                                     </h4></Segment>
                                     <br/>
                                     <Button icon as={ Link } to={'/auth/forgot-password'}>
-                                        Şifremi Unuttum
+                                        Forgot Password
                                     </Button>
                                 </Grid.Column>
 
