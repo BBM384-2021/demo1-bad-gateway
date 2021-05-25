@@ -188,7 +188,7 @@ class CreateEvent extends Component {
                                     stateChangeCallback={this.handleClubInputChange}
                                 />
                             </Form.Field>
-                            <p>Sub Club *</p>
+                            <p>Sub Club</p>
                             {this.state.data.clubId !== null &&
                                 <Form.Field>
                                     <SubClubSelect
@@ -204,6 +204,7 @@ class CreateEvent extends Component {
                                             placeholder='Event Type'
                                             value={this.state.data.eventType}
                                             onChange={this.handleEventTypeInputChange}
+                                            required
                                             control={Select}
                                             options={
                                                 [
@@ -220,6 +221,7 @@ class CreateEvent extends Component {
                                     placeholder="Date Time"
                                     value={this.state.data.eventDateCreate}
                                     iconPosition="left"
+                                    required
                                     onChange={this.handleEventDateInputChange}
                                 />
                             </Form.Field>
