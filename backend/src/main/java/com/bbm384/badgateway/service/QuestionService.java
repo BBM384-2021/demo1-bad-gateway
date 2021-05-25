@@ -1,18 +1,12 @@
 package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.ClubOperationFlowException;
-import com.bbm384.badgateway.model.Answers;
-import com.bbm384.badgateway.model.Club;
-import com.bbm384.badgateway.model.Question;
-import com.bbm384.badgateway.model.UserScores;
+import com.bbm384.badgateway.model.*;
 import com.bbm384.badgateway.payload.AnswerPayload;
 import com.bbm384.badgateway.payload.QuestionCreateRequest;
 import com.bbm384.badgateway.payload.QuestionsAnswerPayload;
 import com.bbm384.badgateway.payload.QuestionsAnswerRequest;
-import com.bbm384.badgateway.repository.AnswersRepository;
-import com.bbm384.badgateway.repository.ClubRepository;
-import com.bbm384.badgateway.repository.QuestionRepository;
-import com.bbm384.badgateway.repository.UserScoresRepository;
+import com.bbm384.badgateway.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -37,6 +31,9 @@ public class QuestionService {
 
     @Autowired
     UserScoresRepository userScoresRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     public Question createQuestion(QuestionCreateRequest questionCreateRequest){
         Optional<Club> club = clubRepository.findById(questionCreateRequest.getClubId());
@@ -73,6 +70,14 @@ public class QuestionService {
         List<QuestionsAnswerPayload> questionsAnswerPayloads = questionsAnswerRequest.getAnswerPayloads();
         for(QuestionsAnswerPayload payload : questionsAnswerPayloads){
             UserScores userScores = new UserScores(userId,payload.getClubId(),payload.getTotalScore());
+            if(payload.getTotalScore()>=50){
+                Optional<Club> club = clubRepository.findById(payload.getClubId());
+                Set<User> members = club.get().getMembers();
+                members.add(userRepository.findById(userId).get());
+                club.get().setMembers(members);
+                clubRepository.save(club.get());
+            }
+
             userScoresRepository.save(userScores);
         }
         return questionsAnswerRequest;
