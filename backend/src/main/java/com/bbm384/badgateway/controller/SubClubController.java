@@ -1,6 +1,7 @@
 package com.bbm384.badgateway.controller;
 
 import com.bbm384.badgateway.model.SubClub;
+import com.bbm384.badgateway.payload.FileUploadResponse;
 import com.bbm384.badgateway.payload.PagedResponse;
 import com.bbm384.badgateway.payload.SubClubPayload;
 import com.bbm384.badgateway.security.CurrentUser;
