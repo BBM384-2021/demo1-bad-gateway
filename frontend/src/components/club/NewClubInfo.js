@@ -203,7 +203,7 @@ class NewClubInfo extends Component {
 
           <Grid.Column width={8}>
             {this.state.club.photoFileName ?
-                <Image src={this.state.photo}/>:
+                <Image centered src={this.state.photo}/>:
                 <Image centered src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='small' circular />
             }
 
