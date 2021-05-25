@@ -7,7 +7,7 @@ export const messageListAction = (date, id, callback) => {
                 callback(result.data);
             },
             (error) =>{
-                // callback(messageError);
+                callback(error);
             });
     }
 };

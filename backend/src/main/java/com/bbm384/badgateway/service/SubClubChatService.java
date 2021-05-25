@@ -73,6 +73,7 @@ public class SubClubChatService {
         for(SubClubChat message: messageList){
             chat.add(ModelMapper.mapToMessageList(message));
         }
+
         return chat;
     }
 

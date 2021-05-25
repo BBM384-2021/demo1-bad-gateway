@@ -106,6 +106,28 @@ class SubClubChat extends Component {
 
 
     handleMessageList(data) {
+        let message;
+        if(data.response){
+            if (data.response.data.status === 404) {
+                message = "Please enter a valid email address.";
+                return;
+            }
+            else if (data.response.data.status === 500) {
+                message = "This username and email exists.";
+                return;
+            }
+        }
+        else{
+            message = data.message;
+        }
+        this.setState({
+            isHidden: false,
+            messageHeader: "",
+            messageForm: message,
+            isSuccess: false,
+            isError: true,
+        })
+        
         let topMessage = null;
         let bottomMessage = null;
 
