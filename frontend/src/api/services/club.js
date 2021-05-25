@@ -11,6 +11,7 @@ import {
     API_CLUB_ALL,
     API_CLUB_ENROLLED,
     API_CLUB_NAME_ALL,
+    API_ALL_TYPE_CLUB_NAME_ALL,
     API_CLUB_PHOTO_UPLOAD,
     API_ENROLL_SUB_CLUB
 } from '../../constants/urls';
@@ -208,5 +209,17 @@ export const enrollToSubClub = (subClubId) => {
             .catch(function (error) {
                 //axiosError(error, reject);
             });
+      }));
+    }      
+export const getAllTypeClubNamesService = () => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_ALL_TYPE_CLUB_NAME_ALL),
+          getHeaderWithToken())
+          .then(function (response) {
+              resolve(response);
+          })
+          .catch(function (error) {
+              apiError(error, reject);
+          });
     }));
 }

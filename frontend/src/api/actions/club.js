@@ -1,5 +1,4 @@
 import * as clubService from "../services/club";
-import * as subClubService from '../services/subClub';
 
 export const clubListAction = (page, name, category, callback) => {
   return (dispatch, getState) => {
@@ -147,6 +146,7 @@ export const getAllClubNamesAction = (callback) => {
       });
   }
 }
+
 export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback) => {
     return (dispatch, getStatus) => {
         return clubService.clubPhotoUpload(name, data).then(

@@ -33,4 +33,11 @@ public class ClubRequest {
     @Column(name = "REQUEST_COUNT")
     private int requestCount;
 
+    @Column(name = "CLUB_TYPE")
+    @NotNull
+    private String clubType;
+
+    @Column(name = "PARENT_NAME")
+    private String parentName;
+
 }

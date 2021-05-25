@@ -21,6 +21,7 @@ export const API_USER_ALL = urljoin(API_BASE, 'user', 'all');
 
 export const API_CLUB_ALL = urljoin(API_BASE, 'club', 'all');
 export const API_CLUB_NAME_ALL = urljoin(API_BASE, 'club', 'all_name');
+export const API_ALL_TYPE_CLUB_NAME_ALL = urljoin(API_BASE, 'club', 'all_type_name');
 
 export const API_CLUB_LIST_URL = urljoin(API_BASE, 'club', 'list');
 export const API_CLUB_INFO_URL = urljoin(API_BASE, 'club', 'info');
