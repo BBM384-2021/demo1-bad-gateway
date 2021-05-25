@@ -37,7 +37,7 @@ class ClubsItem extends Component{
       <Card style={{"word-wrap": "break-word"}}>
 
           {club.photoFileName ?
-              <Image src={this.state.photo}/>: <Image src={defaultClub}/>
+              <Image centered src={this.state.photo}/>: <Image src={defaultClub}/>
           }
           <Card.Content>
               <Card.Header>

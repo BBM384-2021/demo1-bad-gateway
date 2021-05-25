@@ -38,7 +38,7 @@ class SubClubsItem extends Component{
         return(
             <Card style={{"word-wrap": "break-word"}}>
                 {subClub.photoFileName ?
-                    <Image src={this.state.photo}/>: <Image src={defaultClub}/>
+                    <Image centered src={this.state.photo}/>: <Image centered src={defaultClub}/>
                 }
 
                 <Card.Content>

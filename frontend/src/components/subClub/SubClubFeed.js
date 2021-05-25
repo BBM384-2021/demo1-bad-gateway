@@ -11,7 +11,7 @@ const CardExampleContentBlock = () => (
             <Feed>
                 <Feed.Event>
                     <Feed.Label>
-                        <Image src={defaultPhoto}/>
+                        <Image centered src={defaultPhoto}/>
                     </Feed.Label>
 
                     <Feed.Content>
@@ -24,7 +24,7 @@ const CardExampleContentBlock = () => (
 
                 <Feed.Event>
                     <Feed.Label>
-                        <Image src={defaultPhoto}/>
+                        <Image centered src={defaultPhoto}/>
                     </Feed.Label>
                     <Feed.Content>
                         <Feed.Date content='3 days ago' />
@@ -36,7 +36,7 @@ const CardExampleContentBlock = () => (
 
                 <Feed.Event>
                     <Feed.Label>
-                        <Image src={defaultPhoto}/>
+                        <Image centered src={defaultPhoto}/>
                     </Feed.Label>
                     <Feed.Content>
                         <Feed.Date content='4 days ago' />
