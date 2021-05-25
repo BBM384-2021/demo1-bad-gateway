@@ -169,6 +169,8 @@ public class AuthController {
 
         User user = new User();
         user.setUserType(UserType.MEMBER);
+        user.setPhone(signUpRequest.getPhone());
+        user.setName(signUpRequest.getName());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setEmail(signUpRequest.getEmail());
         user.setUsername(signUpRequest.getUsername());
