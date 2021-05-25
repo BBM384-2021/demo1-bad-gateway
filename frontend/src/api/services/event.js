@@ -6,7 +6,7 @@ import {
     API_EVENT_UPDATE_URL,
     API_EVENT_DELETE_URL,
     API_EVENT_ATTEND_URL,
-    API_EVENT_DELETE_ATTENDEE_URL
+    API_EVENT_DELETE_ATTENDEE_URL, API_EVENT_SUB_CLUB_LIST_URL
 } from "../../constants/urls";
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";
@@ -114,6 +114,21 @@ export const attendEventService = (eventId) => {
 export const deleteAttendeeService = (eventId) => {
     return new Promise(((resolve, reject) => {
         axios.get(encodeURI(API_EVENT_DELETE_ATTENDEE_URL+"?eventId="+eventId),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
+}
+
+
+
+export const getSubClubEventsService = (subClubId, callback) => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_EVENT_SUB_CLUB_LIST_URL+"?subClubId="+subClubId),
             getHeaderWithToken())
             .then(function (response) {
                 resolve(response);

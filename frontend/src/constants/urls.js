@@ -65,6 +65,7 @@ export const API_EVENT_INFO_URL = urljoin(API_BASE, 'event', 'info');
 export const API_EVENT_CREATE_URL = urljoin(API_BASE, 'event', 'create');
 export const API_EVENT_UPDATE_URL = urljoin(API_BASE, 'event', 'update');
 export const API_EVENT_DELETE_URL = urljoin(API_BASE, 'event', 'delete');
+export const API_EVENT_SUB_CLUB_LIST_URL = urljoin(API_BASE, 'event', 'sub_club', 'list');
 
 
 export const API_QUESTIONNARIE_CREATE_URL = urljoin(API_BASE, 'question', 'create');

@@ -134,6 +134,14 @@ class HomePage extends Component {
                                                 />)
                                         }
                                     }
+                                    else if(this.props.auth.loginStatus !== AuthStates.VALID){
+                                        return (
+                                            <ClubsItem
+                                                key={subClub.id}
+                                                club={subClub}
+                                                isSubClub
+                                            />)
+                                    }
                                 }
                             )
                         }

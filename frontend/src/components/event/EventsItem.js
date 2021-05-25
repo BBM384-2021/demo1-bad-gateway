@@ -160,11 +160,11 @@ class EventsItem extends Component {
                         <Icon name='user'/>
                         {this.state.event.attendees.length} Attendees
                     </a>
-                    {this.state.isAttendee === false && <Button size={"tiny"} compact={"true"} style={{marginLeft: "400px"}} onClick={this.handleAttendButton}>
+                    {this.state.isAttendee === false && <Button size={"tiny"} compact={"true"} style={{marginLeft: "35px"}} onClick={this.handleAttendButton}>
                         Attend
                     </Button>
                     }
-                    {this.state.isAttendee && <Button size={"tiny"} compact={"true"} style={{marginLeft: "400px"}} onClick={this.handleLeaveButton}>
+                    {this.state.isAttendee && <Button size={"tiny"} compact={"true"} style={{marginLeft: "35px"}} onClick={this.handleLeaveButton}>
                         Leave
                     </Button>
                     }

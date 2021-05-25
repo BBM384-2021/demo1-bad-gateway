@@ -1,6 +1,7 @@
 package com.bbm384.badgateway.controller;
 
 
+import com.bbm384.badgateway.model.Event;
 import com.bbm384.badgateway.model.constants.EventType;
 import com.bbm384.badgateway.payload.ApiResponse;
 import com.bbm384.badgateway.payload.EventPayload;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -65,4 +67,10 @@ public class EventController {
     public EventPayload deleteAttendee(@CurrentUser UserPrincipal currentUser, @RequestParam(value = "eventId") long eventId) {
         return eventService.deleteAttendee(currentUser, eventId);
     }
+
+    @GetMapping("/sub_club/list")
+    public List<EventPayload> getSubClubEvents(@RequestParam(value = "subClubId") long subClubId){
+        return eventService.getSubClubEvents(subClubId);
+    }
+
 }

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import * as subClubActions from "../../api/actions/subClub";
+import * as eventActions from "../../api/actions/event";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {AuthStates, LoadingStates} from "../../constants/common";
@@ -9,7 +10,9 @@ import CommentList from "./CommentList";
 import Page from "../base/Page";
 import {Link} from "react-router-dom";
 import {getRoles} from "../../utils/auth";
+import EventsItem from "../event/EventsItem";
 import SubClubChat from "../chat/SubClubChat";
+
 
 // Club a üye olanlarda yorum yap butonu ve chat olacak
 class SubClubInfo extends Component {
@@ -24,7 +27,8 @@ class SubClubInfo extends Component {
     subClub: {},
     roles:[],
     commentInput:"",
-    photo: null
+    photo: null,
+    eventList:[]
   };
 
   constructor(props) {
@@ -32,6 +36,7 @@ class SubClubInfo extends Component {
     this.handleSubClubInfo = this.handleSubClubInfo.bind(this);
     this.sendDeleteRequest = this.sendDeleteRequest.bind(this);
     this.handleDeleteInfo = this.handleDeleteInfo.bind(this);
+    this.handleEventList = this.handleEventList.bind(this);
     this.handleCommentCreate = this.handleCommentCreate.bind(this);
     this.loadImage = this.loadImage.bind(this);
 
@@ -41,6 +46,7 @@ class SubClubInfo extends Component {
     const {id} = this.props.match.params;
     const {auth} = this.props;
     this.props.getSubClubInfo(id, this.handleSubClubInfo);
+    this.props.getSubClubEvents(id, this.handleEventList);
   }
 
   handleCommentCreate(data) {
@@ -97,6 +103,14 @@ class SubClubInfo extends Component {
       status: LoadingStates.LOADED
     })
     this.props.history.push("/sub_club/list")
+  }
+
+
+  handleEventList(data){
+    console.log(data);
+    this.setState({
+      eventList: data
+    });
   }
 
 
@@ -194,11 +208,33 @@ class SubClubInfo extends Component {
             <Header as='h4' icon textAlign='center'>
               <Header.Content>{this.state.subClub.description}</Header.Content>
             </Header>
+/*
+              <Divider/>
+            {
+              this.props.auth.loginStatus === AuthStates.VALID ?
+                  <Card.Group itemsPerRow={3}>
+                    {
+                      this.state.eventList.length === 0 ?
+                          <div  textAlign={"center"}><Message size={"large"} color={"red"}>No event is available to
+                            show</Message>
+                          </div> :
+                          this.state.eventList.map((event) =>
+                              <EventsItem
+                                  key={event.id}
+                                  event={event}
+                              />
+                          )
+                    }
+                  </Card.Group> : null
+            }
+
+*/
             {
               this.props.auth.loginStatus === AuthStates.VALID ?
                   <SubClubChat>
                   </SubClubChat>:""
             }
+
 
           </Grid.Column>
 
@@ -248,6 +284,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     createCommentInfo: (data, callback) => {
       dispatch(subClubActions.createCommentAction(data, callback));
     },
+    getSubClubEvents: (subClubId, callback) => {
+      dispatch(eventActions.getSubClubEventsAction(subClubId, callback));
+    }
   }
 };
 

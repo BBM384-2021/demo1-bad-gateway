@@ -8,7 +8,6 @@ import {LoadingStates} from "../../constants/common";
 import * as eventActions from "../../api/actions/event";
 import ClubSelect from "../club/ClubSelect";
 import SubClubSelect from "../subClub/SubClubSelect";
-import SemanticDatepicker from "react-semantic-ui-datepickers";
 import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import {DateTimeInput} from "semantic-ui-calendar-react";
 
@@ -197,7 +196,7 @@ class UpdateEvent extends Component {
                                     stateChangeCallback={this.handleClubInputChange}
                                 />
                             </Form.Field>
-                            <p>Sub Club *</p>
+                            <p>Sub Club</p>
                             {this.state.data.clubId !== null &&
                             <Form.Field>
                                 <SubClubSelect
@@ -213,6 +212,7 @@ class UpdateEvent extends Component {
                                             placeholder='Event Type'
                                             value={this.state.data.eventType}
                                             onChange={this.handleEventTypeInputChange}
+                                            required
                                             control={Select}
                                             options={
                                                 [
@@ -229,6 +229,7 @@ class UpdateEvent extends Component {
                                     placeholder="Date Time"
                                     value={this.state.data.eventDateCreate}
                                     iconPosition="left"
+                                    required
                                     onChange={this.handleEventDateInputChange}
                                 />
                             </Form.Field>

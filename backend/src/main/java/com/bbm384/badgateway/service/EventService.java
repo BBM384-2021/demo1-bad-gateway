@@ -34,6 +34,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -280,6 +281,20 @@ public class EventService {
         eventRepository.save(event);
 
         return ModelMapper.mapToEventPayload(event);
+    }
+
+
+    public List<EventPayload> getSubClubEvents(long subClubId) {
+
+        Optional<SubClub> subClub = subClubRepository.findById(subClubId);
+
+        if(subClub.isPresent()){
+            List<Event> eventList = eventRepository.findAllBySubClub(subClub.get());
+            return eventList.stream().map(event -> ModelMapper.mapToEventPayload(event)).collect(Collectors.toList());
+        }
+
+
+        return null;
     }
 
 }
