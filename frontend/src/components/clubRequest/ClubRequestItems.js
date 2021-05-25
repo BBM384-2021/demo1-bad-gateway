@@ -20,8 +20,8 @@ class ClubRequestItems extends Component{
         <Table.Cell>
           {clubRequest.requestCount >= 3 ?
               clubRequest.clubType === "CLUB" ?
-                <Button size='medium' color='green' as={Link} to={"/club/create"}>Create</Button>
-                :<Button size='medium' color='green' as={Link} to={"/sub_club/create"}>Create</Button>
+                <Button size='medium' color='green' as={Link} to={"/club/create/" + clubRequest.clubName}>Create Club</Button>
+                :<Button size='medium' color='green' as={Link} to={"/sub_club/create/" + clubRequest.clubName}>Create Sub-Club</Button>
                 :<Button size='medium' color='red' disabled>Create</Button>
           }
         </Table.Cell>

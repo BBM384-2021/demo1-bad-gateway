@@ -17,7 +17,7 @@ class CreateSubClub extends Component {
 
   state = {
     subClubInfo: {
-      name: "",
+      name: this.props.match.params.clubName,
       parentClub: "",
       category: "",
       admin: "",
