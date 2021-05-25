@@ -44,7 +44,7 @@ class SubClubInfo extends Component {
   }
 
   handleCommentCreate(data) {
-    if(data.content != "" && data.rate != ""){
+    if(data.content !== "" && data.rate !== ""){
       this.setState({
         fields: "",
         comment: "",
@@ -74,7 +74,7 @@ class SubClubInfo extends Component {
       rate: rate,
       subClub: this.state.subClub.name,
     }
-    if(this.state.fields.content != "" && this.state.fields.rate !=""){
+    if(this.state.fields.content !== "" && this.state.fields.rate !== ""){
       this.props.createCommentInfo(data, this.handleCommentCreate);
     }
   };
