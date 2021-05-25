@@ -58,6 +58,8 @@ const roleMapping = [
         title: 'Update User Info',
         permission: [
             Roles.ADMIN.key,
+            Roles.MEMBER.key,
+            Roles.SUB_CLUB_ADMIN.key
         ],
     },
     {

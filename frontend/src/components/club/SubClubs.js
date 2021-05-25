@@ -33,7 +33,10 @@ class SubClubs extends Component{
           console.log(scores)
           let scoreOfClub = scores.find(score=> score.clubId === clubId)
           let status = false;
+          console.log(scoreOfClub);
+          console.log(status);
           if(scoreOfClub && scoreOfClub.score>=50){
+            console.log("inside")
             status = true
           }
           this.setState({
@@ -108,9 +111,16 @@ class SubClubs extends Component{
                       <Button positive onClick={() => {} }>Enrolled</Button>
                     </div>
                     :
-                    <div>
-                      <Button positive onClick={() => this.sendEnrollmentRequest(subClub.value.id)}>Join Sub Club</Button>
-                    </div>
+                    this.state.canJoinClubs ?
+                      <div>
+                        <Button positive onClick={() => this.sendEnrollmentRequest(subClub.value.id)}>Join Sub Club</Button>
+                      </div>
+                      :
+                      <div>
+                        <Button disabled onClick={() => this.sendEnrollmentRequest(subClub.value.id)}>Not Eligible</Button>
+                      </div>
+
+
                     }
 
                 </div>

@@ -144,7 +144,7 @@ class SubClubInfo extends Component {
 
     return (
       <Page>
-        {roles ? roles.find((item)=> item==="ADMIN" || "SUB_CLUB_ADMIN") && <div style={{display:"flex",justifyContent:"flex-end",paddingBottom:"2rem"}}>
+        {roles ? roles.find((item)=> (item==="ADMIN" || item ==="SUB_CLUB_ADMIN")) && <div style={{display:"flex",justifyContent:"flex-end",paddingBottom:"2rem"}}>
           <Link to={`/sub_club/update/${this.state.subClub.id}`} style={{color: "#702BBA"}}>
             <Button primary>
               Update Sub-Club
