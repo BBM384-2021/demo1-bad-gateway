@@ -1,6 +1,7 @@
 package com.bbm384.badgateway.controller;
 
 import com.bbm384.badgateway.model.SubClub;
+import com.bbm384.badgateway.payload.EnrollSubClubRequest;
 import com.bbm384.badgateway.payload.FileUploadResponse;
 import com.bbm384.badgateway.payload.PagedResponse;
 import com.bbm384.badgateway.payload.SubClubPayload;
@@ -62,14 +63,10 @@ public class SubClubController {
         return subClubService.getAllSubClubs();
     }
 
-//    @PreAuthorize("hasAnyAuthority(T(com.bbm384.badgateway.model.constants.UserRole).ADMIN , " +
-//            "T(com.bbm384.badgateway.model.constants.UserRole).MEMBER ,"+
-//            "T(com.bbm384.badgateway.model.constants.UserRole).SUB_CLUB_ADMIN)"
-//    )
-    @PostMapping("/enroll/{subClubId}/{userId}")
-    public SubClub enrollClub(@PathVariable Long userId,@PathVariable Long subClubId  ){
-        System.out.println(subClubId);
-        return subClubService.enrollUser(userId,subClubId);
+
+    @PostMapping("/enroll")
+    public SubClub enrollClub(@CurrentUser UserPrincipal currentUser,@RequestBody EnrollSubClubRequest enrollSubClubRequest  ){
+        return subClubService.enrollUser(currentUser,enrollSubClubRequest);
     }
     @PostMapping("/photo")
     public FileUploadResponse uploadPhoto(@CurrentUser UserPrincipal currentUser,

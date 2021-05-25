@@ -197,6 +197,20 @@ export const clubPhotoUpload = (name, data, callback) => {
     }));
 }
 
+export const enrollToSubClub = (subClubId) => {
+    return new Promise(((resolve, reject) => {
+        axios.post(encodeURI(API_ENROLL_SUB_CLUB ),{subClubId},
+            getHeaderWithToken())
+            .then(function (response) {
+                console.log("response")
+                console.log(response)
+                resolve(response);
+            })
+            .catch(function (error) {
+                //axiosError(error, reject);
+            });
+      }));
+    }      
 export const getAllTypeClubNamesService = () => {
     return new Promise(((resolve, reject) => {
         axios.get(encodeURI(API_ALL_TYPE_CLUB_NAME_ALL),
@@ -206,21 +220,6 @@ export const getAllTypeClubNamesService = () => {
           })
           .catch(function (error) {
               apiError(error, reject);
-          });
-    }));
-}
-
-export const enrollToSubClub = (subClubId,userId) => {
-    return new Promise(((resolve, reject) => {
-        axios.post(encodeURI(API_ENROLL_SUB_CLUB + `/${subClubId}/${userId}`),
-          getHeaderWithToken())
-          .then(function (response) {
-              console.log("response")
-              console.log(response)
-              resolve(response);
-          })
-          .catch(function (error) {
-              //axiosError(error, reject);
           });
     }));
 }
