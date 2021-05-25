@@ -196,9 +196,9 @@ export const clubPhotoUpload = (name, data, callback) => {
     }));
 }
 
-export const enrollToSubClub = (subClubId,userId) => {
+export const enrollToSubClub = (subClubId) => {
     return new Promise(((resolve, reject) => {
-        axios.post(encodeURI(API_ENROLL_SUB_CLUB + `/${subClubId}/${userId}`),
+        axios.post(encodeURI(API_ENROLL_SUB_CLUB ),{subClubId},
             getHeaderWithToken())
             .then(function (response) {
                 console.log("response")

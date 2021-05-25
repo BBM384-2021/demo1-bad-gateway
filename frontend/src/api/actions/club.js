@@ -159,9 +159,9 @@ export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback)
     }
 }
 
-export const enrollToSubClub = (subClubId,userId, callback) => {
+export const enrollToSubClub = (subClubId, callback) => {
     return (dispatch, getStatus) => {
-        return clubService.enrollToSubClub(subClubId,userId).then(
+        return clubService.enrollToSubClub(subClubId).then(
             (result) => {
                 callback(result.data);
             },

@@ -5,11 +5,15 @@ import com.bbm384.badgateway.exception.ResourceNotFoundException;
 import com.bbm384.badgateway.model.*;
 import com.bbm384.badgateway.model.constants.ClubStatus;
 import com.bbm384.badgateway.model.constants.UserType;
+import com.bbm384.badgateway.payload.EnrollSubClubRequest;
+import com.bbm384.badgateway.payload.FileUploadResponse;
 import com.bbm384.badgateway.payload.PagedResponse;
-import com.bbm384.badgateway.model.*;
-import com.bbm384.badgateway.payload.*;
+import com.bbm384.badgateway.payload.SubClubPayload;
 import com.bbm384.badgateway.properties.StorageProperties;
-import com.bbm384.badgateway.repository.*;
+import com.bbm384.badgateway.repository.CategoryRepository;
+import com.bbm384.badgateway.repository.ClubRepository;
+import com.bbm384.badgateway.repository.SubClubRepository;
+import com.bbm384.badgateway.repository.UserRepository;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.AppConstants;
@@ -188,17 +192,16 @@ public class SubClubService {
         }
     }
 
-    public SubClub enrollUser(Long userId,Long subClubId){
-        SubClub subClub = subClubRepository.findById(subClubId).orElseThrow(
-                () -> new ResourceNotFoundException("SubClub", "id", String.valueOf(subClubId))
+    public SubClub enrollUser(UserPrincipal currentUser, EnrollSubClubRequest enrollSubClubRequest){
+        SubClub subClub = subClubRepository.findById(enrollSubClubRequest.getSubClubId()).orElseThrow(
+                () -> new ResourceNotFoundException("SubClub", "id", String.valueOf(enrollSubClubRequest.getSubClubId()))
         );
-        System.out.println(userId);
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new ResourceNotFoundException("User", "id", String.valueOf(userId))
+        User user = userRepository.findById(currentUser.getId()).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", String.valueOf(currentUser.getId()))
         );
         Set<User> users = subClub.getMembers();
         for(User tempUser : users) {
-            if(tempUser.getId() == userId) {
+            if(tempUser.getId() == currentUser.getId()) {
                 return subClub;
             }
         }
