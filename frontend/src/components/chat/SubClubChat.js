@@ -229,7 +229,7 @@ class SubClubChat extends Component {
             )
         }
 
-        let width = 13;
+        let width = 16;
 
         return (
             <Page>
@@ -306,7 +306,7 @@ class SubClubChat extends Component {
                             }
 
                         </Grid.Column>
-                        {this.state.subClub ?
+                       {/* {this.state.subClub ?
                             <Grid.Column width={3}>
                                 <div style={{marginTop: "10px"}}>
                                     <SubClubItems
@@ -317,7 +317,7 @@ class SubClubChat extends Component {
                                 <SubClubFeed></SubClubFeed>
                             </Grid.Column>:
                             ""
-                        }
+                        }*/}
 
                     </Grid>
                 </Page.Content>

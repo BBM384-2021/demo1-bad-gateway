@@ -8,7 +8,7 @@
 
 .chat-container {
     margin-top: 0 !important;
-    height: calc(100vh - 350px);
+    height: calc(100vh - 640px);
     min-height: 300px;
     width: 100%;
     text-align: center;
