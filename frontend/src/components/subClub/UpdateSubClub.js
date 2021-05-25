@@ -128,6 +128,9 @@ class UpdateSubClub extends Component {
             formData.append("photo", this.state.photo);
         }
 
+        console.log(formData);
+        console.log(this.state.fields.name);
+
         this.props.uploadPhoto(this.state.fields.name, formData, this.uploadFileCallback, this.uploadFileErrorCallback)
     }
 
@@ -212,8 +215,6 @@ class UpdateSubClub extends Component {
                 [state]: file,
                 [state + 'Message']: message
             });
-
-
         }
     };
 
@@ -241,8 +242,8 @@ class UpdateSubClub extends Component {
   });
 
   handleSubmit = (event) => {
-    if(this.state.fields.name == "" || this.state.fields.parentClub == "" || this.state.fields.category == "" ||
-      this.state.fields.admin == "" || this.state.fields.description == ""){
+    if(this.state.fields.name === "" || this.state.fields.parentClub === "" || this.state.fields.category === "" ||
+      this.state.fields.admin === "" || this.state.fields.description === ""){
       this.setState({
         isError:true,
         isHidden:false,

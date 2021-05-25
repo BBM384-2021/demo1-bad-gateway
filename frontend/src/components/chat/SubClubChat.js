@@ -12,8 +12,6 @@ import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import {timeParser} from "../../utils/time";
 import * as subClubActions from "../../api/actions/subClub";
-import SubClubItems from "../subClub/SubClubItems";
-import SubClubFeed from "../subClub/SubClubFeed";
 
 /* TODO SUBCLUB TÜM DATASINI ÇEK*/
 /* TODO EMOJI BIR DEFA BASINCA KAPANIYOR*/
