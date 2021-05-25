@@ -171,3 +171,14 @@ export const getAllTypeClubNamesAction = (callback) => {
       });
   }
 }
+
+export const enrollToSubClub = (subClubId,userId, callback) => {
+    return (dispatch, getStatus) => {
+        return clubService.enrollToSubClub(subClubId,userId).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+            });
+    }
+}

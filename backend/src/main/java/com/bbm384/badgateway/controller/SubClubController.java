@@ -1,9 +1,11 @@
 package com.bbm384.badgateway.controller;
 
-import com.bbm384.badgateway.payload.*;
+import com.bbm384.badgateway.model.SubClub;
+import com.bbm384.badgateway.payload.PagedResponse;
+import com.bbm384.badgateway.payload.SubClubPayload;
 import com.bbm384.badgateway.security.CurrentUser;
 import com.bbm384.badgateway.security.UserPrincipal;
-import com.bbm384.badgateway.service.*;
+import com.bbm384.badgateway.service.SubClubService;
 import com.bbm384.badgateway.util.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +61,15 @@ public class SubClubController {
         return subClubService.getAllSubClubs();
     }
 
-
+//    @PreAuthorize("hasAnyAuthority(T(com.bbm384.badgateway.model.constants.UserRole).ADMIN , " +
+//            "T(com.bbm384.badgateway.model.constants.UserRole).MEMBER ,"+
+//            "T(com.bbm384.badgateway.model.constants.UserRole).SUB_CLUB_ADMIN)"
+//    )
+    @PostMapping("/enroll/{subClubId}/{userId}")
+    public SubClub enrollClub(@PathVariable Long userId,@PathVariable Long subClubId  ){
+        System.out.println(subClubId);
+        return subClubService.enrollUser(userId,subClubId);
+    }
     @PostMapping("/photo")
     public FileUploadResponse uploadPhoto(@CurrentUser UserPrincipal currentUser,
                                           @RequestParam(value = "photo", required = false)  Optional<MultipartFile> photo,

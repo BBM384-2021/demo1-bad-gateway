@@ -2,8 +2,9 @@ package com.bbm384.badgateway.service;
 
 import com.bbm384.badgateway.exception.FileStorageException;
 import com.bbm384.badgateway.exception.ResourceNotFoundException;
-import com.bbm384.badgateway.model.constants.UserType;
+import com.bbm384.badgateway.model.*;
 import com.bbm384.badgateway.model.constants.ClubStatus;
+import com.bbm384.badgateway.model.constants.UserType;
 import com.bbm384.badgateway.payload.PagedResponse;
 import com.bbm384.badgateway.model.*;
 import com.bbm384.badgateway.payload.*;
@@ -30,6 +31,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -203,6 +205,25 @@ public class SubClubService {
         }
     }
 
+    public SubClub enrollUser(Long userId,Long subClubId){
+        SubClub subClub = subClubRepository.findById(subClubId).orElseThrow(
+                () -> new ResourceNotFoundException("SubClub", "id", String.valueOf(subClubId))
+        );
+        System.out.println(userId);
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new ResourceNotFoundException("User", "id", String.valueOf(userId))
+        );
+        Set<User> users = subClub.getMembers();
+        for(User tempUser : users) {
+            if(tempUser.getId() == userId) {
+                return subClub;
+            }
+        }
+
+        users.add(user);
+        subClubRepository.save(subClub);
+        return subClub;
+    }
     public FileUploadResponse uploadPhoto(UserPrincipal currentUser, Optional<MultipartFile> photo, String name){
         Optional<SubClub> subClub = subClubRepository.findByName(name);
         FileUploadResponse fileUploadResponse = new FileUploadResponse();
