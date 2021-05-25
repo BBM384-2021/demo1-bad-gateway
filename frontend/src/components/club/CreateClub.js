@@ -145,8 +145,6 @@ class CreateClub extends Component{
 	}
 
 	submitFormCallback = (error) => {
-		console.log("asd")
-		console.log(error)
 		this.setState({
 			isFormSubmitting: true,
 			submitStatus: null,

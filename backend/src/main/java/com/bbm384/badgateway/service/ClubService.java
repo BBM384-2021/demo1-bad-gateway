@@ -39,6 +39,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Validated
@@ -255,4 +256,16 @@ public class ClubService {
         fileUploadResponse.setSuccess(true);
     }
 
+    public List<String> getAllTypeClubNames() {
+        List<String> clubNames = clubRepository.findAll().stream().map(
+                club -> club.getName()
+        ).collect(Collectors.toList());
+
+        List<String> subClubNames = subClubRepository.findAll().stream().map(
+                subClub -> subClub.getName()
+        ).collect(Collectors.toList());
+
+        clubNames.addAll(subClubNames);
+        return clubNames;
+    }
 }

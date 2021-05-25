@@ -137,6 +137,8 @@ public class ModelMapper {
                 .clubName(clubRequest.getClubName())
                 .user(clubRequest.getUser())
                 .requestCount(clubRequest.getRequestCount())
+                .clubType(clubRequest.getClubType())
+                .parentName(clubRequest.getParentName())
                 .build();
         return clubRequestPayload;
     }

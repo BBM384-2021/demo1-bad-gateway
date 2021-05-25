@@ -147,6 +147,7 @@ export const getAllClubNamesAction = (callback) => {
       });
   }
 }
+
 export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback) => {
     return (dispatch, getStatus) => {
         return clubService.clubPhotoUpload(name, data).then(
@@ -157,4 +158,16 @@ export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback)
                 uploadFileErrorCallback();
             });
     }
+}
+
+export const getAllTypeClubNamesAction = (callback) => {
+  return (dispatch, getStatus) => {
+    return clubService.getAllTypeClubNamesService().then(
+      (result) => {
+        callback(result.data);
+      },
+      (error) =>{
+        // callback(messageError);
+      });
+  }
 }

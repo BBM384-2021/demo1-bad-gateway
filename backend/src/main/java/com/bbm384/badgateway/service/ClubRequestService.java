@@ -5,10 +5,7 @@ import com.bbm384.badgateway.model.ClubRequest;
 import com.bbm384.badgateway.model.QClubRequest;
 import com.bbm384.badgateway.model.QSubClub;
 import com.bbm384.badgateway.model.SubClub;
-import com.bbm384.badgateway.payload.ApiResponse;
-import com.bbm384.badgateway.payload.ClubRequestPayload;
-import com.bbm384.badgateway.payload.PagedResponse;
-import com.bbm384.badgateway.payload.SubClubPayload;
+import com.bbm384.badgateway.payload.*;
 import com.bbm384.badgateway.repository.ClubRequestRepository;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.AppConstants;
@@ -91,11 +88,28 @@ public class ClubRequestService {
         clubRequest.setClubName(clubRequestPayload.getClubName());
         clubRequest.getUser().add(userName);
         clubRequest.setRequestCount(1);
-
+        if(clubRequestPayload.getClubType().equals("Club")){
+            clubRequest.setClubType("CLUB");
+        }
+        else{
+            clubRequest.setParentName(clubRequestPayload.getParentName());
+            clubRequest.setClubType("SUB-CLUB");
+        }
         clubRequestRepository.save(clubRequest);
         response.setSuccess(true);
         response.setMessage("Club Request created with success");
 
         return response;
+    }
+
+    public void deleteClubRequest(String name) {
+        QClubRequest root = QClubRequest.clubRequest;
+        BooleanExpression query = root.id.isNotNull();
+
+        query = query.and(root.clubName.eq(name));
+        Iterable<ClubRequest> clubRequests= clubRequestRepository.findAll(query);
+        for (ClubRequest request: clubRequests){
+            clubRequestRepository.delete(request);
+        }
     }
 }

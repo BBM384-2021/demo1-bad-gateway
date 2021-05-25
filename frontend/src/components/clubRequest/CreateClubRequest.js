@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from "react-router";
-import { Button, Icon, Segment, Form, Message, Dropdown, Select, TextArea, Header } from 'semantic-ui-react';
+import { Button, Icon, Segment, Form, Message, Dropdown, Select, TextArea, Header, Radio } from 'semantic-ui-react';
 import {LoadingStates} from "../../constants/common";
 import {connect} from "react-redux";
 import Page from "../base/Page";
@@ -14,6 +14,8 @@ class CreateClubRequest extends Component {
   state = {
     data: {
       clubName: "",
+      clubType:"",
+      parentName:"",
     },
 
     isHidden: true,
@@ -24,7 +26,7 @@ class CreateClubRequest extends Component {
     messageForm: "",
 
     clubs:[],
-    allSubClubs:[],
+    allClubsName:[],
     submitStatus: null,
   };
 
@@ -32,10 +34,15 @@ class CreateClubRequest extends Component {
     super(props);
     this.handleClubRequestInfo = this.handleClubRequestInfo.bind(this);
     this.handleGetClubs = this.handleGetClubs.bind(this);
+    this.handleGetAllClubsName = this.handleGetAllClubsName.bind(this);
+    this.handleChange= this.handleChange.bind(this);
+    this.handleParentClubChange= this.handleParentClubChange.bind(this);
+
   }
 
   componentDidMount(){
     this.props.getClubs(this.handleGetClubs);
+    this.props.getAllClubsName(this.handleGetAllClubsName);
   }
 
   handleGetClubs(data) {
@@ -45,6 +52,28 @@ class CreateClubRequest extends Component {
       }
     )
   }
+
+  handleGetAllClubsName(data) {
+    this.setState({
+        ...this.state,
+        allClubsName: data,
+      }
+    )
+  }
+
+  handleChange= (e, { value }) => this.setState({
+    data: {
+      ...this.state.data,
+      clubType: value
+    }
+  });
+
+  handleParentClubChange= (e, { value }) => this.setState({
+    data: {
+      ...this.state.data,
+      parentName: value
+    }
+  });
 
   handleClubRequestInfo(data) {
     this.setState({
@@ -80,13 +109,13 @@ class CreateClubRequest extends Component {
     const newLineCharacter = "\n";
     if (value.length && (value.startsWith(spaceCharacter) || value.startsWith(newLineCharacter)))
       return;
-    if(this.state.clubs.indexOf(value) > -1 ) {
+    if(this.state.allClubsName.indexOf(value) > -1 ) {
       this.setState({
         isError:true,
         isHidden:false,
         isSuccess:false,
-        messageHeader:"Club with that name already exists!",
-        messageFrom:"Club with that name already exists!"
+        messageHeader:"Club or Sub-Club with that name already exists!",
+        messageFrom:"Club or Sub-Club with that name already exists!"
       })
       return;
     }
@@ -136,8 +165,27 @@ class CreateClubRequest extends Component {
             className={"message-auth"}
           />
           <Segment>
-            <Header className={"loginHeader"} size={"large"} >Request Club!</Header>
+            <Header className={"loginHeader"} size={"large"} >Request Club/Sub-CLub!</Header>
             <Form onSubmit={this.handleSubmit}>
+              <br/>
+              <Form.Field >
+                <Radio
+                  label='Club Request'
+                  name='radioGroup'
+                  value='Club'
+                  checked={this.state.data.clubType === 'Club'}
+                  onChange={this.handleChange}
+                />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <Radio
+                  label='Sub-Club Request'
+                  name='radioGroup'
+                  value='Sub-Club'
+                  checked={this.state.data.clubType  ===  'Sub-Club'}
+                  onChange={this.handleChange}
+                />
+              </Form.Field>
+              <br/>
               <Form.Input id={"clubName"}
                           fluid
                           required
@@ -148,6 +196,20 @@ class CreateClubRequest extends Component {
                           maxLength="100"
                           inline
               />
+              { this.state.data.clubType === "Sub-Club" ?
+                <Form.Select
+                  search
+                  required
+                  fluid
+                  label = "Parent Club"
+                  id={"parentName"}
+                  options={this.state.clubs.map((key) => ({text: key.name, value: key.name}))}
+                  placeholder={"Parent Club"}
+                  value={this.state.data.parentName}
+                  onChange={this.handleParentClubChange}
+                />:null
+              }
+
             </Form>
             <br/>
             <Button size={"large"} as={Link} onClick={this.handleSubmit} color='orange'>
@@ -166,7 +228,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(clubRequestActions.createClubRequestAction(body, callback));
     },
     getClubs: (callback) => {
-      dispatch(clubActions.getAllClubNamesAction(callback));
+      dispatch(clubActions.getAllClubsAction(callback));
+    },
+    getAllClubsName: (callback) => {
+      dispatch(clubActions.getAllTypeClubNamesAction(callback));
     },
   };
 };

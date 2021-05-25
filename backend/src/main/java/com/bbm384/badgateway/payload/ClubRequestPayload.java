@@ -17,5 +17,7 @@ public class ClubRequestPayload {
     private String clubName;
     private List<String> user;
     private int requestCount;
+    private String clubType;
+    private String parentName;
 
 }

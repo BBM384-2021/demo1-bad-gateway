@@ -49,7 +49,6 @@ class CreateSubClub extends Component {
     this.handleSubClubInfo = this.handleSubClubInfo.bind(this);
     this.handleGetCategories = this.handleGetCategories.bind(this);
     this.handleGetClubs = this.handleGetClubs.bind(this);
-    this.handleGetUsers= this.handleGetUsers.bind(this);
     this.handleGetSubClubs = this.handleGetSubClubs.bind(this);
     this.uploadFileCallback = this.uploadFileCallback.bind(this);
     this.uploadFileErrorCallback = this.uploadFileErrorCallback.bind(this);
@@ -59,7 +58,6 @@ class CreateSubClub extends Component {
   componentDidMount() {
     this.props.getCategories(this.handleGetCategories);
     this.props.getClubs(this.handleGetClubs);
-    this.props.getUsers(this.handleGetUsers);
     this.props.getSubClubs(this.handleGetSubClubs);
   }
 
@@ -127,14 +125,14 @@ class CreateSubClub extends Component {
   }
 
 
-
+/*
   handleGetUsers(data) {
     this.setState({
         ...this.state,
         users: data,
       }
     )
-  }
+  }*/
 
   handleSubClubInfo(data) {
     this.setState({
@@ -210,16 +208,16 @@ class CreateSubClub extends Component {
     }
   });
 
-  handleAdminChange= (e, { value }) => this.setState({
+/*  handleAdminChange= (e, { value }) => this.setState({
     subClubInfo: {
       ...this.state.subClubInfo,
       admin: value
     }
-  });
+  });*/
 
   handleSubmit = (event) => {
     if(this.state.subClubInfo.name === "" || this.state.subClubInfo.parentClub === "" || this.state.subClubInfo.category === "" ||
-                  this.state.subClubInfo.admin === "" || this.state.subClubInfo.description === ""){
+                  this.state.subClubInfo.description === ""){
       this.setState({
         isError:true,
         isHidden:false,
@@ -265,6 +263,7 @@ class CreateSubClub extends Component {
               <FileInput selectFileCallback={this.selectFile('photo')} buttonIcon={"photo"} buttonText={"Photo"} fileTypes={FILE_UPLOAD_DOC_TYPES} />
             </Form.Field>
             <Form onSubmit={this.handleSubmit}>
+              <br/>
                 <Form.Input id={"name"}
                             fluid
                             required
@@ -297,7 +296,7 @@ class CreateSubClub extends Component {
                 value={this.state.subClubInfo.category}
                 onChange={this.handleCategoryChange}
               />
-              <Form.Select
+{/*              <Form.Select
                 search
                 required
                 fluid
@@ -307,7 +306,7 @@ class CreateSubClub extends Component {
                 placeholder={"Sub-Club Admin"}
                 value={this.state.subClubInfo.admin}
                 onChange={this.handleAdminChange}
-              />
+              />*/}
               <Form.Field
                 required
                 fluid
@@ -352,9 +351,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getClubs: (callback) => {
       dispatch(clubActions.getAllClubsAction(callback));
     },
-    getUsers: (callback) => {
+/*    getUsers: (callback) => {
       dispatch(userActions.getAllUsersAction(callback));
-    },
+    },*/
     getSubClubs: (callback) => {
       dispatch(SubClubActions.getAllSubClubsAction(callback));
     },
