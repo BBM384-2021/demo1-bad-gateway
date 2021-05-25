@@ -97,7 +97,13 @@ const roleMapping = [
 
     {
         component: CreateClub,
-        path: '/club/create',
+        path: '/club/create/:clubName',
+        title: 'Create Club',
+        permission: [Roles.ADMIN.key]
+    },
+    {
+        component: CreateClub,
+        path: '/club/create/',
         title: 'Create Club',
         permission: [Roles.ADMIN.key]
     },
@@ -151,7 +157,7 @@ const roleMapping = [
     },
     {
         component: CreateSubClub,
-        path: '/sub_club/create',
+        path: '/sub_club/create/:clubName',
         title: 'Sub-Club Create',
         permission: [Roles.ADMIN.key,],
     },
