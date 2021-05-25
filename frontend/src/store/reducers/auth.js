@@ -17,8 +17,6 @@ const initialState = {
 
 export let auth = (state = initialState, action) => {
     const { payload } = action;
-    console.log("mösdmfndsnkjfnksfn");
-    console.log(payload);
 
     switch(action.type) {
         case USER_INFO:

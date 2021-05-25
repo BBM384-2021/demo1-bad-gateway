@@ -30,6 +30,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,28 +50,44 @@ public class SubClubService {
     private CategoryRepository categoryRepository;
 
     @Autowired
+    private ClubRequestRepository clubRequestRepository;
+
+    @Autowired
     private StorageProperties storageProperties;
 
+    @Autowired
+    ClubRequestService clubRequestService;
 
     public SubClubPayload createSubClub(@CurrentUser UserPrincipal currentUser, SubClubPayload subClubPayload){
         Club club = clubRepository.findByName(subClubPayload.getParentClub()).orElseThrow(
                 () -> new ResourceNotFoundException("Club", "name", String.valueOf(subClubPayload.getParentClub()))
         );
+
         Category category = categoryRepository.findByName(subClubPayload.getCategory()).orElseThrow(
                 () -> new ResourceNotFoundException("Category", "name", String.valueOf(subClubPayload.getCategory()))
-        );
-        User user = userRepository.findByName(subClubPayload.getAdmin()).orElseThrow(
-                () -> new ResourceNotFoundException("User", "name", String.valueOf(subClubPayload.getAdmin()))
         );
         SubClub subClub = new SubClub(subClubPayload.getName(),
                                       club,
                                       subClubPayload.getDescription(),
                                       category,
-                                      subClubPayload.getMembers(),
-                                      user);
+                                      subClubPayload.getMembers());
+        if(clubRequestRepository.existsClubRequestByClubName(subClub.getName())){
+            ClubRequest clubRequest = clubRequestRepository.findByClubName(subClub.getName()).orElseThrow(
+                    () -> new ResourceNotFoundException("ClubRequest", "name", String.valueOf(subClub.getName()))
+            );
+            List<String> adminSelection = clubRequest.getUser();
+            Random rand = new Random();
+            String adminName = adminSelection.get(rand.nextInt(adminSelection.size()));
+            User adminUser = userRepository.findByUsername(adminName).orElseThrow(
+                    () -> new ResourceNotFoundException("User", "name", String.valueOf(adminName))
+            );
+            subClub.setAdmin(adminUser);
+        }
+
         subClub.setCreatedBy(currentUser.getId());
         subClub.setCreatedAt(Instant.now());
         subClubRepository.save(subClub);
+        clubRequestService.deleteClubRequest(subClub.getName());
         return ModelMapper.mapToSubClubInfoResponse(subClub);
     }
 
@@ -212,10 +229,7 @@ public class SubClubService {
         FileUploadResponse fileUploadResponse = new FileUploadResponse();
         fileUploadResponse.setSuccess(false);
 
-        System.out.println("here");
-
         if(subClub.isPresent()){
-            System.out.println("subclub present");
             savePhoto(photo.get(), subClub.get(), fileUploadResponse);
         }
 

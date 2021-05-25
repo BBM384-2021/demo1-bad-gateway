@@ -71,13 +71,12 @@ public class SubClub extends CreatedAudit {
         return false;
     }
 
-    public SubClub(String name, Club parentClub, String description, Category category, Set<User> members, User admin) {
+    public SubClub(String name, Club parentClub, String description, Category category, Set<User> members) {
         this.name = name;
         this.parentClub = parentClub;
         this.description = description;
         this.category = category;
         this.members = members;
-        this.admin = admin;
     }
 
     public SubClub(){

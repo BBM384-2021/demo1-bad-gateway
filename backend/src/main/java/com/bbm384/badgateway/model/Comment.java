@@ -38,7 +38,6 @@ public class Comment {
     private SubClub subClub;
 
     @CreatedDate
-    @NotNull
     private Instant sentAt;
 
     public Long getId() {
