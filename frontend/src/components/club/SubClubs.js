@@ -10,14 +10,14 @@ class SubClubs extends Component{
     state = {
       subClubs: [],
       canJoinClubs:false,
-      enrolledClubs: [],
-      userId:0
+      enrolledClubs: []
     };
 
     constructor(props) {
       super(props);
       this.handleSubClubList = this.handleSubClubList.bind(this);
       this.sendEnrollmentRequest = this.sendEnrollmentRequest.bind(this);
+      this.checkIfMember = this.checkIfMember.bind(this);
     }
 
     componentDidMount() {
@@ -39,8 +39,7 @@ class SubClubs extends Component{
           this.setState({
             ...this.state,
             canJoinClubs: status,
-            enrolledClubs: enrolledClubs,
-            userId:scores[0].userId
+            enrolledClubs: enrolledClubs
           })
         }
 
@@ -68,6 +67,7 @@ class SubClubs extends Component{
         subClubs.push({value: {id:SubClub.id, name:SubClub.name, description:SubClub.description, admin:SubClub.admin}});
       });
       this.setState({
+        ...this.state,
         subClubs: subClubs,
       })
     }
@@ -77,12 +77,10 @@ class SubClubs extends Component{
     };
 
     sendEnrollmentRequest = (subClubId) => {
-        this.props.enrollToSubClub(subClubId,this.state.userId,this.enrollmentCallback)
+        this.props.enrollToSubClub(subClubId,this.enrollmentCallback)
     }
 
     enrollmentCallback = (data) => {
-        console.log("callback enrollment")
-        console.log(data)
         const {enrolledClubs} = this.state
         enrolledClubs.push(data)
         this.setState({
@@ -91,6 +89,10 @@ class SubClubs extends Component{
         })
     }
 
+    checkIfMember (subClubId){
+      const {enrolledClubs} = this.state
+      return enrolledClubs.find(enrolled =>  enrolled.id === subClubId)
+    }
 
     render(){
       if(this.props.clubId){
@@ -100,14 +102,14 @@ class SubClubs extends Component{
               <div className="content">
                 <div className="header" style={{color: "#0066cc"}} style={{display:"flex",justifyContent:"space-between"}}>
                   <Link to={"/sub_club/info/" + subClub.value.id}>{subClub.value.name.toUpperCase()}</Link>
-                  {this.state.enrolledClubs.find(club => club.id === subClub.value.id)
+                  {this.checkIfMember(subClub.value.id)
                     ?
                     <div>
-                      {<Button positive onClick={() => {} }>Enrolled</Button>}
+                      <Button positive onClick={() => {} }>Enrolled</Button>
                     </div>
                     :
                     <div>
-                      {this.state.canJoinClubs && <Button positive onClick={() => this.sendEnrollmentRequest(subClub.value.id)}>Join Sub Club</Button>}
+                      <Button positive onClick={() => this.sendEnrollmentRequest(subClub.value.id)}>Join Sub Club</Button>
                     </div>
                     }
 
@@ -134,8 +136,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getSubClubs: (clubId, callback) => {
       dispatch(clubActions.subClubListAction(clubId, callback));
     },
-    enrollToSubClub: (subClubId,userId,callback) => {
-        dispatch(clubActions.enrollToSubClub(subClubId,userId, callback));
+    enrollToSubClub: (subClubId,callback) => {
+        dispatch(clubActions.enrollToSubClub(subClubId, callback));
     },
   }
 };

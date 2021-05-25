@@ -37,7 +37,7 @@ class NewClubInfo extends Component {
     comment: {},
     club: {},
     roles:[],
-    enrolledClubs: [],
+    enrolledClubs:null,
     commentInput:"",
     photo: null
   };
@@ -223,11 +223,12 @@ class NewClubInfo extends Component {
             </Header>
             <Divider/>
             <Card.Group itemsPerRow={1}>
+              {this.state.enrolledClubs &&
               <SubClubs
                 clubId={this.state.club.id}
                 club={this.state.club}
                 enrolledClubs={this.state.enrolledClubs}
-              />
+              /> }
             </Card.Group>
           </Grid.Column>
 

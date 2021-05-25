@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
@@ -49,6 +50,11 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     EventRepository eventRepository;
 
+    @Autowired
+    CommentRepository commentRepository;
+
+    @Autowired
+    ClubRequestRepository clubRequestRepository;
 
     @Override
     public void run(String... args) {
@@ -142,7 +148,7 @@ public class DataInitializer implements CommandLineRunner {
 
 
             SubClub drawing = new SubClub();
-            drawing.setName("STORY DRWAING SUBCLUB");
+            drawing.setName("STORY DRAWING SUBCLUB");
             drawing.setParentClub(artClub);
             drawing.setDescription("Our mission at Story Drawing Club is to provide high quality " +
                     "workshops that engage children from a wide range of backgrounds in story writing " +
@@ -229,6 +235,74 @@ public class DataInitializer implements CommandLineRunner {
             gameTalks.setClub(gameClub);
             eventRepository.save(gameTalks);
 
+            Comment comment = new Comment();
+            comment.setClub(musicClub);
+            comment.setRate(5);
+            comment.setSender(admin);
+            comment.setContent("my favorite club!");
+            commentRepository.save(comment);
+
+            Comment comment1 = new Comment();
+            comment1.setClub(musicClub);
+            comment1.setRate(2);
+            comment1.setSender(subClubAdmin);
+            comment1.setContent("so so :/");
+            commentRepository.save(comment1);
+
+            Comment comment2 = new Comment();
+            comment2.setSubClub(drawing);
+            comment2.setRate(1);
+            comment2.setSender(admin);
+            comment2.setContent("very boring");
+            commentRepository.save(comment2);
+
+            Comment comment3 = new Comment();
+            comment3.setSubClub(drawing);
+            comment3.setRate(4);
+            comment3.setSender(member);
+            comment3.setContent("not bad");
+            commentRepository.save(comment3);
+
+            Comment comment4 = new Comment();
+            comment4.setSubClub(drawing);
+            comment4.setRate(5);
+            comment4.setSender(member_2);
+            comment4.setContent("We have a lot of fun in the club");
+            commentRepository.save(comment4);
+
+            ClubRequest clubRequest = new ClubRequest();
+            List<String> users = Arrays.asList("admin", "UmutOzdemir");
+            clubRequest.setParentName("GUITAR CLUB");
+            clubRequest.setClubType("SUB-CLUB");
+            clubRequest.setUser(users);
+            clubRequest.setRequestCount(2);
+            clubRequest.setClubName("Piano Club");
+            clubRequestRepository.save(clubRequest);
+
+            ClubRequest clubRequest1 = new ClubRequest();
+            List<String> users1 = Arrays.asList("admin", "UmutOzdemir", "umutaydemir");
+            clubRequest1.setParentName("ONLINE GAME CLUB");
+            clubRequest1.setClubType("SUB-CLUB");
+            clubRequest1.setUser(users1);
+            clubRequest1.setRequestCount(3);
+            clubRequest1.setClubName("Lol Club");
+            clubRequestRepository.save(clubRequest1);
+
+            ClubRequest clubRequest2 = new ClubRequest();
+            List<String> users2 = Arrays.asList("admin", "UmutOzdemir", "umutaydemir", "SalihKeremHarman");
+            clubRequest2.setClubType("CLUB");
+            clubRequest2.setUser(users2);
+            clubRequest2.setRequestCount(4);
+            clubRequest2.setClubName("BOOK CLUB");
+            clubRequestRepository.save(clubRequest2);
+
+            ClubRequest clubRequest3 = new ClubRequest();
+            List<String> users3 = Arrays.asList("UmutOzdemir");
+            clubRequest3.setClubType("CLUB");
+            clubRequest3.setUser(users3);
+            clubRequest3.setRequestCount(1);
+            clubRequest3.setClubName("SPORT CLUB");
+            clubRequestRepository.save(clubRequest3);
         }
     }
 }
