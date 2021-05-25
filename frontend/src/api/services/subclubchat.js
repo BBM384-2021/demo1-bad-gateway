@@ -21,7 +21,8 @@ export const listMessagesService = (date, subClubId, callback) => {
                 resolve(response);
             })
             .catch(function (error) {
-                apiError(error, reject);
+                //apiError(error, reject);
+                reject(error);
             });
     }));
 };
