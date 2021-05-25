@@ -207,18 +207,20 @@ export const getAllTypeClubNamesService = () => {
           .catch(function (error) {
               apiError(error, reject);
           });
+    }));
+}
 
 export const enrollToSubClub = (subClubId,userId) => {
     return new Promise(((resolve, reject) => {
         axios.post(encodeURI(API_ENROLL_SUB_CLUB + `/${subClubId}/${userId}`),
-            getHeaderWithToken())
-            .then(function (response) {
-                console.log("response")
-                console.log(response)
-                resolve(response);
-            })
-            .catch(function (error) {
-                //axiosError(error, reject);
-            });
+          getHeaderWithToken())
+          .then(function (response) {
+              console.log("response")
+              console.log(response)
+              resolve(response);
+          })
+          .catch(function (error) {
+              //axiosError(error, reject);
+          });
     }));
 }
