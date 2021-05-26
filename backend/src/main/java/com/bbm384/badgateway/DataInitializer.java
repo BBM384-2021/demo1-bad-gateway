@@ -388,7 +388,7 @@ public class DataInitializer implements CommandLineRunner {
             tennis.setName("TENNIS SUBCLUB");
             tennis.setParentClub(sportClub);
             tennis.setDescription("Tennis is a great way to stay fit, meet new people or " +
-                    "have fun with family and friends. Whether it’s at the beach, down the\n");
+                    "have fun with family and friends. Whether it’s at the beach, or the grass, our aim is to have fun!\n");
             tennis.setCategory(sport);
             tennis.setAdmin(subClubAdmin);
             tennis.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_5)));
@@ -788,6 +788,45 @@ public class DataInitializer implements CommandLineRunner {
             gameTalks.setClub(gameClub);
             eventRepository.save(gameTalks);
 
+            Event playTennis = new Event();
+            playTennis.setName("Tennis Meetup");
+            playTennis.setAddress("Tennis Club At Ankara");
+            playTennis.setDescription("We play and learn tennis together.");
+            playTennis.setEventType(EventType.OFFLINE);
+            playTennis.setEventDate(Instant.now());
+            playTennis.setClub(sportClub);
+            playTennis.setSubClub(tennis);
+            eventRepository.save(playTennis);
+
+            Event opera = new Event();
+            opera.setName("Opera Meetup");
+            opera.setAddress("Ankara Opera Center");
+            opera.setDescription("We listen one of the best opera.");
+            opera.setEventType(EventType.OFFLINE);
+            opera.setEventDate(Instant.now());
+            opera.setClub(sportClub);
+            eventRepository.save(opera);
+
+            Event paintExhibiton = new Event();
+            paintExhibiton.setName("We visit exhibition in Kizilay");
+            paintExhibiton.setAddress("Kizilay");
+            paintExhibiton.setDescription("We listen one of the best opera.");
+            paintExhibiton.setEventType(EventType.OFFLINE);
+            paintExhibiton.setEventDate(Instant.now());
+            paintExhibiton.setClub(artClub);
+            paintExhibiton.setSubClub(painting);
+            eventRepository.save(paintExhibiton);
+
+            Event paintBall = new Event();
+            paintBall.setName("Paintball Event");
+            paintBall.setAddress("Ahlatlibal Paintball Center");
+            paintBall.setDescription("Let's shoot some heads :).");
+            paintBall.setEventType(EventType.OFFLINE);
+            paintBall.setEventDate(Instant.now());
+            paintBall.setClub(gameClub);
+            paintBall.setSubClub(paintball);
+            eventRepository.save(paintBall);
+
             Comment comment = new Comment();
             comment.setClub(musicClub);
             comment.setRate(5);
@@ -822,6 +861,90 @@ public class DataInitializer implements CommandLineRunner {
             comment4.setSender(member_2);
             comment4.setContent("We have a lot of fun in the club");
             commentRepository.save(comment4);
+
+            Comment comment5 = new Comment();
+            comment5.setClub(sportClub);
+            comment5.setRate(5);
+            comment5.setSender(member_7);
+            comment5.setContent("Best club ever");
+            commentRepository.save(comment5);
+
+            Comment comment6 = new Comment();
+            comment6.setSubClub(football);
+            comment6.setRate(5);
+            comment6.setSender(member_8);
+            comment6.setContent("I will be balling in this club for sure!");
+            commentRepository.save(comment6);
+
+            Comment comment7 = new Comment();
+            comment7.setClub(sportClub);
+            comment7.setRate(3);
+            comment7.setSender(member_9);
+            comment7.setContent("Meh!");
+            commentRepository.save(comment7);
+
+            Comment commentx = new Comment();
+            commentx.setSubClub(basketball);
+            commentx.setRate(3);
+            commentx.setSender(member_10);
+            commentx.setContent("Meh!");
+            commentRepository.save(commentx);
+
+            Comment comment8 = new Comment();
+            comment8.setClub(artClub);
+            comment8.setRate(4);
+            comment8.setSender(member_15);
+            comment8.setContent("I am enjoying this actually");
+            commentRepository.save(comment8);
+
+            Comment comment9= new Comment();
+            comment9.setSubClub(piano);
+            comment9.setRate(1);
+            comment9.setSender(member_16);
+            comment9.setContent("****** ******");
+            commentRepository.save(comment9);
+
+            Comment comment10 = new Comment();
+            comment10.setClub(artClub);
+            comment10.setRate(3);
+            comment10.setSender(member_17);
+            comment10.setContent("Can't say i enjoyed a lot");
+            commentRepository.save(comment10);
+
+            Comment comment11 = new Comment();
+            comment11.setClub(musicClub);
+            comment11.setRate(4);
+            comment11.setSender(member_17);
+            comment11.setContent("I can recommend this to most of my friends");
+            commentRepository.save(comment11);
+
+            Comment comment12 = new Comment();
+            comment12.setClub(musicClub);
+            comment12.setRate(1);
+            comment12.setSender(member_17);
+            comment12.setContent("No. Basically no.");
+            commentRepository.save(comment12);
+
+            Comment comment13 = new Comment();
+            comment13.setClub(musicClub);
+            comment13.setRate(5);
+            comment13.setSender(member_17);
+            comment13.setContent("Thanks to this club i had a lot of fun.");
+            commentRepository.save(comment13);
+
+            Comment comment14 = new Comment();
+            comment14.setClub(technologyClub);
+            comment14.setRate(4);
+            comment14.setSender(member_18);
+            comment14.setContent("I learnt a lot.");
+            commentRepository.save(comment14);
+
+            Comment comment15 = new Comment();
+            comment15.setSubClub(onlinegame);
+            comment15.setRate(5);
+            comment15.setSender(member_19);
+            comment15.setContent("Thanks to this club i can game a lot more!");
+            commentRepository.save(comment15);
 
             ClubRequest clubRequest = new ClubRequest();
             List<String> users = Arrays.asList("admin", "UmutOzdemir");
