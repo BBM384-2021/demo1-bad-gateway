@@ -13,9 +13,9 @@ export const userListAction = (page, filters, callback) => {
     }
 };
 
-export const userInfoAction = (id, callback) => {
+export const userInfoAction = (callback) => {
     return (dispatch, getStatus) => {
-        return userService.userInfoService(id).then(
+        return userService.userInfoService().then(
             (result) => {
                 callback(result.data);
             },

@@ -4,62 +4,119 @@ import * as eventActions from "../../api/actions/event";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
 import {AuthStates, LoadingStates} from "../../constants/common";
-import {
-    Button,
-    List,
-    Grid,
-    Header,
-    Divider,
-    Loader,
-    Message,
-    Image,
-    Card,
-    Comment,
-    Form,
-    Rating
-} from 'semantic-ui-react';
+import {Button, List, Grid, Header, Divider, Loader, Message, Image, Card, Comment, Form, Rating} from 'semantic-ui-react';
 import MembersItem from "./MembersItem";
 import CommentList from "./CommentList";
 import Page from "../base/Page";
 import {Link} from "react-router-dom";
 import {getRoles} from "../../utils/auth";
+import * as clubActions from "../../api/actions/club";
+import * as friendshipActions from "../../api/actions/friendship";
+import * as userActions from "../../api/actions/user";
 import EventsItem from "../event/EventsItem";
 import SubClubChat from "../chat/SubClubChat";
 
 
 // Club a üye olanlarda yorum yap butonu ve chat olacak
 class SubClubInfo extends Component {
-    state = {
-        status: LoadingStates.NOT_LOADED,
-        fields: {
-            content: "",
-            rate: "",
-            subClub: "",
-        },
-        comment: {},
-        subClub: {},
-        roles: [],
-        commentInput: "",
-        photo: null,
-        eventList: []
-    };
+  state = {
+    status: LoadingStates.NOT_LOADED,
+    fields: {
+      content: "",
+      rate: "",
+      subClub: "",
+    },
+    comment: {},
+    subClub: {},
+    roles:[],
+    commentInput:"",
+    photo: null,
+      eventList: [],
+      scores:[],
+      userId:0,
+      canJoinClubs: false,
+      enrolled:false,
+      friendships:[]
+  };
 
-    constructor(props) {
-        super(props);
-        this.handleSubClubInfo = this.handleSubClubInfo.bind(this);
-        this.sendDeleteRequest = this.sendDeleteRequest.bind(this);
-        this.handleDeleteInfo = this.handleDeleteInfo.bind(this);
-        this.handleEventList = this.handleEventList.bind(this);
-        this.handleCommentCreate = this.handleCommentCreate.bind(this);
-        this.loadImage = this.loadImage.bind(this);
-
-    }
+  constructor(props) {
+    super(props);
+    this.handleSubClubInfo = this.handleSubClubInfo.bind(this);
+    this.sendDeleteRequest = this.sendDeleteRequest.bind(this);
+    this.handleDeleteInfo = this.handleDeleteInfo.bind(this);
+    this.handleCommentCreate = this.handleCommentCreate.bind(this);
+    this.loadImage = this.loadImage.bind(this);
+    this.getScores = this.getScores.bind(this);
+    this.checkIfMember = this.checkIfMember.bind(this);
+    this.enrollToSubClub = this.enrollToSubClub.bind(this);
+    this.enrollmentCallback = this.enrollmentCallback.bind(this);
+    //this.sendGetFriendshipsRequest = this.sendGetFriendshipsRequest.bind(this);
+    this.handleGetFriendshipsRequest = this.handleGetFriendshipsRequest.bind(this);
+    this.addToFriendshipList = this.addToFriendshipList.bind(this);
+    this.handleUserDetail = this.handleUserDetail.bind(this);
+      this.handleEventList = this.handleEventList.bind(this);
+  }
 
     componentDidMount() {
         const {id} = this.props.match.params;
         const {auth} = this.props;
         this.props.getSubClubInfo(id, this.handleSubClubInfo);
         this.props.getSubClubEvents(id, this.handleEventList);
+        this.props.getFriendShips(this.handleGetFriendshipsRequest)
+    }
+
+    handleGetFriendshipsRequest(data){
+        console.log(data)
+        this.setState({
+            ...this.state,
+            friendships:data
+        })
+    }
+
+    addToFriendshipList(data){
+        let {friendships} = this.state
+        friendships.push(data);
+        console.log("new friendships");
+        console.log(friendships)
+        this.setState({
+            ...this.state,
+            friendships: friendships
+        })
+    }
+
+    getScores(data){
+        let scores = JSON.parse(localStorage.getItem("scores"))
+        console.log("aaa");
+        console.log(scores)
+        console.log(data)
+        if(scores){
+            console.log(data.parentClubId)
+            let scoreOfClub = scores.find(score=> score.clubId === data.parentClubId)
+            let status = false;
+            if(scoreOfClub && scoreOfClub.score>=50){
+                status = true
+            }
+            if(scores[0]){
+                this.setState({
+                    ...this.state,
+                    userId:scores[0].userId,
+                    canJoinClubs: status,
+                })
+            }else{
+                this.getUserDetails();
+            }
+
+        }
+    }
+
+    getUserDetails(){
+        this.props.getUserDetails(this.handleUserDetail)
+    }
+    handleUserDetail(data){
+        this.setState({
+            ...this.state,
+            userId:data.id
+        })
     }
 
     handleCommentCreate(data) {
@@ -98,17 +155,17 @@ class SubClubInfo extends Component {
         }
     };
 
-    handleSubClubInfo(data) {
-        let roles = getRoles();
-        this.setState({
-                subClub: data,
-                status: LoadingStates.LOADED,
-                roles: roles
-            }
-        )
-
-        this.loadImage()
-    }
+  handleSubClubInfo(data) {
+    let roles = getRoles();
+    this.setState({
+        subClub: data,
+        status: LoadingStates.LOADED,
+        roles:roles
+      }
+    )
+      this.getScores(data);
+    this.loadImage()
+  }
 
     handleDeleteInfo(data) {
         this.setState({
@@ -151,6 +208,26 @@ class SubClubInfo extends Component {
         }
     });
 
+  enrollToSubClub(){
+    const {id} = this.props.match.params;
+    this.props.enrollToSubClub(id,this.enrollmentCallback)
+
+  }
+  enrollmentCallback(){
+    let {subClub} = this.state
+    subClub.members.push({id:this.state.userId})
+    this.setState({
+      ...this.state,
+      enrolled:true
+    })
+  }
+  checkIfMember (){
+    const {subClub,enrolled} = this.state
+    if(enrolled){
+      return true;
+    }
+    return subClub.members.find(enrolled =>  enrolled.id === this.state.userId)
+  }
 
     render() {
         let buttonEnabled = true;
@@ -216,6 +293,10 @@ class SubClubInfo extends Component {
                                                                     <MembersItem
                                                                         key={member.id}
                                                                         member={member}
+                                                                        addFriendship={this.addToFriendshipList}
+                                                                        friends={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "ACCEPTED")}
+                                                                        rejected={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "REJECTED")}
+                                                                        waiting={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "WAITING")}
                                                                     />
                                                                 )
                                                         }
@@ -248,23 +329,21 @@ class SubClubInfo extends Component {
                                                     }
                                                 </Grid.Column>
 
-                                                <Grid.Column width={8}>
-                                                    {this.state.subClub.photoFileName ?
-                                                        <Image centered src={this.state.photo}/> :
-                                                        <Image centered
-                                                               src='https://react.semantic-ui.com/images/wireframe/square-image.png'
-                                                               size='small' circular/>
-                                                    }
-                                                    <Header as='h1' icon textAlign='center'>
-                                                        <Header.Content
-                                                            style={{color: "#702BBA"}}>{this.state.subClub.name.toUpperCase()}
-                                                            <h4 style={{color: "#000000"}}>{this.state.subClub.category.name}</h4>
-                                                        </Header.Content>
-                                                    </Header>
-                                                    <Divider/>
-                                                    <Header as='h4' icon textAlign='center'>
-                                                        <Header.Content>{this.state.subClub.description}</Header.Content>
-                                                    </Header>
+          <Grid.Column width={8}>
+            {this.state.subClub.photoFileName ?
+                <Image src={this.state.photo}/>:
+                <Image centered src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='small' circular />
+            }
+            <Header as='h1' icon textAlign='center'>
+              <Header.Content style={{color: "#702BBA"}}>{this.state.subClub.name.toUpperCase()}
+                <h4 style={{color: "#000000"}}>{this.state.subClub.category.name}</h4>
+                  {this.state.canJoinClubs ? (this.checkIfMember() ? <Button positive floated={"right"}>Enrolled</Button> : <Button positive floated={"right"} onClick={this.enrollToSubClub}>Enroll</Button>)  :<Button disabled floated={"right"}>Not Eligible</Button>}
+              </Header.Content>
+            </Header>
+            <Divider/>
+            <Header as='h4' icon textAlign='center'>
+              <Header.Content>{this.state.subClub.description}</Header.Content>
+            </Header>
 
                                                     <Divider/>
 
@@ -401,20 +480,28 @@ class SubClubInfo extends Component {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        getSubClubInfo: (id, callback) => {
-            dispatch(subClubActions.subClubInfoAction(id, callback));
-        },
-        deleteSubClub: (id, callback) => {
-            dispatch(subClubActions.deleteSubClubAction(id, callback));
-        },
-        createCommentInfo: (data, callback) => {
-            dispatch(subClubActions.createCommentAction(data, callback));
-        },
-        getSubClubEvents: (subClubId, callback) => {
-            dispatch(eventActions.getSubClubEventsAction(subClubId, callback));
-        }
-    }
+  return {
+    getSubClubInfo: (id, callback) => {
+      dispatch(subClubActions.subClubInfoAction(id, callback));
+    },
+    deleteSubClub: (id, callback) => {
+      dispatch(subClubActions.deleteSubClubAction(id, callback));
+    },
+    createCommentInfo: (data, callback) => {
+      dispatch(subClubActions.createCommentAction(data, callback));
+    },
+    enrollToSubClub: (subClubId,callback) => {
+      dispatch(clubActions.enrollToSubClub(subClubId, callback));
+    },getFriendShips: (callback) => {
+      dispatch(friendshipActions.getFriendships(callback));
+    },
+    getUserDetails: (callback) => {
+    dispatch(userActions.userInfoAction(callback));
+  },
+      getSubClubEvents: (subClubId, callback) => {
+          dispatch(eventActions.getSubClubEventsAction(subClubId, callback));
+      }
+  }
 };
 
 const mapStateToProps = (state, ownProps) => {

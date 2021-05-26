@@ -7,7 +7,6 @@ import com.bbm384.badgateway.payload.*;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -59,6 +58,7 @@ public class ModelMapper {
         subClubPayload.setId(subClub.getId());
         subClubPayload.setName(subClub.getName());
         subClubPayload.setParentClub(subClub.getParentClub().getName());
+        subClubPayload.setParentClubId(subClub.getParentClub().getId());
         subClubPayload.setDescription(subClub.getDescription());
         subClubPayload.setCategory(subClub.getCategory().getName());
         subClubPayload.setMembers(subClub.getMembers());
