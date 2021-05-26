@@ -503,6 +503,13 @@ public class DataInitializer implements CommandLineRunner {
             pm.setSentAt(Instant.now());
             privateMessageRepository.save(pm);
 
+            PrivateMessage pm2 = new PrivateMessage();
+            pm2.setSender(member);
+            pm2.setReceiver(member_2);
+            pm2.setMessage("hello");
+            pm2.setSentAt(Instant.now());
+            privateMessageRepository.save(pm2);
+
 
             Role role = new Role(admin, UserRole.ADMIN);
             roleRepository.save(role);
