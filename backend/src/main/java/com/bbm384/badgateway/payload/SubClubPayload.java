@@ -10,6 +10,7 @@ public class SubClubPayload extends CreatedAudit {
     private Long id;
     private String name;
     private String parentClub;
+    private Long parentClubId;
     private String description;
     private String category;
     private Set<User> members;
@@ -96,5 +97,13 @@ public class SubClubPayload extends CreatedAudit {
 
     public void setPhotoFilePath(String photoFilePath) {
         this.photoFilePath = photoFilePath;
+    }
+
+    public Long getParentClubId() {
+        return parentClubId;
+    }
+
+    public void setParentClubId(Long parentClubId) {
+        this.parentClubId = parentClubId;
     }
 }

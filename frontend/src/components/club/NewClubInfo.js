@@ -56,7 +56,14 @@ class NewClubInfo extends Component {
     const {id} = this.props.match.params;
     const {auth} = this.props;
     this.props.getClubInfo(id, this.handleClubInfo);
-    this.props.getEnrolledSubClubs(id, this.handleGetEnrolledSubClubs)
+    if(localStorage.getItem("token")){
+      this.props.getEnrolledSubClubs(id, this.handleGetEnrolledSubClubs)
+    }
+    this.setState({
+      ...this.state,
+      enrolledClubs:[]
+    })
+
   }
 
   handleCommentCreate(data) {

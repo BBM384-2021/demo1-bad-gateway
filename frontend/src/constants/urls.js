@@ -79,3 +79,8 @@ export const API_SEARCH_URL = urljoin(API_BASE, 'search');
 export const API_CLUB_REQUEST_CREATE_URL = urljoin(API_BASE, 'club_request', 'create');
 export const API_CLUB_REQUEST_LIST_URL = urljoin(API_BASE, 'club_request', 'list');
 
+export const API_SEND_FRIENDSHIP_URL = urljoin(API_BASE, "friendship", "sendRequest")
+export const API_GET_FRIENDSHIPS_URL = urljoin(API_BASE, "friendship")
+export const API_GET_FRIENDSHIPS_WAITING_URL = urljoin(API_BASE, "friendship","waiting")
+export const API_ACCEPT_FRIENDSHIP_REQUEST_URL = urljoin(API_BASE, "friendship","accept")
+export const API_REJECT_FRIENDSHIP_REQUEST_URL = urljoin(API_BASE, "friendship","reject")
