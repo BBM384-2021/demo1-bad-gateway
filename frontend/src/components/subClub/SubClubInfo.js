@@ -11,7 +11,6 @@ import {Link} from "react-router-dom";
 import {getRoles} from "../../utils/auth";
 import SubClubChat from "../chat/SubClubChat";
 
-// Club a üye olanlarda yorum yap butonu ve chat olacak
 class SubClubInfo extends Component {
   state = {
     status: LoadingStates.NOT_LOADED,
@@ -24,7 +23,8 @@ class SubClubInfo extends Component {
     subClub: {},
     roles:[],
     commentInput:"",
-    photo: null
+    photo: null,
+    checkEnrolled: null,
   };
 
   constructor(props) {
@@ -34,13 +34,23 @@ class SubClubInfo extends Component {
     this.handleDeleteInfo = this.handleDeleteInfo.bind(this);
     this.handleCommentCreate = this.handleCommentCreate.bind(this);
     this.loadImage = this.loadImage.bind(this);
-
+    this.handleCheckEnrolledSubClub = this.handleCheckEnrolledSubClub.bind(this);
   }
 
   componentDidMount() {
     const {id} = this.props.match.params;
     const {auth} = this.props;
     this.props.getSubClubInfo(id, this.handleSubClubInfo);
+    this.props.checkEnrolledSubClub(id, this.handleCheckEnrolledSubClub);
+
+  }
+
+  handleCheckEnrolledSubClub(data) {
+    this.setState({
+        ...this.state,
+        checkEnrolled: data,
+      }
+    )
   }
 
   handleCommentCreate(data) {
@@ -145,7 +155,8 @@ class SubClubInfo extends Component {
 
     return (
       <Page>
-        {roles ? roles.find((item)=> (item==="ADMIN" || item ==="SUB_CLUB_ADMIN")) && <div style={{display:"flex",justifyContent:"flex-end",paddingBottom:"2rem"}}>
+        {roles ? roles.find((item)=> (item==="ADMIN" || item ==="SUB_CLUB_ADMIN")) &&
+          <div style={{display:"flex",justifyContent:"flex-end",paddingBottom:"2rem"}}>
           <Link to={`/sub_club/update/${this.state.subClub.id}`} style={{color: "#702BBA"}}>
             <Button primary>
               Update Sub-Club
@@ -214,6 +225,7 @@ class SubClubInfo extends Component {
                 subClubId={this.state.subClub.id}
                 subClub={this.state.subClub}
               />
+              {this.state.checkEnrolled &&
               <Form reply>
                 <div>
                   <Rating maxRating={5} icon='star' size='huge' selected onRate={this.handleRate} />
@@ -229,6 +241,7 @@ class SubClubInfo extends Component {
                 <Button content='Add Comment' labelPosition='left' icon='edit' primary onClick={this.onFormSubmit}
                         disabled={!buttonEnabled} />
               </Form>
+              }
             </Comment.Group>
           </Grid.Column>
           </Grid>:  <div textAlign={"center"} ><Message color={"red"}>You are banned from this sub club</Message></div>}
@@ -247,6 +260,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     createCommentInfo: (data, callback) => {
       dispatch(subClubActions.createCommentAction(data, callback));
+    },
+    checkEnrolledSubClub: (subClubId, callback) => {
+      dispatch(subClubActions.checkEnrolledSubClubAction(subClubId, callback));
     },
   }
 };

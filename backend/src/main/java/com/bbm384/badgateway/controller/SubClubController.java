@@ -76,4 +76,9 @@ public class SubClubController {
         return subClubService.uploadPhoto(currentUser, photo, name);
     }
 
+    @GetMapping("/enrolled_check")
+    public Boolean checkEnrolledSubClub(@CurrentUser UserPrincipal currentUser,
+                                     @RequestParam(value = "subClubId") long subClubId){
+        return subClubService.checkEnrolledSubClub(currentUser, subClubId);
+    }
 }

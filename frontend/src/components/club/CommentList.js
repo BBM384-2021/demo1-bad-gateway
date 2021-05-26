@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import * as clubActions from '../../api/actions/club';
-import { Comment, Rating } from 'semantic-ui-react';
+import { Comment, Message, Rating } from 'semantic-ui-react';
 import defaultProfilePhoto from '../../static/image/pp.png'
 
 class CommentList extends Component{
@@ -58,22 +58,27 @@ class CommentList extends Component{
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     if(this.props.clubId){
       return(
-        this.state.comments.map((comment) =>
-          <Comment>
-            <br/>
-            <Comment.Avatar src= {defaultProfilePhoto}/>
-            <Comment.Content>
-              <Comment.Author as='a'>{comment.value.sender.name}</Comment.Author>
-              <Comment.Metadata>
-                <div>{new Date(comment.value.sentAt).toLocaleDateString([], options)}</div>
-              </Comment.Metadata>
-              <div>
-                <Rating maxRating={5} defaultRating={comment.value.rate}  icon='star' size='mini' />
-              </div>
-              <Comment.Text>{comment.value.content}</Comment.Text>
-            </Comment.Content>
-            <br/>
-          </Comment>
+
+          this.state.comments.length === 0 ?
+            <div textAlign={"center"} ><Message color={"red"}>This club has no comments yet.</Message></div>
+            :
+            this.state.comments.map((comment) =>
+              <Comment>
+                <br/>
+                <Comment.Avatar src= {defaultProfilePhoto}/>
+                <Comment.Content>
+                  <Comment.Author as='a'>{comment.value.sender.name}</Comment.Author>
+                  <Comment.Metadata>
+                    <div>{new Date(comment.value.sentAt).toLocaleDateString([], options)}</div>
+                  </Comment.Metadata>
+                  <div>
+                    <Rating maxRating={5} defaultRating={comment.value.rate}  icon='star' size='mini' />
+                  </div>
+                  <Comment.Text>{comment.value.content}</Comment.Text>
+                </Comment.Content>
+                <br/>
+              </Comment>
+
         )
       )
     }

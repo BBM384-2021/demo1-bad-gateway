@@ -65,12 +65,16 @@ public class ClubController {
         return clubService.getEnrolledClubs(currentUser);
     }
 
+    @GetMapping("/enrolled_check")
+    public Boolean checkEnrolledClub(@CurrentUser UserPrincipal currentUser,
+                                     @RequestParam(value = "clubId") long clubId){
+        return clubService.checkEnrolledClub(currentUser, clubId);
+    }
 
     @GetMapping("/subClub/list")
     public List<SubClubPayload> getSubClubList(@RequestParam(value = "clubId") long clubId){
         return clubService.getAllSubClubs(clubId);
     }
-
 
     @GetMapping("/all")
     public List<ClubInfoResponse> getAllClubs(){

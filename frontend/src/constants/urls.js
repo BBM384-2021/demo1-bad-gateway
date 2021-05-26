@@ -29,6 +29,8 @@ export const API_CLUB_CREATE_URL = urljoin(API_BASE, 'club', 'create');
 export const API_CLUB_UPDATE_URL = urljoin(API_BASE, 'club', 'update');
 export const API_CLUB_DELETE_URL = urljoin(API_BASE, 'club', 'delete');
 export const API_CLUB_ENROLLED = urljoin(API_BASE, 'club', 'enrolled');
+export const API_CHECK_ENROLLED_CLUB = urljoin(API_BASE, 'club', 'enrolled_check');
+
 export const API_CLUB_SUBCLUB_LIST_URL = urljoin(API_BASE, 'club', 'subClub', 'list');
 export const API_CLUB_COMMENT_LIST_URL = urljoin(API_BASE, 'comment', 'club', 'list');
 export const API_SC_COMMENT_LIST_URL = urljoin(API_BASE, 'comment', 'subClub', 'list');
@@ -44,6 +46,8 @@ export const API_SC_CHAT_MESSAGE_SEND = urljoin(API_BASE, 'sub_club_chat', 'send
 export const API_SC_CHAT_VIEW_MESSAGES = urljoin(API_BASE, 'sub_club_chat', 'list');
 export const API_SC_CHAT_VIEW_NEW_MESSAGES = urljoin(API_BASE, 'sub_club_chat', 'listNew');
 export const API_SC_PHOTO_UPLOAD = urljoin(API_BASE, 'sub_club', 'photo');
+export const API_CHECK_ENROLLED_SUB_CLUB = urljoin(API_BASE, 'sub_club', 'enrolled_check');
+
 
 export const API_PC_CHAT_MESSAGE_SEND = urljoin(API_BASE, 'private_message', 'send');
 export const API_PC_CHAT_VIEW_MESSAGES = urljoin(API_BASE, 'private_message', 'list');

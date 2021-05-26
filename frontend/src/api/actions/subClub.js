@@ -125,3 +125,15 @@ export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback)
             });
     }
 }
+
+export const checkEnrolledSubClubAction = (subClubId, callback) => {
+  return (dispatch, getStatus) => {
+    return subClubService.checkEnrolledSubClubService(subClubId,).then(
+      (result) => {
+        callback(result.data);
+      },
+      (error) =>{
+        // callback(messageError);
+      });
+  }
+}

@@ -15,4 +15,5 @@ public interface ClubRepository extends JpaRepository<Club,Long>, QuerydslPredic
         Optional<Club> findById(Long id);
         Optional<Club> findByName(String name);
         List<Club> findAllByMembers(User member);
+        Boolean existsClubByMembersContains(User member);
 }

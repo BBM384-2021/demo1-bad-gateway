@@ -1,15 +1,15 @@
 import axios from "axios";
 import {
-    API_COMMENT_CREATE,
-    API_SC_COMMENT_LIST_URL,
-    API_SUB_CLUB_ALL,
-    API_SUB_CLUB_CREATE,
-    API_SUB_CLUB_DELETE,
-    API_SUB_CLUB_INFO_URL,
-    API_SUB_CLUB_LIST_URL,
-    API_SUB_CLUB_ENROLLED,
-    API_SUB_CLUB_UPDATE,
-    API_SC_PHOTO_UPLOAD,
+  API_COMMENT_CREATE,
+  API_SC_COMMENT_LIST_URL,
+  API_SUB_CLUB_ALL,
+  API_SUB_CLUB_CREATE,
+  API_SUB_CLUB_DELETE,
+  API_SUB_CLUB_INFO_URL,
+  API_SUB_CLUB_LIST_URL,
+  API_SUB_CLUB_ENROLLED,
+  API_SUB_CLUB_UPDATE,
+  API_SC_PHOTO_UPLOAD, API_CHECK_ENROLLED_SUB_CLUB,
 } from '../../constants/urls';
 
 import {getHeaderWithToken} from "../../utils/auth";
@@ -160,4 +160,17 @@ export const subClubPhotoUpload = (name, data, callback) => {
                 //axiosError(error, reject);
             });
     }));
+}
+
+export const checkEnrolledSubClubService = (subClubId, callback) => {
+  return new Promise(((resolve, reject) => {
+    axios.get(encodeURI(API_CHECK_ENROLLED_SUB_CLUB+"?subClubId="+subClubId),
+      getHeaderWithToken())
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        apiError(error, reject);
+      });
+  }));
 }

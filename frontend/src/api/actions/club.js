@@ -122,6 +122,17 @@ export const getEnrolledClubsAction = (callback) => {
     }
 }
 
+export const checkEnrolledClubAction = (clubId, callback) => {
+  return (dispatch, getStatus) => {
+    return clubService.checkEnrolledClubService(clubId,).then(
+      (result) => {
+        callback(result.data);
+      },
+      (error) =>{
+        // callback(messageError);
+      });
+  }
+}
 
 export const getAllClubsAction = (callback) => {
     return (dispatch, getStatus) => {

@@ -197,6 +197,14 @@ public class ClubService {
         ).collect(Collectors.toList());
     }
 
+    public Boolean checkEnrolledClub(UserPrincipal currentUser, Long clubId){
+        if (currentUser.getUser().getUserType().equals(UserType.ADMIN)){
+            return true;
+        }
+
+        return clubRepository.existsClubByMembersContains(currentUser.getUser());
+    }
+
     public List<ClubInfoResponse> getAllClubs(){
         return  clubRepository.findAll().stream().map(
                 club -> ModelMapper.mapToClubInfoResponse(club)

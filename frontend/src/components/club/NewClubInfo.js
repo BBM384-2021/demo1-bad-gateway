@@ -37,7 +37,8 @@ class NewClubInfo extends Component {
     comment: {},
     club: {},
     roles:[],
-    enrolledClubs:null,
+    checkEnrolled: true,
+    enrolledSubClubs:null,
     commentInput:"",
     photo: null
   };
@@ -50,6 +51,8 @@ class NewClubInfo extends Component {
     this.loadImage = this.loadImage.bind(this);
     this.handleCommentCreate = this.handleCommentCreate.bind(this);
     this.handleGetEnrolledSubClubs = this.handleGetEnrolledSubClubs.bind(this);
+    this.handleCheckEnrolledClub = this.handleCheckEnrolledClub.bind(this);
+
   }
 
   componentDidMount() {
@@ -57,6 +60,16 @@ class NewClubInfo extends Component {
     const {auth} = this.props;
     this.props.getClubInfo(id, this.handleClubInfo);
     this.props.getEnrolledSubClubs(id, this.handleGetEnrolledSubClubs)
+    this.props.checkEnrolledClub(id, this.handleCheckEnrolledClub);
+
+  }
+
+  handleCheckEnrolledClub(data) {
+    this.setState({
+        ...this.state,
+        checkEnrolled: data,
+      }
+    )
   }
 
   handleCommentCreate(data) {
@@ -72,7 +85,7 @@ class NewClubInfo extends Component {
   handleGetEnrolledSubClubs(data){
     this.setState({
       ...this.state,
-      enrolledClubs:data
+      enrolledSubClubs:data
     })
   }
   loadImage() {
@@ -223,11 +236,11 @@ class NewClubInfo extends Component {
             </Header>
             <Divider/>
             <Card.Group itemsPerRow={1}>
-              {this.state.enrolledClubs &&
+              {this.state.enrolledSubClubs &&
               <SubClubs
                 clubId={this.state.club.id}
                 club={this.state.club}
-                enrolledClubs={this.state.enrolledClubs}
+                enrolledClubs={this.state.enrolledSubClubs}
               /> }
             </Card.Group>
           </Grid.Column>
@@ -244,6 +257,7 @@ class NewClubInfo extends Component {
                 clubId={this.state.club.id}
                 club={this.state.club}
               />
+              { this.state.checkEnrolled &&
               <Form reply>
                 <div>
                   <Rating maxRating={5} icon='star' size='huge' selected onRate={this.handleRate} />
@@ -259,6 +273,8 @@ class NewClubInfo extends Component {
                 <Button content='Add Comment' labelPosition='left' icon='edit' primary onClick={this.onFormSubmit}
                         disabled={!buttonEnabled} />
               </Form>
+              }
+
             </Comment.Group>
           </Grid.Column>
         </Grid>
@@ -280,7 +296,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getEnrolledSubClubs: (clubId, callback) => {
       dispatch(SubClubActions.getEnrolledSubClubsAction(clubId,callback))
-    }
+    },
+    checkEnrolledClub: (clubId, callback) => {
+      dispatch(clubActions.checkEnrolledClubAction(clubId, callback));
+    },
   }
 };
 
