@@ -312,9 +312,9 @@ class SubClubInfo extends Component {
                                                                     key={member.id}
                                                                     member={member}
                                                                     addFriendship={this.addToFriendshipList}
-                                                                    friends={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "ACCEPTED")}
-                                                                    rejected={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "REJECTED")}
-                                                                    waiting={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "WAITING")}
+                                                                    friends={this.state.friendships.find(friendship => (friendship.addressee.id === member.id && friendship.friendshipStatus === "ACCEPTED" && friendship.addressee.id !== this.state.userId)|| (friendship.requester.id === member.id && friendship.friendshipStatus === "ACCEPTED" && friendship.requester.id !== this.state.userId))}
+                                                                    rejected={this.state.friendships.find(friendship => (friendship.addressee.id === member.id && friendship.friendshipStatus === "REJECTED" && friendship.addressee.id !== this.state.userId) || (friendship.requester.id === member.id && friendship.friendshipStatus === "REJECTED" && friendship.requester.id !== this.state.userId) )}
+                                                                    waiting={this.state.friendships.find(friendship => (friendship.addressee.id === member.id && friendship.friendshipStatus === "WAITING" && friendship.addressee.id !== this.state.userId) || (friendship.requester.id === member.id && friendship.friendshipStatus === "WAITING" && friendship.requester.id !== this.state.userId))}
                                                                 />
                                                             )
                                                     }
