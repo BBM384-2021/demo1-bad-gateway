@@ -101,14 +101,14 @@ class CreateQuestionnarie extends Component{
 		console.log(error)
 		this.setState({
 			isHidden: false,
-			messageHeader: "Club Created",
+			messageHeader: "Questionnarie Created",
 			messageForm: error,
 			isSuccess: true,
 			isError: false,
 		})
-		// setTimeout(() => {
-		// 	this.props.history.push("/club/list");
-		// },2000)
+		setTimeout(() => {
+			this.props.history.push("/club/list");
+		},2000)
 	};
 
 	submitForm (event){
