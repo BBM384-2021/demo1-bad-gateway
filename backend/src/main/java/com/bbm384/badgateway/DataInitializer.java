@@ -870,7 +870,7 @@ public class DataInitializer implements CommandLineRunner {
             commentRepository.save(comment5);
 
             Comment comment6 = new Comment();
-            comment6.setsubClub(football);
+            comment6.setSubClub(football);
             comment6.setRate(5);
             comment6.setSender(member_8);
             comment6.setContent("I will be balling in this club for sure!");
