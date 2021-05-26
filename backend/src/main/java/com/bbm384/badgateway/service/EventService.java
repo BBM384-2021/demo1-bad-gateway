@@ -65,11 +65,11 @@ public class EventService {
 
 
             for (Club club : clubsThatUserIsMember){
-                query = query.and(root.club.eq(club));
+                query = query.or(root.club.id.eq(club.getId()));
             }
 
             for (SubClub subClub : subClubsThatUserIsMember){
-                query = query.and(root.subClub.eq(subClub));
+                query = query.or(root.subClub.id.eq(subClub.getId()));
             }
         }
 
