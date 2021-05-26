@@ -123,7 +123,6 @@ class SubClubs extends Component{
                   {subClub.value.admin.name}
                 </div>
                 <br/>
-                <img className="left floated small ui image" src={defaultClubImage}/>
                   <div>
                     {subClub.value.description}
                   </div>
