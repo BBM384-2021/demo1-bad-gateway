@@ -267,18 +267,19 @@ class SubClubInfo extends Component {
             <Page>
 
                 {
-                    (this.props.auth.loginStatus === AuthStates.VALID && (!(this.state.subClub.name in this.props.auth.bans))) &&
+                    (this.props.auth.loginStatus === AuthStates.VALID) &&
                     [
                         (() => {
-                                if (roles.find((item) => (item === "ADMIN" || item === "SUB_CLUB_ADMIN")))
+                                if ((!(this.state.subClub.name in this.props.auth.bans)))
+                                return (
+                                    <React.Fragment>
+                                        {roles ? roles.find((item)=> item==="ADMIN" || "SUB_CLUB_ADMIN") &&
+                                        <div style={{
+                                            display: "flex",
+                                            justifyContent: "flex-end",
+                                            paddingBottom: "2rem"
+                                        }}>
 
-                                    return (
-                                        <React.Fragment>
-                                            <div style={{
-                                                display: "flex",
-                                                justifyContent: "flex-end",
-                                                paddingBottom: "2rem"
-                                            }}>
                                                 <Link to={`/sub_club/update/${this.state.subClub.id}`}
                                                       style={{color: "#702BBA"}}>
                                                     <Button primary>
@@ -288,137 +289,138 @@ class SubClubInfo extends Component {
                                                 <Button basic color='red' onClick={this.sendDeleteRequest}>
                                                     Delete Sub-Club
                                                 </Button>
+                                        </div>: null
+                                         }
 
-                                            </div>
-                                            <Grid divided centered padded="vertically" columns={3} relaxed='very'>
-                                                <Grid.Column width={4}>
+                                        <Grid divided centered padded="vertically" columns={3} relaxed='very'>
+                                            <Grid.Column width={4}>
+                                                <Header as='h3' textAlign='center'>
+                                                    <Header.Content
+                                                        style={{color: "#009933"}}>MEMBERS</Header.Content>
+                                                </Header>
+                                                <br/>
+                                                <Divider/>
+                                                <List Members divided verticalAlign='middle'>
+                                                    {
+                                                        this.state.subClub.members.length === 0 ?
+                                                            <div textAlign={"center"}><Message color={"red"}>The
+                                                                sub-club
+                                                                has no members yet.</Message>
+                                                            </div> :
+                                                            this.state.subClub.members.map((member) =>
+                                                                <MembersItem
+                                                                    key={member.id}
+                                                                    member={member}
+                                                                    addFriendship={this.addToFriendshipList}
+                                                                    friends={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "ACCEPTED")}
+                                                                    rejected={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "REJECTED")}
+                                                                    waiting={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "WAITING")}
+                                                                />
+                                                            )
+                                                    }
+                                                </List>
+                                                <Divider/>
+                                                <Header as='h3' textAlign='center'>
+                                                    <Header.Content style={{color: "#009933"}}>UPCOMING
+                                                        EVENTS</Header.Content>
+                                                </Header>
+                                                {
+                                                    this.props.auth.loginStatus === AuthStates.VALID ?
+                                                        <Card.Group itemsPerRow={1}>
+                                                            {
+                                                                this.state.eventList.length === 0 ?
+                                                                    <div textAlign={"center"}><Message
+                                                                        size={"large"}
+                                                                        color={"red"}>No
+                                                                        event is available to
+                                                                        show</Message>
+                                                                    </div> :
+                                                                    this.state.eventList.map((event) =>
+                                                                        <EventsItem
+                                                                            key={event.id}
+                                                                            event={event}
+                                                                            displayed
+                                                                        />
+                                                                    )
+                                                            }
+                                                        </Card.Group> : null
+                                                }
+                                            </Grid.Column>
+
+                                            <Grid.Column width={8}>
+                                                {this.state.subClub.photoFileName ?
+                                                    <Image src={this.state.photo}/> :
+                                                    <Image centered
+                                                           src='https://react.semantic-ui.com/images/wireframe/square-image.png'
+                                                           size='small' circular/>
+                                                }
+                                                <Header as='h1' icon textAlign='center'>
+                                                    <Header.Content
+                                                        style={{color: "#702BBA"}}>{this.state.subClub.name.toUpperCase()}
+                                                        <h4 style={{color: "#000000"}}>{this.state.subClub.category.name}</h4>
+                                                        {this.state.canJoinClubs ? (this.checkIfMember() ?
+                                                            <Button positive floated={"right"}>Enrolled</Button> :
+                                                            <Button positive floated={"right"}
+                                                                    onClick={this.enrollToSubClub}>Enroll</Button>) :
+                                                            <Button disabled floated={"right"}>Not
+                                                                Eligible</Button>}
+                                                    </Header.Content>
+                                                </Header>
+                                                <Divider/>
+                                                <Header as='h4' icon textAlign='center'>
+                                                    <Header.Content>{this.state.subClub.description}</Header.Content>
+                                                </Header>
+
+                                                <Divider/>
+
+
+                                                {
+                                                    this.props.auth.loginStatus === AuthStates.VALID ?
+                                                        <SubClubChat>
+                                                        </SubClubChat> : ""
+                                                }
+
+
+                                            </Grid.Column>
+
+                                            <Grid.Column width={4} textAlign="justified">
+                                                <Comment.Group>
                                                     <Header as='h3' textAlign='center'>
                                                         <Header.Content
-                                                            style={{color: "#009933"}}>MEMBERS</Header.Content>
+                                                            style={{color: "#009933"}}>COMMENTS</Header.Content>
                                                     </Header>
                                                     <br/>
                                                     <Divider/>
-                                                    <List Members divided verticalAlign='middle'>
-                                                        {
-                                                            this.state.subClub.members.length === 0 ?
-                                                                <div textAlign={"center"}><Message color={"red"}>The
-                                                                    sub-club
-                                                                    has no members yet.</Message>
-                                                                </div> :
-                                                                this.state.subClub.members.map((member) =>
-                                                                    <MembersItem
-                                                                        key={member.id}
-                                                                        member={member}
-                                                                        addFriendship={this.addToFriendshipList}
-                                                                        friends={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "ACCEPTED")}
-                                                                        rejected={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "REJECTED")}
-                                                                        waiting={this.state.friendships.find(friendship => friendship.addressee.id === member.id && friendship.friendshipStatus === "WAITING")}
-                                                                    />
-                                                                )
-                                                        }
-                                                    </List>
-                                                    <Divider/>
-                                                    <Header as='h3' textAlign='center'>
-                                                        <Header.Content style={{color: "#009933"}}>UPCOMING
-                                                            EVENTS</Header.Content>
-                                                    </Header>
-                                                    {
-                                                        this.props.auth.loginStatus === AuthStates.VALID ?
-                                                            <Card.Group itemsPerRow={1}>
-                                                                {
-                                                                    this.state.eventList.length === 0 ?
-                                                                        <div textAlign={"center"}><Message
-                                                                            size={"large"}
-                                                                            color={"red"}>No
-                                                                            event is available to
-                                                                            show</Message>
-                                                                        </div> :
-                                                                        this.state.eventList.map((event) =>
-                                                                            <EventsItem
-                                                                                key={event.id}
-                                                                                event={event}
-                                                                                displayed
-                                                                            />
-                                                                        )
-                                                                }
-                                                            </Card.Group> : null
-                                                    }
-                                                </Grid.Column>
 
-                                                <Grid.Column width={8}>
-                                                    {this.state.subClub.photoFileName ?
-                                                        <Image src={this.state.photo}/> :
-                                                        <Image centered
-                                                               src='https://react.semantic-ui.com/images/wireframe/square-image.png'
-                                                               size='small' circular/>
-                                                    }
-                                                    <Header as='h1' icon textAlign='center'>
-                                                        <Header.Content
-                                                            style={{color: "#702BBA"}}>{this.state.subClub.name.toUpperCase()}
-                                                            <h4 style={{color: "#000000"}}>{this.state.subClub.category.name}</h4>
-                                                            {this.state.canJoinClubs ? (this.checkIfMember() ?
-                                                                <Button positive floated={"right"}>Enrolled</Button> :
-                                                                <Button positive floated={"right"}
-                                                                        onClick={this.enrollToSubClub}>Enroll</Button>) :
-                                                                <Button disabled floated={"right"}>Not
-                                                                    Eligible</Button>}
-                                                        </Header.Content>
-                                                    </Header>
-                                                    <Divider/>
-                                                    <Header as='h4' icon textAlign='center'>
-                                                        <Header.Content>{this.state.subClub.description}</Header.Content>
-                                                    </Header>
-
-                                                    <Divider/>
-
-
-                                                    {
-                                                        this.props.auth.loginStatus === AuthStates.VALID ?
-                                                            <SubClubChat>
-                                                            </SubClubChat> : ""
-                                                    }
-
-
-                                                </Grid.Column>
-
-                                                <Grid.Column width={4} textAlign="justified">
-                                                    <Comment.Group>
-                                                        <Header as='h3' textAlign='center'>
-                                                            <Header.Content
-                                                                style={{color: "#009933"}}>COMMENTS</Header.Content>
-                                                        </Header>
-                                                        <br/>
-                                                        <Divider/>
-
-                                                        <CommentList
-                                                            subClubId={this.state.subClub.id}
-                                                            subClub={this.state.subClub}
+                                                    <CommentList
+                                                        subClubId={this.state.subClub.id}
+                                                        subClub={this.state.subClub}
+                                                    />
+                                                    <Form reply>
+                                                        <div>
+                                                            <Rating maxRating={5} icon='star' size='huge' selected
+                                                                    onRate={this.handleRate}/>
+                                                        </div>
+                                                        <Form.TextArea
+                                                            id={"content"}
+                                                            placeholder='Evaluate the Sub-Club!'
+                                                            type="text"
+                                                            value={this.state.fields.content}
+                                                            required
+                                                            onChange={this.handleContentChange}
                                                         />
-                                                        <Form reply>
-                                                            <div>
-                                                                <Rating maxRating={5} icon='star' size='huge' selected
-                                                                        onRate={this.handleRate}/>
-                                                            </div>
-                                                            <Form.TextArea
-                                                                id={"content"}
-                                                                placeholder='Evaluate the Sub-Club!'
-                                                                type="text"
-                                                                value={this.state.fields.content}
-                                                                required
-                                                                onChange={this.handleContentChange}
-                                                            />
-                                                            <Button content='Add Comment' labelPosition='left'
-                                                                    icon='edit'
-                                                                    primary onClick={this.onFormSubmit}
-                                                                    disabled={!buttonEnabled}/>
-                                                        </Form>
-                                                    </Comment.Group>
-                                                </Grid.Column>
-                                            </Grid>
-                                        </React.Fragment>
+                                                        <Button content='Add Comment' labelPosition='left'
+                                                                icon='edit'
+                                                                primary onClick={this.onFormSubmit}
+                                                                disabled={!buttonEnabled}/>
+                                                    </Form>
+                                                </Comment.Group>
+                                            </Grid.Column>
+                                        </Grid>
+                                    </React.Fragment>
 
 
-                                    )
+                                )
                                 else {
                                     return (
                                         <div textAlign={"center"}><Message color={"red"}>You are banned from this sub
