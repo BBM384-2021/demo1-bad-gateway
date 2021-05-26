@@ -77,7 +77,7 @@ class EventsItem extends Component {
 
     render() {
         const {eventDate} = this.state.event;
-
+        const {displayed} = this.props;
 
         return (
             <Card style={{"word-wrap": "break-word"}} color="orange">
@@ -160,11 +160,11 @@ class EventsItem extends Component {
                         <Icon name='user'/>
                         {this.state.event.attendees.length} Attendees
                     </a>
-                    {this.state.isAttendee === false && <Button size={"tiny"} compact={"true"} style={{marginLeft: "35px"}} onClick={this.handleAttendButton}>
+                    {this.state.isAttendee === false && displayed && <Button size={"tiny"} compact={"true"} style={{marginLeft: "35px"}} onClick={this.handleAttendButton}>
                         Attend
                     </Button>
                     }
-                    {this.state.isAttendee && <Button size={"tiny"} compact={"true"} style={{marginLeft: "35px"}} onClick={this.handleLeaveButton}>
+                    {this.state.isAttendee && displayed && <Button di size={"tiny"} compact={"true"} style={{marginLeft: "35px"}} onClick={this.handleLeaveButton}>
                         Leave
                     </Button>
                     }
