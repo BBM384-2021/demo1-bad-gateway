@@ -32,7 +32,7 @@ class EditUser extends Component {
         this.setState({
             userId: userId
         })
-        this.props.getUserInfo(userId, this.handleUserEdit);
+        this.props.getUserInfo(this.handleUserEdit);
     }
 
     handleUserEdit(data) {
