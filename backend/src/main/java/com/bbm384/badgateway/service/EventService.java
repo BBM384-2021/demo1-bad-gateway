@@ -69,7 +69,7 @@ public class EventService {
             }
 
             for (SubClub subClub : subClubsThatUserIsMember){
-                query = query.or(root.subClub.id.eq(subClub.getId()));
+                query = query.or(root.subClub.name.eq(subClub.getName()));
             }
         }
 
