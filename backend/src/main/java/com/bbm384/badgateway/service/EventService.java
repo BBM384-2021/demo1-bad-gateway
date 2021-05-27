@@ -68,9 +68,15 @@ public class EventService {
                 query = query.or(root.club.id.eq(club.getId()));
             }
 
-            for (SubClub subClub : subClubsThatUserIsMember){
-                query = query.or(root.subClub.id.eq(subClub.getId()));
+            if(subClubsThatUserIsMember.size() > 0){
+                BooleanExpression query2 = root.subClub.id.eq(subClubsThatUserIsMember.get(0).getId());
+
+                for (SubClub subClub : subClubsThatUserIsMember){
+                    query2 = query2.or(root.subClub.id.eq(subClub.getId()));
+                }
+                query = query.and(query2);
             }
+
         }
 
 
@@ -92,7 +98,7 @@ public class EventService {
         if (subClubId.isPresent()){
             query = query.and(root.subClub.id.eq(subClubId.get()));
         }
-
+        System.out.println(query.toString());
         events = eventRepository.findAll(query, pageable);
 
         List<EventPayload> eventInfoResponse = events.map(

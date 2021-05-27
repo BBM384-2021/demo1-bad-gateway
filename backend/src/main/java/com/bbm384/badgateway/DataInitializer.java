@@ -56,9 +56,12 @@ public class DataInitializer implements CommandLineRunner {
     @Autowired
     ClubRequestRepository clubRequestRepository;
 
+    @Autowired
+    UserScoresRepository userScoresRepository;
+
     @Override
     public void run(String... args) {
-        if(false){
+        if(true){
             User admin = new User();
             admin.setName("Betül Karagöz");
             admin.setUsername("admin");
@@ -290,6 +293,15 @@ public class DataInitializer implements CommandLineRunner {
             guitar.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_14)));
             subClubRepository.save(guitar);
 
+            UserScores userScores = new UserScores(member.getId(),musicClub.getId(),55);
+            UserScores userScores2 = new UserScores(member_2.getId(),musicClub.getId(),55);
+            UserScores userScores3 = new UserScores(subClubAdmin.getId(),musicClub.getId(),55);
+            UserScores userScores4 = new UserScores(member_14.getId(),musicClub.getId(),55);
+            userScoresRepository.save(userScores);
+            userScoresRepository.save(userScores2);
+            userScoresRepository.save(userScores3);
+            userScoresRepository.save(userScores4);
+
 
             SubClub piano = new SubClub();
             piano.setName("PIANO SUBCLUB");
@@ -302,6 +314,9 @@ public class DataInitializer implements CommandLineRunner {
             piano.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_14, member_13)));
             subClubRepository.save(piano);
 
+            UserScores userScores15 = new UserScores(member_13.getId(),musicClub.getId(),55);
+            userScoresRepository.save(userScores15);
+
             SubClub violin = new SubClub();
             violin.setName("VIOLIN SUBCLUB");
             violin.setParentClub(musicClub);
@@ -312,6 +327,8 @@ public class DataInitializer implements CommandLineRunner {
             violin.setAdmin(subClubAdmin);
             violin.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_14, member_12)));
             subClubRepository.save(violin);
+            UserScores userScores12 = new UserScores(member_12.getId(),musicClub.getId(),55);
+            userScoresRepository.save(userScores12);
 
 
             SubClub flute = new SubClub();
@@ -342,6 +359,16 @@ public class DataInitializer implements CommandLineRunner {
             onlinegame.setAdmin(subClubAdmin);
             onlinegame.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_19)));
             subClubRepository.save(onlinegame);
+            UserScores userScores21 = new UserScores(member.getId(),gameClub.getId(),55);
+            UserScores userScores22 = new UserScores(member_2.getId(),gameClub.getId(),55);
+            UserScores userScores23 = new UserScores(subClubAdmin.getId(),gameClub.getId(),55);
+            UserScores userScores24 = new UserScores(admin.getId(),gameClub.getId(),55);
+            UserScores userScores25 = new UserScores(member_19.getId(),gameClub.getId(),55);
+            userScoresRepository.save(userScores21);
+            userScoresRepository.save(userScores22);
+            userScoresRepository.save(userScores23);
+            userScoresRepository.save(userScores24);
+            userScoresRepository.save(userScores25);
 
             SubClub boardgame = new SubClub();
             boardgame.setName("BOARD GAMES SUBCLUB");
@@ -363,6 +390,8 @@ public class DataInitializer implements CommandLineRunner {
             paintball.setAdmin(subClubAdmin);
             paintball.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_4)));
             subClubRepository.save(paintball);
+            UserScores userScores34 = new UserScores(member_4.getId(),gameClub.getId(),55);
+            userScoresRepository.save(userScores34);
 
             SubClub console = new SubClub();
             console.setName("CONSOLE GAMES SUBCLUB");
@@ -393,6 +422,16 @@ public class DataInitializer implements CommandLineRunner {
             tennis.setAdmin(subClubAdmin);
             tennis.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_5)));
             subClubRepository.save(tennis);
+            UserScores userScores41 = new UserScores(member.getId(),sportClub.getId(),55);
+            UserScores userScores42 = new UserScores(member_2.getId(),sportClub.getId(),55);
+            UserScores userScores43 = new UserScores(subClubAdmin.getId(),sportClub.getId(),55);
+            UserScores userScores44 = new UserScores(admin.getId(),sportClub.getId(),55);
+            UserScores userScores45 = new UserScores(member_5.getId(),sportClub.getId(),55);
+            userScoresRepository.save(userScores41);
+            userScoresRepository.save(userScores42);
+            userScoresRepository.save(userScores43);
+            userScoresRepository.save(userScores44);
+            userScoresRepository.save(userScores45);
 
             SubClub basketball = new SubClub();
             basketball.setName("BASKETBALL SUBCLUB");
@@ -404,6 +443,10 @@ public class DataInitializer implements CommandLineRunner {
             basketball.setAdmin(subClubAdmin);
             basketball.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_7, member_10)));
             subClubRepository.save(basketball);
+            UserScores userScores51 = new UserScores(member_7.getId(),sportClub.getId(),55);
+            userScoresRepository.save(userScores51);
+            UserScores userScores52 = new UserScores(member_10.getId(),sportClub.getId(),55);
+            userScoresRepository.save(userScores52);
 
             SubClub football = new SubClub();
             football.setName("FOOTBALL SUBCLUB");
@@ -415,6 +458,12 @@ public class DataInitializer implements CommandLineRunner {
             football.setAdmin(subClubAdmin);
             football.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_8, member_9)));
             subClubRepository.save(football);
+            UserScores userScores61 = new UserScores(member_8.getId(),sportClub.getId(),55);
+            userScoresRepository.save(userScores61);
+            UserScores userScores62 = new UserScores(member_9.getId(),sportClub.getId(),55);
+            userScoresRepository.save(userScores62);
+            UserScores userScores63 = new UserScores(member_11.getId(),sportClub.getId(),55);
+            userScoresRepository.save(userScores63);
 
             SubClub tabletennis = new SubClub();
             tabletennis.setName("TABLE TENNIS SUBCLUB");
@@ -448,6 +497,22 @@ public class DataInitializer implements CommandLineRunner {
             drawing.setAdmin(subClubAdmin);
             drawing.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_15, member_6)));
             subClubRepository.save(drawing);
+            UserScores userScores71 = new UserScores(member.getId(),artClub.getId(),55);
+            userScoresRepository.save(userScores71);
+            UserScores userScores72 = new UserScores(member_2.getId(),artClub.getId(),55);
+            userScoresRepository.save(userScores72);
+            UserScores userScores73 = new UserScores(subClubAdmin.getId(),artClub.getId(),55);
+            userScoresRepository.save(userScores73);
+            UserScores userScores74 = new UserScores(admin.getId(),artClub.getId(),55);
+            userScoresRepository.save(userScores74);
+            UserScores userScores75 = new UserScores(member_15.getId(),artClub.getId(),55);
+            userScoresRepository.save(userScores75);
+            UserScores userScores76 = new UserScores(member_6.getId(),artClub.getId(),55);
+            userScoresRepository.save(userScores76);
+            UserScores userScores77 = new UserScores(member_16.getId(),artClub.getId(),55);
+            userScoresRepository.save(userScores77);
+            UserScores userScores78 = new UserScores(member_17.getId(),artClub.getId(),55);
+            userScoresRepository.save(userScores78);
 
             SubClub painting = new SubClub();
             painting.setName("PAINTING SUBCLUB");
@@ -484,6 +549,17 @@ public class DataInitializer implements CommandLineRunner {
             software.setAdmin(subClubAdmin);
             software.setMembers(new HashSet<User>(Arrays.asList(member, member_2, subClubAdmin, admin, member_18)));
             subClubRepository.save(software);
+
+            UserScores userScores81 = new UserScores(member.getId(),technology.getId(),55);
+            userScoresRepository.save(userScores81);
+            UserScores userScores82 = new UserScores(member_2.getId(),technology.getId(),55);
+            userScoresRepository.save(userScores82);
+            UserScores userScores83 = new UserScores(subClubAdmin.getId(),technology.getId(),55);
+            userScoresRepository.save(userScores83);
+            UserScores userScores84 = new UserScores(admin.getId(),technology.getId(),55);
+            userScoresRepository.save(userScores84);
+            UserScores userScores85 = new UserScores(member_18.getId(),technology.getId(),55);
+            userScoresRepository.save(userScores85);
 
             SubClub inventions = new SubClub();
             inventions.setName("INVENTIONS SUBCLUB");
