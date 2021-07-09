@@ -13,7 +13,9 @@ import {
     API_CLUB_NAME_ALL,
     API_ALL_TYPE_CLUB_NAME_ALL,
     API_CLUB_PHOTO_UPLOAD,
-    API_ENROLL_SUB_CLUB
+    API_ENROLL_SUB_CLUB,
+    API_SUB_CLUB_ENROLLED,
+    API_CHECK_ENROLLED_CLUB,
 } from '../../constants/urls';
 import {getHeaderWithToken} from "../../utils/auth";
 import {apiError} from "../apiError";
@@ -221,5 +223,18 @@ export const getAllTypeClubNamesService = () => {
           .catch(function (error) {
               apiError(error, reject);
           });
+    }));
+}
+
+export const checkEnrolledClubService = (clubId, callback) => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_CHECK_ENROLLED_CLUB+"?clubId="+clubId),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
     }));
 }

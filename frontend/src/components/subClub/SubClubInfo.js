@@ -49,6 +49,7 @@ class SubClubInfo extends Component {
         userId: 0,
         canJoinClubs: false,
         enrolled: false,
+        checkEnrolled: null,
         friendships: []
     };
 
@@ -68,6 +69,7 @@ class SubClubInfo extends Component {
         this.addToFriendshipList = this.addToFriendshipList.bind(this);
         this.handleUserDetail = this.handleUserDetail.bind(this);
         this.handleEventList = this.handleEventList.bind(this);
+        this.handleCheckEnrolledSubClub = this.handleCheckEnrolledSubClub.bind(this);
     }
 
     componentDidMount() {
@@ -75,7 +77,18 @@ class SubClubInfo extends Component {
         const {auth} = this.props;
         this.props.getSubClubInfo(id, this.handleSubClubInfo);
         this.props.getSubClubEvents(id, this.handleEventList);
-        this.props.getFriendShips(this.handleGetFriendshipsRequest)
+        if(localStorage.getItem("token")){
+            this.props.getFriendShips(this.handleGetFriendshipsRequest);
+            this.props.checkEnrolledSubClub(id, this.handleCheckEnrolledSubClub);
+        }
+    }
+
+    handleCheckEnrolledSubClub(data) {
+        this.setState({
+                ...this.state,
+                checkEnrolled: data,
+            }
+        )
     }
 
     handleGetFriendshipsRequest(data) {
@@ -99,9 +112,7 @@ class SubClubInfo extends Component {
 
     getScores(data) {
         let scores = JSON.parse(localStorage.getItem("scores"))
-        console.log("aaa");
-        console.log(scores)
-        console.log(data)
+
         if (scores) {
             console.log(data.parentClubId)
             let scoreOfClub = scores.find(score => score.clubId === data.parentClubId)
@@ -273,7 +284,7 @@ class SubClubInfo extends Component {
                                 if ((!(this.state.subClub.name in this.props.auth.bans)))
                                 return (
                                     <React.Fragment>
-                                        {roles ? roles.find((item)=> item==="ADMIN" || "SUB_CLUB_ADMIN") &&
+                                        {roles ? roles.find((item)=> (item === "ADMIN") || ( item === "SUB_CLUB_ADMIN")) &&
                                         <div style={{
                                             display: "flex",
                                             justifyContent: "flex-end",
@@ -289,6 +300,7 @@ class SubClubInfo extends Component {
                                                 <Button basic color='red' onClick={this.sendDeleteRequest}>
                                                     Delete Sub-Club
                                                 </Button>
+
                                         </div>: null
                                          }
 
@@ -349,7 +361,7 @@ class SubClubInfo extends Component {
 
                                             <Grid.Column width={8}>
                                                 {this.state.subClub.photoFileName ?
-                                                    <Image src={this.state.photo}/> :
+                                                    <Image centered src={this.state.photo}/> :
                                                     <Image centered
                                                            src='https://react.semantic-ui.com/images/wireframe/square-image.png'
                                                            size='small' circular/>
@@ -375,10 +387,11 @@ class SubClubInfo extends Component {
 
 
                                                 {
-                                                    this.props.auth.loginStatus === AuthStates.VALID ?
+                                                    (this.props.auth.loginStatus === AuthStates.VALID && this.state.checkEnrolled) ?
                                                         <SubClubChat>
                                                         </SubClubChat> : ""
                                                 }
+
 
 
                                             </Grid.Column>
@@ -396,24 +409,26 @@ class SubClubInfo extends Component {
                                                         subClubId={this.state.subClub.id}
                                                         subClub={this.state.subClub}
                                                     />
-                                                    <Form reply>
-                                                        <div>
-                                                            <Rating maxRating={5} icon='star' size='huge' selected
-                                                                    onRate={this.handleRate}/>
-                                                        </div>
-                                                        <Form.TextArea
-                                                            id={"content"}
-                                                            placeholder='Evaluate the Sub-Club!'
-                                                            type="text"
-                                                            value={this.state.fields.content}
-                                                            required
-                                                            onChange={this.handleContentChange}
-                                                        />
-                                                        <Button content='Add Comment' labelPosition='left'
-                                                                icon='edit'
-                                                                primary onClick={this.onFormSubmit}
-                                                                disabled={!buttonEnabled}/>
-                                                    </Form>
+                                                    {this.state.checkEnrolled &&
+                                                        <Form reply>
+                                                            <div>
+                                                                <Rating maxRating={5} icon='star' size='huge' selected
+                                                                        onRate={this.handleRate}/>
+                                                            </div>
+                                                            <Form.TextArea
+                                                                id={"content"}
+                                                                placeholder='Evaluate the Sub-Club!'
+                                                                type="text"
+                                                                value={this.state.fields.content}
+                                                                required
+                                                                onChange={this.handleContentChange}
+                                                            />
+                                                            <Button content='Add Comment' labelPosition='left'
+                                                                    icon='edit'
+                                                                    primary onClick={this.onFormSubmit}
+                                                                    disabled={!buttonEnabled}/>
+                                                        </Form>
+                                                    }
                                                 </Comment.Group>
                                             </Grid.Column>
                                         </Grid>
@@ -526,7 +541,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         getSubClubEvents: (subClubId, callback) => {
             dispatch(eventActions.getSubClubEventsAction(subClubId, callback));
-        }
+        },
+        checkEnrolledSubClub: (subClubId, callback) => {
+            dispatch(subClubActions.checkEnrolledSubClubAction(subClubId, callback));
+        },
     }
 };
 

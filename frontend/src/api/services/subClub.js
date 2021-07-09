@@ -10,6 +10,7 @@ import {
     API_SUB_CLUB_ENROLLED,
     API_SUB_CLUB_UPDATE,
     API_SC_PHOTO_UPLOAD,
+    API_CHECK_ENROLLED_SUB_CLUB,
 } from '../../constants/urls';
 
 import {getHeaderWithToken} from "../../utils/auth";
@@ -35,8 +36,8 @@ export const getEnrolledSubClubsService = (clubId, callback) => {
         axios.get(encodeURI(API_SUB_CLUB_ENROLLED+"?clubId="+clubId),
             getHeaderWithToken())
             .then(function (response) {
-              console.log("response enrolled")
-              console.log(response)
+                console.log("response enrolled")
+                console.log(response)
                 resolve(response);
             })
             .catch(function (error) {
@@ -61,92 +62,92 @@ export const subClubListService = (page, name, category, parentClub) => {
         }
         console.log(query)
         axios.get(encodeURI(API_SUB_CLUB_LIST_URL + "/?page="+page+query),
-          getHeaderWithToken())
-          .then(function (response) {
-              resolve(response);
-          })
-          .catch(function (error) {
-              apiError(error, reject);
-          });
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
     }));
 };
 
 export const subClubCommentListService = (subClubId) => {
     return new Promise(((resolve, reject) => {
         axios.get(encodeURI(API_SC_COMMENT_LIST_URL+"?subClubId="+subClubId),
-          getHeaderWithToken())
-          .then(function (response) {
-              resolve(response);
-          })
-          .catch(function (error) {
-              apiError(error, reject);
-          });
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
     }));
 };
 
 export const deleteClubService = (id) => {
-  return new Promise(((resolve, reject) => {
-    axios.get(encodeURI(API_SUB_CLUB_DELETE+"?id="+id),
-      getHeaderWithToken())
-      .then(function (response) {
-        resolve(response);
-      })
-      .catch(function (error) {
-        apiError(error, reject);
-      });
-  }));
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_SUB_CLUB_DELETE+"?id="+id),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
 }
 
 export const createCommentService = (data, callback) => {
-  return new Promise(((resolve, reject) => {
-    axios.post(encodeURI(API_COMMENT_CREATE), data,
-      getHeaderWithToken())
-      .then(function (response) {
-        resolve(response);
-      })
-      .catch(function (error) {
-        apiError(error, reject);
-      });
-  }));
+    return new Promise(((resolve, reject) => {
+        axios.post(encodeURI(API_COMMENT_CREATE), data,
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
 }
 
 export const createSubClubService = (body) => {
-  return new Promise(((resolve, reject) => {
-    axios.post(encodeURI(API_SUB_CLUB_CREATE), body,
-      getHeaderWithToken())
-      .then(function (response) {
-        resolve(response);
-      })
-      .catch(function (error) {
-        apiError(error, reject);
-      });
-  }));
+    return new Promise(((resolve, reject) => {
+        axios.post(encodeURI(API_SUB_CLUB_CREATE), body,
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
 }
 
 export const getAllSubClubsService = () => {
-  return new Promise(((resolve, reject) => {
-    axios.get(encodeURI(API_SUB_CLUB_ALL),
-      getHeaderWithToken())
-      .then(function (response) {
-        resolve(response);
-      })
-      .catch(function (error) {
-        apiError(error, reject);
-      });
-  }));
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_SUB_CLUB_ALL),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
+            });
+    }));
 }
 
 export const editSubClubService = (body) => {
-  return new Promise(((resolve, reject) => {
-    axios.put(encodeURI(API_SUB_CLUB_UPDATE), body,
-      getHeaderWithToken())
-      .then(function (response) {
-        resolve(response);
-      })
-      .catch(function (error) {
-        //axiosError(error, reject);
-      });
-  }));
+    return new Promise(((resolve, reject) => {
+        axios.put(encodeURI(API_SUB_CLUB_UPDATE), body,
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                //axiosError(error, reject);
+            });
+    }));
 }
 
 export const subClubPhotoUpload = (name, data, callback) => {
@@ -158,6 +159,19 @@ export const subClubPhotoUpload = (name, data, callback) => {
             })
             .catch(function (error) {
                 //axiosError(error, reject);
+            });
+    }));
+}
+
+export const checkEnrolledSubClubService = (subClubId, callback) => {
+    return new Promise(((resolve, reject) => {
+        axios.get(encodeURI(API_CHECK_ENROLLED_SUB_CLUB+"?subClubId="+subClubId),
+            getHeaderWithToken())
+            .then(function (response) {
+                resolve(response);
+            })
+            .catch(function (error) {
+                apiError(error, reject);
             });
     }));
 }

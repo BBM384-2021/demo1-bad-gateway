@@ -86,4 +86,10 @@ public class ClubController {
     public List<String> getAllTypeClubNames(){
         return clubService.getAllTypeClubNames();
     }
+
+    @GetMapping("/enrolled_check")
+    public Boolean checkEnrolledClub(@CurrentUser UserPrincipal currentUser,
+                                     @RequestParam(value = "clubId") long clubId){
+        return clubService.checkEnrolledClub(currentUser, clubId);
+    }
 }

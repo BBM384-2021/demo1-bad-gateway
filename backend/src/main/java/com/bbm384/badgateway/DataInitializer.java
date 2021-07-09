@@ -61,7 +61,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if(true){
+        if(false){
             User admin = new User();
             admin.setName("Betül Karagöz");
             admin.setUsername("admin");
@@ -578,6 +578,13 @@ public class DataInitializer implements CommandLineRunner {
             pm.setMessage("hello");
             pm.setSentAt(Instant.now());
             privateMessageRepository.save(pm);
+
+            PrivateMessage pm2 = new PrivateMessage();
+            pm2.setSender(member);
+            pm2.setReceiver(member_2);
+            pm2.setMessage("hello");
+            pm2.setSentAt(Instant.now());
+            privateMessageRepository.save(pm2);
 
 
             Role role = new Role(admin, UserRole.ADMIN);
