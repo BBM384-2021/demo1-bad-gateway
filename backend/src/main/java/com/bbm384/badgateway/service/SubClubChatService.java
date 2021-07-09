@@ -13,6 +13,7 @@ import com.bbm384.badgateway.payload.SubClubChatList;
 import com.bbm384.badgateway.repository.MemberBanRepository;
 import com.bbm384.badgateway.repository.SubClubMessageRepository;
 import com.bbm384.badgateway.repository.SubClubRepository;
+import com.bbm384.badgateway.repository.UserRepository;
 import com.bbm384.badgateway.security.UserPrincipal;
 import com.bbm384.badgateway.util.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,12 @@ public class SubClubChatService {
 
     @Autowired
     MemberBanRepository memberBanRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
 
     public List<SubClubChatList> getMessageList(UserPrincipal currentUser, Long subClubId, Optional<Instant> date){
         Pageable top10 = PageRequest.of(0, 10);
@@ -63,10 +70,10 @@ public class SubClubChatService {
             messageList = subClubMessageRepository.findBySubClubOrderBySentAtDesc(subclub, top10);
         }
 
-
         for(SubClubChat message: messageList){
             chat.add(ModelMapper.mapToMessageList(message));
         }
+
         return chat;
     }
 
@@ -104,13 +111,19 @@ public class SubClubChatService {
         message.setSenderName(currentUser.getUser().getName());
         message.setSentAt(Instant.now());
 
+        subclub.setActivity(Instant.now());
+        subClubRepository.save(subclub);
+
         String result = badWordsFound(sendMessageRequest.getMessage());
+
         if(result.contains("*")){
             Optional<MemberBan> memberBan = memberBanRepository.findMemberBanByMember(currentUser.getUser());
             if(memberBan.isPresent()){
                 MemberBan memberBanned = memberBan.get();
                 memberBanned.setSlangCounter(memberBan.get().getSlangCounter() + 1);
                 memberBanned.updateStatus();
+                memberBanRepository.save(memberBanned);
+                userRepository.save(memberBanned.getMember());
             }else{
                 MemberBan memberBanNew = new MemberBan();
                 memberBanNew.setMember(currentUser.getUser());
@@ -118,12 +131,15 @@ public class SubClubChatService {
                 memberBanNew.setSlangCounter(1);
                 memberBanNew.setCreatedAt(Instant.now());
                 memberBanNew.updateStatus();
+                userRepository.save(memberBanNew.getMember());
                 memberBanRepository.save(memberBanNew);
             }
             message.setMessage(result);
         }
 
         subClubMessageRepository.save(message);
+
+        userService.getUserFullInfo(currentUser.getUser().getId());
 
         if(result.contains("*")){
             return new ApiResponse(true, filterText(sendMessageRequest.getMessage(), currentUser.getUsername()));
@@ -183,10 +199,6 @@ public class SubClubChatService {
                 }
             }
         }
-
-//        for(String s: badWords) {
-//            System.out.println(s + " qualified as a bad word in a username");
-//        }
 
         return result;
 

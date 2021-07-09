@@ -15,6 +15,7 @@ import {
     Loader,
 } from "semantic-ui-react";
 import * as eventActions from "../../api/actions/event";
+import {dateParser, timeParser} from "../../utils/time";
 
 
 class EventInfo extends Component {
@@ -90,6 +91,7 @@ class EventInfo extends Component {
     render() {
 
         const {status, roles} = this.state;
+        const {eventDate} = this.state.event;
         const {auth} = this.props;
         if (status !== LoadingStates.LOADED) {
             return (
@@ -141,11 +143,13 @@ class EventInfo extends Component {
                             <Header.Content>{this.state.event.description}</Header.Content>
                         </Header>
                         <Divider/>
-                        {this.state.isAttendee === false && <Button basic color='violet' size={"medium"} fluid onClick={this.handleAttendButton}>
+                        {this.state.isAttendee === false &&
+                        <Button basic color='violet' size={"medium"} fluid onClick={this.handleAttendButton}>
                             Attend
                         </Button>
                         }
-                        {this.state.isAttendee && <Button basic color='violet' size={"medium"} fluid onClick={this.handleLeaveButton}>
+                        {this.state.isAttendee &&
+                        <Button basic color='violet' size={"medium"} fluid onClick={this.handleLeaveButton}>
                             Leave
                         </Button>
                         }
@@ -165,7 +169,17 @@ class EventInfo extends Component {
                                         </Feed.Label>
                                         <Feed.Content>
                                             <Feed.Summary>
-                                                {this.state.event.eventDate}
+                                                {dateParser(eventDate)}
+                                            </Feed.Summary>
+                                        </Feed.Content>
+                                    </Feed.Event>
+                                    <Feed.Event>
+                                        <Feed.Label>
+                                            <Icon name="clock"/>
+                                        </Feed.Label>
+                                        <Feed.Content>
+                                            <Feed.Summary>
+                                                {timeParser(eventDate)}
                                             </Feed.Summary>
                                         </Feed.Content>
                                     </Feed.Event>

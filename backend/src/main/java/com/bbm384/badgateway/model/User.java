@@ -34,7 +34,7 @@ public class User extends DateAudit {
     private String username;
 
     @Column(name = "PHONE")
-    @Size(min = 10, max = 10)
+    @Size(min = 1, max = 10)
     private String phone;
 
     @Size(max = 40)
@@ -61,6 +61,10 @@ public class User extends DateAudit {
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
     private UserStatus status;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "member")
+    private Set<MemberBan> bans;
 
     private String ppFileName;
 
@@ -150,4 +154,36 @@ public class User extends DateAudit {
     public UserType getUserType() { return userType; }
 
     public void setUserType(UserType userType) { this.userType = userType; }
+
+    public Set<MemberBan> getBans() {
+        return bans;
+    }
+
+    public void setBans(Set<MemberBan> bans) {
+        this.bans = bans;
+    }
+
+    public String getPpFileName() {
+        return ppFileName;
+    }
+
+    public void setPpFileName(String ppFileName) {
+        this.ppFileName = ppFileName;
+    }
+
+    public String getPpFileExtension() {
+        return ppFileExtension;
+    }
+
+    public void setPpFileExtension(String ppFileExtension) {
+        this.ppFileExtension = ppFileExtension;
+    }
+
+    public String getPpFilePath() {
+        return ppFilePath;
+    }
+
+    public void setPpFilePath(String ppFilePath) {
+        this.ppFilePath = ppFilePath;
+    }
 }

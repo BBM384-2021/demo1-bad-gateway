@@ -135,6 +135,18 @@ export const getAllClubsAction = (callback) => {
     }
 }
 
+export const getAllClubNamesAction = (callback) => {
+  return (dispatch, getStatus) => {
+    return clubService.getAllClubNamesService().then(
+      (result) => {
+        callback(result.data);
+      },
+      (error) =>{
+        // callback(messageError);
+      });
+  }
+}
+
 export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback) => {
     return (dispatch, getStatus) => {
         return clubService.clubPhotoUpload(name, data).then(
@@ -145,4 +157,26 @@ export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback)
                 uploadFileErrorCallback();
             });
     }
+}
+
+export const enrollToSubClub = (subClubId, callback) => {
+    return (dispatch, getStatus) => {
+        return clubService.enrollToSubClub(subClubId).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+            });
+    }
+}
+export const getAllTypeClubNamesAction = (callback) => {
+  return (dispatch, getStatus) => {
+    return clubService.getAllTypeClubNamesService().then(
+      (result) => {
+        callback(result.data);
+      },
+      (error) =>{
+        // callback(messageError);
+      });
+  }
 }

@@ -9,20 +9,30 @@ import * as authActions from "../../api/actions/auth";
 
 import logo from '../../static/image/common/logo.png';
 import '../../static/css/common/Header.css';
-import {AuthStates} from "../../constants/common";
+import { AuthStates, LoadingStates } from '../../constants/common';
 
 import {getAllowedMenuRoutes} from "../../routes/Routes";
+import {getRoles} from "../../utils/auth";
 
 
 class Header extends Component {
     state = {
         activeItem: '',
+        roles:[],
     };
+
+    componentDidMount() {
+        const {auth} = this.props;
+        let roles = getRoles();
+        this.setState({
+              roles:roles
+          }
+        )
+    }
 
     handleMenuClick = (e, { name }) => this.setState({ activeItem: name });
 
     render() {
-        const {activeItem} = this.state;
         const {auth} = this.props;
         const routes = getAllowedMenuRoutes();
 
@@ -44,32 +54,36 @@ class Header extends Component {
                         auth.loginStatus === AuthStates.VALID?
                             <Grid>
                                 <Grid.Column style={{marginTop:"45px"}}>
-                                    <Link to={"/event/list"} style={{color:"white", marginLeft:"600px"}}>Events</Link>
+                                    <Link to={"/event/list"} style={{color:"white", marginLeft:"850px"}}>Events</Link>
                                 </Grid.Column>
 
                                 <Grid.Column style={{marginTop:"45px"}}>
-                                    <Link to={"/private_message"} style={{color:"white", marginLeft:"700px"}}>PC</Link>
-                                </Grid.Column>
-
-                                <Grid.Column style={{marginTop:"45px"}}>
-                                    <Link to={"/club/list"} style={{color:"white", marginLeft:"800px"}}>Clubs</Link>
-                                </Grid.Column>
-
-                                <Grid.Column style={{marginTop:"45px"}}>
-                                    <Link to={"/chat/1"} style={{color:"white", marginLeft:"900px"}}>Chat</Link>
+                                    <Link to={"/club/list"} style={{color:"white", marginLeft:"950px"}}>Clubs</Link>
                                 </Grid.Column>
 
                                 <Grid.Column style={{marginTop:"45px"}} >
-                                   <Dropdown text={auth.username} style={{width: "100px", color:"white", marginLeft:"950px"}}>
+                                   <Dropdown text={auth.username} style={{width: "100px", color:"white", marginLeft:"1050px"}}>
                                         <Dropdown.Menu>
                                             <Dropdown.Item as={Link} to={'/user/profile'}><Icon name='user circle' /> Profile</Dropdown.Item>
+                                            <Dropdown.Item as={Link} to={'/private_message'}><Icon name='facebook messenger' /> Messages </Dropdown.Item>
                                             <Dropdown.Item as={Link} to={'/user/change-password'}><Icon name='edit' /> Change Password</Dropdown.Item>
+                                            {getRoles() ? getRoles().find((item)=> item==="ADMIN") &&
+                                                <Dropdown.Item as={Link} to={'/club_request/list'}><Icon name='list' />Club Request List</Dropdown.Item>
+                                            : null}
+                                            {getRoles() ? getRoles().find((item)=> item==="MEMBER") &&
+                                              <Dropdown.Item as={Link} to={'/club_request/create'}><Icon name='pencil alternate' />Request Club</Dropdown.Item>
+                                              : null}
                                             <Dropdown.Item onClick={this.props.logout}><Icon name='sign-out' /> Logout</Dropdown.Item>
                                         </Dropdown.Menu>
                                    </Dropdown>
                                 </Grid.Column>
 
-                            </Grid> : null
+                            </Grid> : <Grid>>
+                                <Grid.Column style={{marginTop:"45px"}}>
+
+                                    <Link  to={"/login"} style={{color:"white", marginLeft:"1370px"}}> <Icon size={"big"} name={"sign-in"}/>Login</Link>
+                                </Grid.Column>
+                            </Grid>
                     }
                 </div>
             </div>

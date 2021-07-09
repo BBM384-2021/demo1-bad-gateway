@@ -39,6 +39,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Validated
@@ -202,6 +203,13 @@ public class ClubService {
         ).collect(Collectors.toList());
     }
 
+    public List<String> getAllClubNames(){
+        return  clubRepository.findAll().stream().map(
+                club -> club.getName()
+        ).collect(Collectors.toList());
+    }
+
+
     private void savePhoto(MultipartFile file, Club club,  FileUploadResponse fileUploadResponse){
         if (!file.getContentType().equals(AppConstants.FILE_PNG) &&
                 !file.getContentType().equals(AppConstants.FILE_JPEG)){
@@ -213,10 +221,7 @@ public class ClubService {
             throw new FileStorageException("Photo size must be less than 10MB");
         }
 
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-
-        Path relativePath = storageProperties.getUploadPath().resolve(String.valueOf(year)).resolve(String.valueOf(month));
+        Path relativePath = storageProperties.getUploadPath();
 
         try {
             Files.createDirectories(relativePath);
@@ -225,7 +230,6 @@ public class ClubService {
             fileUploadResponse.setSuccess(false);
             throw new FileStorageException("Could not create the directory");
         }
-        System.out.println("here");
 
         String fileExtension = "";
 
@@ -236,8 +240,7 @@ public class ClubService {
             fileExtension = "png";
         }
 
-        String fileName = club.getName() +  "_" + fileExtension;
-        Path filePath = relativePath.resolve(fileName);
+        Path filePath = relativePath.resolve(file.getOriginalFilename());
 
         try {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
@@ -246,10 +249,6 @@ public class ClubService {
             e.printStackTrace();
         }
 
-        System.out.println(fileExtension);
-        System.out.println(file.getOriginalFilename());
-        System.out.println(filePath.toString());
-
         club.setPhotoFileExtension(fileExtension);
         club.setPhotoFileName(file.getOriginalFilename());
         club.setPhotoFilePath(filePath.toString());
@@ -257,4 +256,16 @@ public class ClubService {
         fileUploadResponse.setSuccess(true);
     }
 
+    public List<String> getAllTypeClubNames() {
+        List<String> clubNames = clubRepository.findAll().stream().map(
+                club -> club.getName()
+        ).collect(Collectors.toList());
+
+        List<String> subClubNames = subClubRepository.findAll().stream().map(
+                subClub -> subClub.getName()
+        ).collect(Collectors.toList());
+
+        clubNames.addAll(subClubNames);
+        return clubNames;
+    }
 }

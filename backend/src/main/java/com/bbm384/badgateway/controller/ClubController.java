@@ -43,7 +43,6 @@ public class ClubController {
     }
 
     @PostMapping("/photo")
-    @ResponseBody
     public FileUploadResponse uploadPhoto(@CurrentUser UserPrincipal currentUser,
                                           @RequestParam(value = "photo", required = false)  Optional<MultipartFile> photo,
                                           @RequestParam(value = "name") String name){
@@ -78,4 +77,13 @@ public class ClubController {
         return clubService.getAllClubs();
     }
 
+    @GetMapping("/all_name")
+    public List<String> getAllClubNames(){
+        return clubService.getAllClubNames();
+    }
+
+    @GetMapping("/all_type_name")
+    public List<String> getAllTypeClubNames(){
+        return clubService.getAllTypeClubNames();
+    }
 }

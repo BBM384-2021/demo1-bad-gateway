@@ -7,6 +7,7 @@ import 'react-semantic-ui-datepickers/dist/react-semantic-ui-datepickers.css';
 import * as eventActions from "../../api/actions/event";
 import {withRouter} from "react-router";
 import {connect} from "react-redux";
+import {dateParser, timeParser} from "../../utils/time";
 
 
 
@@ -75,9 +76,8 @@ class EventsItem extends Component {
 
 
     render() {
-
-
-        //let eventDate = event.eventDate.toISOString();
+        const {eventDate} = this.state.event;
+        const {displayed} = this.props;
 
         return (
             <Card style={{"word-wrap": "break-word"}} color="orange">
@@ -108,7 +108,17 @@ class EventsItem extends Component {
                             </Feed.Label>
                             <Feed.Content>
                                 <Feed.Summary>
-                                    {this.state.event.eventDate}
+                                    {dateParser(eventDate)}
+                                </Feed.Summary>
+                            </Feed.Content>
+                        </Feed.Event>
+                        <Feed.Event>
+                            <Feed.Label>
+                                <Icon name="clock"/>
+                            </Feed.Label>
+                            <Feed.Content>
+                                <Feed.Summary>
+                                   {timeParser(eventDate)}
                                 </Feed.Summary>
                             </Feed.Content>
                         </Feed.Event>
@@ -150,11 +160,11 @@ class EventsItem extends Component {
                         <Icon name='user'/>
                         {this.state.event.attendees.length} Attendees
                     </a>
-                    {this.state.isAttendee === false && <Button size={"tiny"} compact={"true"} style={{marginLeft: "400px"}} onClick={this.handleAttendButton}>
+                    {this.state.isAttendee === false && displayed && <Button size={"tiny"} compact={"true"} style={{marginLeft: "35px"}} onClick={this.handleAttendButton}>
                         Attend
                     </Button>
                     }
-                    {this.state.isAttendee && <Button size={"tiny"} compact={"true"} style={{marginLeft: "400px"}} onClick={this.handleLeaveButton}>
+                    {this.state.isAttendee && displayed && <Button di size={"tiny"} compact={"true"} style={{marginLeft: "35px"}} onClick={this.handleLeaveButton}>
                         Leave
                     </Button>
                     }

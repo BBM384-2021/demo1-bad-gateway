@@ -234,6 +234,7 @@ class Events extends Component {
                                         <EventsItem
                                             key={event.id}
                                             event={event}
+                                            displayed
                                         />
                                     )
                             }

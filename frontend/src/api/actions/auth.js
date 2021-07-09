@@ -42,10 +42,10 @@ export const forgotPasswordAction = (data, callback) => {
 export const loginAction = (data, callback) => {
     return (dispatch, getState) => {
         return authorizeService.loginService(data).then((result) => {
-                let {tokenType, token, roles} = result.data;
+                let {tokenType, token, roles, userScores} = result.data;
 
                 // Set token information on localstorage
-                setLoginInfo(tokenType, token, roles);
+                setLoginInfo(tokenType, token, roles, userScores);
 
                 // Reset States
                 //dispatch(resetChat());
@@ -127,6 +127,7 @@ const userInfo = (data) =>{
             email: data.email,
             name: data.name,
             phone: data.phone,
+            bans: data.bans,
 
             passwordReset: data.passwordReset,
 

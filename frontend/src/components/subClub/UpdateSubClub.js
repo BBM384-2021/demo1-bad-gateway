@@ -10,6 +10,8 @@ import * as categoryActions from '../../api/actions/category';
 import * as clubActions from '../../api/actions/club';
 import * as SubClubActions from '../../api/actions/subClub';
 import { Link } from 'react-router-dom';
+import {FILE_UPLOAD_DOC_TYPES, FILE_UPLOAD_STATUS_SUCCESS} from "../../constants/common/file";
+import FileInput from "../base/FileInput";
 
 
 class UpdateSubClub extends Component {
@@ -22,20 +24,26 @@ class UpdateSubClub extends Component {
             category: "",
         },
 
-          categories: [],
-          clubs:[],
-          users:[],
-          admin: "",
+        categories: [],
+        clubs:[],
+        users:[],
+        admin: "",
 
-          isHidden: true,
-          isSuccess: false,
-          isError: false,
+        photo: null,
+        photoMessage: null,
 
-          messageHeader: "",
-          messageForm: "",
+        submitErrors: {},
+        isFormSubmitting: false,
 
-          status: LoadingStates.LOADING,
-          submitStatus: null,
+        isHidden: true,
+        isSuccess: false,
+        isError: false,
+
+        messageHeader: "",
+        messageForm: "",
+
+        status: LoadingStates.LOADING,
+        submitStatus: null,
     };
 
     constructor(props) {
@@ -46,6 +54,9 @@ class UpdateSubClub extends Component {
         this.handleGetUsers= this.handleGetUsers.bind(this);
         this.handleGetSubClubs = this.handleGetSubClubs.bind(this);
         this.submitFormCallback = this.submitFormCallback.bind(this);
+        this.uploadFileCallback = this.uploadFileCallback.bind(this);
+        this.uploadFileErrorCallback = this.uploadFileErrorCallback.bind(this);
+        this.selectFile = this.selectFile.bind(this);
     }
 
     componentDidMount() {
@@ -105,6 +116,22 @@ class UpdateSubClub extends Component {
         setTimeout(() => {
           this.props.history.push("/sub_club/info/"+this.state.id);
         }, 2000)
+
+        this.setState({
+            isFormSubmitting: true,
+            submitStatus: null,
+        });
+
+        const formData = new FormData();
+
+        if(this.state.photo){
+            formData.append("photo", this.state.photo);
+        }
+
+        console.log(formData);
+        console.log(this.state.fields.name);
+
+        this.props.uploadPhoto(this.state.fields.name, formData, this.uploadFileCallback, this.uploadFileErrorCallback)
     }
 
     handleSubClubEdit(data) {
@@ -143,6 +170,56 @@ class UpdateSubClub extends Component {
         })
     };
 
+    uploadFileCallback = (result) => {
+        if (result.success) {
+            this.setState({
+                submitStatus: FILE_UPLOAD_STATUS_SUCCESS,
+                submitErrors: {},
+                isFormSubmitting: false,
+                photo: null,
+            });
+        }
+    };
+
+    uploadFileErrorCallback = () => {
+        this.setState({
+            isFormSubmitting: false,
+        });
+    };
+
+
+    resetInputFile = (event) => event.target.value = null;
+
+    dismissMessage = (state) => {
+        return (event) => {
+            this.setState({
+                [state + 'Message']: null,
+            });
+        }
+    };
+
+    renderMessage(message, state, messagePrefix){
+        return (
+            <Message
+                icon={message.icon}
+                color={message.color}
+                content={<React.Fragment>{messagePrefix && <b>{messagePrefix}:</b> }{message.content} </React.Fragment>}
+                onDismiss={this.dismissMessage(state)}
+            />
+        )
+    }
+
+    selectFile = (state) => {
+        return (event, file, message) => {
+            this.setState({
+                [state]: file,
+                [state + 'Message']: message
+            });
+        }
+    };
+
+
+
     handleParentClubChange= (e, { value }) => this.setState({
       fields: {
         ...this.state.fields,
@@ -165,8 +242,8 @@ class UpdateSubClub extends Component {
   });
 
   handleSubmit = (event) => {
-    if(this.state.fields.name == "" || this.state.fields.parentClub == "" || this.state.fields.category == "" ||
-      this.state.fields.admin == "" || this.state.fields.description == ""){
+    if(this.state.fields.name === "" || this.state.fields.parentClub === "" || this.state.fields.category === "" ||
+      this.state.fields.admin === "" || this.state.fields.description === ""){
       this.setState({
         isError:true,
         isHidden:false,
@@ -182,6 +259,11 @@ class UpdateSubClub extends Component {
       isHidden:true,
       isSuccess:true,
     });
+
+      this.setState({
+          photoMessage: null,
+      });
+
     this.props.updateSubClub(this.state.fields, this.submitFormCallback);
   }
 
@@ -210,6 +292,10 @@ class UpdateSubClub extends Component {
           />
           <Segment>
             <Header className={"loginHeader"} size={"large"} >Update Sub-Club</Header>
+              <Form.Field>
+                  <b>Photo:</b>
+                  <FileInput selectFileCallback={this.selectFile('photo')} buttonIcon={"photo"} buttonText={"Photo"} fileTypes={FILE_UPLOAD_DOC_TYPES} />
+              </Form.Field>
 
             <Form onSubmit={this.handleSubmit}>
               <Form.Field>
@@ -300,7 +386,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     updateSubClub: (body, callback) => {
       dispatch(SubClubActions.editSubClubAction(body, callback));
-    }
+    },
+      uploadPhoto: (id, data, callback, uploadFileErrorCallback) => {
+          dispatch(SubClubActions.uploadPhotoAction(id, data, callback, uploadFileErrorCallback))
+      },
   };
 };
 

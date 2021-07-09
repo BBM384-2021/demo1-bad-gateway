@@ -93,4 +93,17 @@ export const deleteAttendeeAction = (eventId, callback) => {
 }
 
 
+export const getSubClubEventsAction = (subClubId, callback) => {
+    return (dispatch, getStatus) => {
+        return eventService.getSubClubEventsService(subClubId).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) => {
+                // callback(messageError);
+            });
+    }
+}
+
+
 

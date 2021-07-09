@@ -18,6 +18,8 @@ class SignUp extends Component {
             usernameInput: "",
             emailInput: "",
             passwordInput: "",
+            phoneInput: "",
+            nameInput: "",
             passwordRepeat: "",
 
             isHidden: true,
@@ -49,7 +51,7 @@ class SignUp extends Component {
     submitFormCallback = (response) => {
         let message = "";
         if (response.success) {
-            this.props.history.push("/login");
+            this.props.history.push(`/questionnarie/answer/${response.userId}`);
         }
         // Backend throws 400 or 500.
         else if(response.response){
@@ -81,8 +83,9 @@ class SignUp extends Component {
             "email": this.state.emailInput,
             "password": this.state.passwordInput,
             "passwordRepeat": this.state.passwordRepeat,
+            "name": this.state.nameInput,
+            "phone": this.state.phoneInput,
         };
-
         this.props.signup(data, this.submitFormCallback);
     }
 
@@ -117,6 +120,30 @@ class SignUp extends Component {
                                 id={"usernameInput"}
                                 onChange={this.handleInputChange}
                             />
+                        </Form.Field>
+                        <Form.Field>
+                            <Form.Input
+                                width={10}
+                                icon='lock'
+                                iconPosition='left'
+                                label={"Name/Surname"}
+                                placeholder='Name/Surname'
+                                value={this.state.nameInput}
+                                required
+                                id={"nameInput"}
+                                onChange={this.handleInputChange}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <Form.Input
+                                width={10}
+                                icon='lock'
+                                iconPosition='left'
+                                label={"Phone"}
+                                placeholder='Phone'
+                                value={this.state.phoneInput}
+                                required
+                                id={"phoneInput"}
+                                onChange={this.handleInputChange}/>
                         </Form.Field>
                         <Form.Field>
                             <Form.Input

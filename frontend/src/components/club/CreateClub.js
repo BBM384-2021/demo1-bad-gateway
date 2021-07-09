@@ -20,7 +20,7 @@ class CreateClub extends Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			nameInput: "",
+			nameInput: this.props.match.params.clubName,
 			descriptionInput: "",
 			categoryInput: "",
 			status:"ACTIVE",
@@ -38,11 +38,13 @@ class CreateClub extends Component{
 
 			messageHeader: "",
 			messageForm: "",
-			categories: []
+			categories: [],
+			allClubs:[],
 		};
 
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleGetCategories = this.handleGetCategories.bind(this);
+		this.handleGetClubs = this.handleGetClubs.bind(this);
 		this.submitForm = this.submitForm.bind(this);
 		this.uploadFileCallback = this.uploadFileCallback.bind(this);
 		this.uploadFileErrorCallback = this.uploadFileErrorCallback.bind(this);
@@ -51,6 +53,15 @@ class CreateClub extends Component{
 
 	componentDidMount() {
 		this.props.getCategories(this.handleGetCategories);
+		this.props.getClubs(this.handleGetClubs);
+	}
+
+	handleGetClubs(data) {
+		this.setState({
+				...this.state,
+				allClubs: data,
+			}
+		)
 	}
 
 	handleGetCategories(data) {
@@ -115,7 +126,20 @@ class CreateClub extends Component{
 		if (value.length && (value.startsWith(spaceCharacter) || value.startsWith(newLineCharacter)))
 			return;
 
+		if(this.state.allClubs.indexOf(value) > -1 ) {
+			this.setState({
+				isError:true,
+				isHidden:false,
+				isSuccess:false,
+				messageHeader:"Club with that name already exists!",
+				messageFrom:"Club with that name already exists!"
+			})
+			return;
+		}
 		this.setState({
+			isError:false,
+			isHidden:true,
+			isSuccess:true,
 			[data.id]: value
 		})
 	}
@@ -142,7 +166,7 @@ class CreateClub extends Component{
 			isError: false,
 		})
 		setTimeout(() => {
-			this.props.history.push("/club/list");
+			this.props.history.push(`/questionnarie/create/${error.id}`);
 		},2000)
 	};
 
@@ -204,9 +228,11 @@ class CreateClub extends Component{
 					<Header className={"loginHeader"} size={"large"} >Create Club</Header>
 
 					<Form.Field>
+						<b>Photo:</b>
 						<FileInput selectFileCallback={this.selectFile('photo')} buttonIcon={"photo"} buttonText={"Photo"} fileTypes={FILE_UPLOAD_DOC_TYPES} />
 					</Form.Field>
 					<Form onSubmit={this.submitForm}>
+						<br/>
 						<Form.Field>
 							<Form.Input
 								label={"Name"}
@@ -270,6 +296,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		uploadFiles: (id, data, callback, uploadFileErrorCallback) => {
 			dispatch(clubActions.uploadPhotoAction(id, data, callback, uploadFileErrorCallback))
+		},
+		getClubs: (callback) => {
+			dispatch(clubActions.getAllClubNamesAction(callback));
 		},
 	}
 };

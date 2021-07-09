@@ -70,6 +70,9 @@ class AddCategory extends Component{
 			isSuccess: true,
 			isError: false,
 		})
+		setTimeout(() => {
+            this.props.history.push("/club/list");
+        },2000)
 		
 	};
 

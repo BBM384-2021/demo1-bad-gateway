@@ -13,10 +13,10 @@ public class Friendship {
     private Long id;
 
     @ManyToOne
-    private Member requester;
+    private User requester;
 
     @ManyToOne
-    private Member addressee;
+    private User addressee;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -30,19 +30,19 @@ public class Friendship {
         this.id = id;
     }
 
-    public Member getRequester() {
+    public User getRequester() {
         return requester;
     }
 
-    public void setRequester(Member requester) {
+    public void setRequester(User requester) {
         this.requester = requester;
     }
 
-    public Member getAddressee() {
+    public User getAddressee() {
         return addressee;
     }
 
-    public void setAddressee(Member addressee) {
+    public void setAddressee(User addressee) {
         this.addressee = addressee;
     }
 

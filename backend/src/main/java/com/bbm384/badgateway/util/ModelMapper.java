@@ -27,7 +27,7 @@ public class ModelMapper {
         clubInfoResponse.setUpdatedBy(club.getUpdatedBy());
         clubInfoResponse.setPhotoFileName(club.getPhotoFileName());
         clubInfoResponse.setPhotoFileExtension(club.getPhotoFileExtension());
-        clubInfoResponse.setPhotoFilePath(clubInfoResponse.getPhotoFilePath());
+        clubInfoResponse.setPhotoFilePath(club.getPhotoFilePath());
 
 
         return clubInfoResponse;
@@ -58,12 +58,17 @@ public class ModelMapper {
         subClubPayload.setId(subClub.getId());
         subClubPayload.setName(subClub.getName());
         subClubPayload.setParentClub(subClub.getParentClub().getName());
+        subClubPayload.setParentClubId(subClub.getParentClub().getId());
         subClubPayload.setDescription(subClub.getDescription());
         subClubPayload.setCategory(subClub.getCategory().getName());
         subClubPayload.setMembers(subClub.getMembers());
         subClubPayload.setAdmin(subClub.getAdmin().getName());
-        subClub.setCreatedAt(subClub.getCreatedAt());
-        subClub.setCreatedBy(subClub.getCreatedBy());
+        subClubPayload.setCreatedAt(subClub.getCreatedAt());
+        subClubPayload.setCreatedBy(subClub.getCreatedBy());
+        subClubPayload.setPhotoFileExtension(subClub.getPhotoFileExtension());
+        subClubPayload.setPhotoFileName(subClub.getPhotoFileName());
+        subClubPayload.setPhotoFilePath(subClub.getPhotoFilePath());
+        
         return subClubPayload;
     }
 
@@ -124,5 +129,17 @@ public class ModelMapper {
             eventPayload.setSubClubId(event.getSubClub().getId());
         }
         return eventPayload;
+    }
+
+    public static ClubRequestPayload mapToClubRequestPayload(ClubRequest clubRequest) {
+        ClubRequestPayload clubRequestPayload= ClubRequestPayload.builder()
+                .id(clubRequest.getId())
+                .clubName(clubRequest.getClubName())
+                .user(clubRequest.getUser())
+                .requestCount(clubRequest.getRequestCount())
+                .clubType(clubRequest.getClubType())
+                .parentName(clubRequest.getParentName())
+                .build();
+        return clubRequestPayload;
     }
 }

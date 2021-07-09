@@ -26,9 +26,15 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.PreRemove;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -59,12 +65,18 @@ public class EventService {
 
 
             for (Club club : clubsThatUserIsMember){
-                query = query.and(root.club.eq(club));
+                query = query.or(root.club.id.eq(club.getId()));
             }
 
-            for (SubClub subClub : subClubsThatUserIsMember){
-                query = query.and(root.subClub.eq(subClub));
+            if(subClubsThatUserIsMember.size() > 0){
+                BooleanExpression query2 = root.subClub.id.eq(subClubsThatUserIsMember.get(0).getId());
+
+                for (SubClub subClub : subClubsThatUserIsMember){
+                    query2 = query2.or(root.subClub.id.eq(subClub.getId()));
+                }
+                query = query.and(query2);
             }
+
         }
 
 
@@ -86,7 +98,7 @@ public class EventService {
         if (subClubId.isPresent()){
             query = query.and(root.subClub.id.eq(subClubId.get()));
         }
-
+        System.out.println(query.toString());
         events = eventRepository.findAll(query, pageable);
 
         List<EventPayload> eventInfoResponse = events.map(
@@ -140,8 +152,18 @@ public class EventService {
             subClub = subClubRepository.findById(eventPayload.getSubClubId()).orElseThrow(
                     () -> new ResourceNotFoundException("Sub Club", "id", String.valueOf(eventPayload.getSubClubId()))
             );
+            subClub.setActivity(Instant.now());
+            subClubRepository.save(subClub);
         }
 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+        String timestamp = eventPayload.getEventDateCreate();
+        TemporalAccessor temporalAccessor = formatter.parse(timestamp);
+        LocalDateTime localDateTime = LocalDateTime.from(temporalAccessor);
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
+        Instant eventDate = Instant.from(zonedDateTime);
 
 
         Event event = new Event();
@@ -152,11 +174,13 @@ public class EventService {
         event.setAttendees(eventPayload.getAttendees());
         event.setClub(club);
         event.setSubClub(subClub);
-        event.setEventDate(eventPayload.getEventDate());
+
+        event.setEventDate(eventDate);
         event.setUpdatedBy(currentUser.getId());
         event.setUpdatedAt(Instant.now());
-
         eventRepository.save(event);
+
+
         response.setSuccess(true);
         response.setMessage("Event created with success");
 
@@ -164,10 +188,11 @@ public class EventService {
     }
 
     public EventPayload updateEvent(UserPrincipal currentUser, EventPayload eventPayload){
+
         Optional<Event> eventExist = eventRepository.findByAddressAndEventDate(eventPayload.getAddress(), eventPayload.getEventDate());
 
         if (eventExist.isPresent()){
-           return null;
+            if (!eventExist.get().getId().equals(eventPayload.getId())) return null;
         }
 
         Event event = eventRepository.findById(eventPayload.getId()).orElseThrow(
@@ -190,6 +215,17 @@ public class EventService {
             );
         }
 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+        String timestamp = eventPayload.getEventDateCreate();
+        TemporalAccessor temporalAccessor = formatter.parse(timestamp);
+        LocalDateTime localDateTime = LocalDateTime.from(temporalAccessor);
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, ZoneId.systemDefault());
+        Instant eventDate = Instant.from(zonedDateTime);
+
+        System.out.println(eventDate);
+
         event.setName(eventPayload.getName());
         event.setAddress(eventPayload.getAddress());
         event.setDescription(eventPayload.getDescription());
@@ -197,7 +233,7 @@ public class EventService {
         event.setAttendees(eventPayload.getAttendees());
         event.setClub(club);
         event.setSubClub(subClub);
-        event.setEventDate(eventPayload.getEventDate());
+        event.setEventDate(eventDate);
         event.setUpdatedBy(currentUser.getId());
         event.setUpdatedAt(Instant.now());
 
@@ -251,6 +287,20 @@ public class EventService {
         eventRepository.save(event);
 
         return ModelMapper.mapToEventPayload(event);
+    }
+
+
+    public List<EventPayload> getSubClubEvents(long subClubId) {
+
+        Optional<SubClub> subClub = subClubRepository.findById(subClubId);
+
+        if(subClub.isPresent()){
+            List<Event> eventList = eventRepository.findAllBySubClub(subClub.get());
+            return eventList.stream().map(event -> ModelMapper.mapToEventPayload(event)).collect(Collectors.toList());
+        }
+
+
+        return null;
     }
 
 }

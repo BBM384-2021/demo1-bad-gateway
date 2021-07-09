@@ -32,7 +32,7 @@ class EditUser extends Component {
         this.setState({
             userId: userId
         })
-        this.props.getUserInfo(userId, this.handleUserEdit);
+        this.props.getUserInfo(this.handleUserEdit);
     }
 
     handleUserEdit(data) {
@@ -71,6 +71,7 @@ class EditUser extends Component {
             email: this.state.fields.email,
             roles: this.state.fields.roles
         }
+        
         this.props.updateUserInfo(data, this.handleUserEdit);
     };
 

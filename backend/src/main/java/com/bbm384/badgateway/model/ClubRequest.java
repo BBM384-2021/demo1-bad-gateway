@@ -1,9 +1,21 @@
 package com.bbm384.badgateway.model;
 
+import com.querydsl.core.annotations.QueryEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@QueryEntity
 @Table(name = "CLUB_REQUEST")
 public class ClubRequest {
     @Id
@@ -14,42 +26,18 @@ public class ClubRequest {
     @NotNull
     private String clubName;
 
-    @Column(name = "CATEGORY")
+    @Column(name = "USERS")
+    @ElementCollection
+    private List<String> user;
+
+    @Column(name = "REQUEST_COUNT")
+    private int requestCount;
+
+    @Column(name = "CLUB_TYPE")
     @NotNull
-    private String category;
+    private String clubType;
 
-    @Column(name = "REQUEST")
-    private int request;
+    @Column(name = "PARENT_NAME")
+    private String parentName;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getClubName() {
-        return clubName;
-    }
-
-    public void setClubName(String clubName) {
-        this.clubName = clubName;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public int getRequest() {
-        return request;
-    }
-
-    public void setRequest(int request) {
-        this.request = request;
-    }
 }

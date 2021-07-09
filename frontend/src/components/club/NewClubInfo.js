@@ -23,6 +23,7 @@ import CommentList from "./CommentList";
 import Page from "../base/Page";
 import {Link} from "react-router-dom";
 import {getRoles} from "../../utils/auth";
+import * as SubClubActions from "../../api/actions/subClub";
 
 // Club a üye olanlarda yorum yap butonu ve chat olacak
 class NewClubInfo extends Component {
@@ -36,7 +37,9 @@ class NewClubInfo extends Component {
     comment: {},
     club: {},
     roles:[],
+    enrolledClubs:null,
     commentInput:"",
+    photo: null
   };
 
   constructor(props) {
@@ -44,24 +47,51 @@ class NewClubInfo extends Component {
     this.handleClubInfo = this.handleClubInfo.bind(this);
     this.sendDeleteRequest = this.sendDeleteRequest.bind(this);
     this.handleDeleteInfo = this.handleDeleteInfo.bind(this);
+    this.loadImage = this.loadImage.bind(this);
     this.handleCommentCreate = this.handleCommentCreate.bind(this);
-
+    this.handleGetEnrolledSubClubs = this.handleGetEnrolledSubClubs.bind(this);
   }
 
   componentDidMount() {
     const {id} = this.props.match.params;
     const {auth} = this.props;
+    if(localStorage.getItem("token")){
+      this.props.getEnrolledSubClubs(id, this.handleGetEnrolledSubClubs)
+    }else{
+      this.setState({
+        ...this.state,
+        enrolledClubs:[]
+      })
+    }
     this.props.getClubInfo(id, this.handleClubInfo);
   }
 
   handleCommentCreate(data) {
-    if(data.content != "" && data.rate != ""){
+    if(data.content !== "" && data.rate !== ""){
       this.setState({
         fields: "",
         comment: "",
       })
       window.location.href = window.location.href;
     }
+  }
+
+  handleGetEnrolledSubClubs(data){
+    this.setState({
+      ...this.state,
+      enrolledClubs:data
+    })
+  }
+  loadImage() {
+    console.log(this.state)
+
+    if(this.state.club.photoFileName !== null){
+      import(`../../static/image/common/${this.state.club.photoFileName}`)
+          .then(image => {
+            this.setState({ photo: image.default })
+          })
+    }
+
   }
 
   handleContentChange= (e, { value }) => this.setState({
@@ -85,7 +115,7 @@ class NewClubInfo extends Component {
       rate: rate,
       club: this.state.club,
     }
-    if(this.state.fields.content != "" && this.state.fields.rate !=""){
+    if(this.state.fields.content !== "" && this.state.fields.rate !== ""){
       this.props.createCommentInfo(data, this.handleCommentCreate);
     }
   };
@@ -98,6 +128,9 @@ class NewClubInfo extends Component {
         roles:roles
       }
     )
+    console.log(this.state);
+
+    this.loadImage()
   }
 
   handleDeleteInfo(data) {
@@ -122,7 +155,7 @@ class NewClubInfo extends Component {
 
   render() {
     let buttonEnabled = true;
-    if(this.state.fields.content != ""  && this.state.fields.rate != "" ){
+    if(this.state.fields.content !== ""  && this.state.fields.rate !== "" ){
       buttonEnabled = true;
     } else {
       buttonEnabled = false;
@@ -176,7 +209,11 @@ class NewClubInfo extends Component {
           </Grid.Column>
 
           <Grid.Column width={8}>
-            <Image centered src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='small' circular />
+            {this.state.club.photoFileName ?
+                <Image centered src={this.state.photo}/>:
+                <Image centered src='https://react.semantic-ui.com/images/wireframe/square-image.png' size='small' circular />
+            }
+
             <Header as='h1' icon textAlign='center'>
               <Header.Content style={{color: "#702BBA"}}>{this.state.club.name.toUpperCase()}
                 <h4 style={{color: "#000000"}}>{this.state.club.category.name}</h4>
@@ -193,10 +230,12 @@ class NewClubInfo extends Component {
             </Header>
             <Divider/>
             <Card.Group itemsPerRow={1}>
+              {this.state.enrolledClubs &&
               <SubClubs
                 clubId={this.state.club.id}
                 club={this.state.club}
-              />
+                enrolledClubs={this.state.enrolledClubs}
+              /> }
             </Card.Group>
           </Grid.Column>
 
@@ -246,6 +285,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     createCommentInfo: (data, callback) => {
       dispatch(clubActions.commentCreateAction(data, callback));
     },
+    getEnrolledSubClubs: (clubId, callback) => {
+      dispatch(SubClubActions.getEnrolledSubClubsAction(clubId,callback))
+    }
   }
 };
 
