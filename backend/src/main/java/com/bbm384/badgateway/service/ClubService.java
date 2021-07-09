@@ -268,4 +268,18 @@ public class ClubService {
         clubNames.addAll(subClubNames);
         return clubNames;
     }
+
+    public Boolean checkEnrolledClub(UserPrincipal currentUser, Long clubId){
+        if (currentUser.getUser().getUserType().equals(UserType.ADMIN)){
+            return true;
+        }
+
+        System.out.println(currentUser.getUser());
+
+        Club club = clubRepository.findById(clubId).get();
+
+        List<Club> clubsThatUserIsMember = clubRepository.findAllByMembers(currentUser.getUser());
+
+        return clubsThatUserIsMember.contains(club);
+    }
 }

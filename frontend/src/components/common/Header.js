@@ -81,7 +81,7 @@ class Header extends Component {
                             </Grid> : <Grid>>
                                 <Grid.Column style={{marginTop:"45px"}}>
 
-                                    <Link  to={"/login"} style={{color:"white", marginLeft:"1370px"}}> <Icon size={"big"} name={"sign-in"}/>Login</Link>
+                                    <Link  to={"/login"} style={{color:"white", marginLeft:"1200px"}}> <Icon size={"big"} name={"sign-in"}/>Login</Link>
                                 </Grid.Column>
                             </Grid>
                     }

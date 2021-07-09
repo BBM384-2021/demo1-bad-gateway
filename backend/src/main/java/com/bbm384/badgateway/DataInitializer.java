@@ -61,7 +61,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if(true){
+        if(false){
             User admin = new User();
             admin.setName("Betül Karagöz");
             admin.setUsername("admin");

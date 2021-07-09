@@ -1,16 +1,16 @@
 import * as clubService from "../services/club";
 
 export const clubListAction = (page, name, category, callback) => {
-  return (dispatch, getState) => {
+    return (dispatch, getState) => {
 
-    return clubService.clubListService(page, name, category).then(
-      (result) => {
-        callback(result.data);
-      },
-      (error) =>{
-        // callback(messageError);
-      });
-  }
+        return clubService.clubListService(page, name, category).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
 };
 
 export const clubInfoAction = (id, callback) => {
@@ -62,51 +62,51 @@ export const deleteClubAction = (id,callback) => {
 }
 
 export const subClubListAction = (clubId, callback) => {
-  return (dispatch, getState) => {
-    return clubService.subClubListService(clubId).then(
-      (result) => {
-        callback(result.data);
-      },
-      (error) =>{
-        // callback(messageError);
-      });
-  }
+    return (dispatch, getState) => {
+        return clubService.subClubListService(clubId).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
 };
 
 export const clubCommentListAction = (clubId, callback) => {
-  return (dispatch, getState) => {
-    return clubService.clubCommentListService(clubId).then(
-      (result) => {
-        callback(result.data);
-      },
-      (error) =>{
-        // callback(messageError);
-      });
-  }
+    return (dispatch, getState) => {
+        return clubService.clubCommentListService(clubId).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
 };
 
 export const createCommentAction = (data, callback) => {
-  return (dispatch, getStatus) => {
-    return clubService.createCommentService(data).then(
-      (result) => {
-        callback(result.data);
-      },
-      (error) =>{
-        // callback(messageError);
-      });
-  }
+    return (dispatch, getStatus) => {
+        return clubService.createCommentService(data).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
 }
 
 export const commentCreateAction = (data, callback) => {
-  return (dispatch, getStatus) => {
-    return clubService.commentCreateService(data).then(
-      (result) => {
-        callback(result.data);
-      },
-      (error) =>{
-        // callback(messageError);
-      });
-  }
+    return (dispatch, getStatus) => {
+        return clubService.commentCreateService(data).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
 }
 
 
@@ -136,15 +136,15 @@ export const getAllClubsAction = (callback) => {
 }
 
 export const getAllClubNamesAction = (callback) => {
-  return (dispatch, getStatus) => {
-    return clubService.getAllClubNamesService().then(
-      (result) => {
-        callback(result.data);
-      },
-      (error) =>{
-        // callback(messageError);
-      });
-  }
+    return (dispatch, getStatus) => {
+        return clubService.getAllClubNamesService().then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
 }
 
 export const uploadPhotoAction = (name, data, callback, uploadFileErrorCallback) => {
@@ -170,13 +170,25 @@ export const enrollToSubClub = (subClubId, callback) => {
     }
 }
 export const getAllTypeClubNamesAction = (callback) => {
-  return (dispatch, getStatus) => {
-    return clubService.getAllTypeClubNamesService().then(
-      (result) => {
-        callback(result.data);
-      },
-      (error) =>{
-        // callback(messageError);
-      });
-  }
+    return (dispatch, getStatus) => {
+        return clubService.getAllTypeClubNamesService().then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
+}
+
+export const checkEnrolledClubAction = (clubId, callback) => {
+    return (dispatch, getStatus) => {
+        return clubService.checkEnrolledClubService(clubId,).then(
+            (result) => {
+                callback(result.data);
+            },
+            (error) =>{
+                // callback(messageError);
+            });
+    }
 }

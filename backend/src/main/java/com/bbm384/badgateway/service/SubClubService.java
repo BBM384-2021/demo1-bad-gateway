@@ -281,4 +281,17 @@ public class SubClubService {
         subClubRepository.save(subClub);
         fileUploadResponse.setSuccess(true);
     }
+
+    public Boolean checkEnrolledSubClub(UserPrincipal currentUser, long subClubId) {
+        if (currentUser.getUser().getUserType().equals(UserType.ADMIN)){
+            return true;
+        }
+
+        SubClub subClub = subClubRepository.findById(subClubId).get();
+
+        List<SubClub> subClubsThatUserIsMember = subClubRepository.findAllByMembers(currentUser.getUser());
+
+        return subClubsThatUserIsMember.contains(subClub);
+
+    }
 }

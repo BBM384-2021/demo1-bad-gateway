@@ -62,8 +62,8 @@ public class MemberBan extends CreatedAudit {
     }
 
     public boolean checkActivateMember(){
-        Instant expiryDate = this.bannedDate.plus(Period.ofDays(3));
-        if( Instant.now().compareTo(expiryDate) > 0 && this.status == BannedMemberStatus.DISMISSED){
+        Instant expiryDate = this.bannedDate.plus(Period.ofDays(5));
+        if( Instant.now().compareTo(expiryDate) > 0 && this.status == BannedMemberStatus.BANNED){
             this.setStatus(BannedMemberStatus.ACTIVE);
             return true;
         }

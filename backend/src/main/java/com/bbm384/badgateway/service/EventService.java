@@ -63,20 +63,36 @@ public class EventService {
             List<Club> clubsThatUserIsMember = clubRepository.findAllByMembers(currentUser.getUser());
             List<SubClub> subClubsThatUserIsMember = subClubRepository.findAllByMembers(currentUser.getUser());
 
+            BooleanExpression query3 = null;
+            BooleanExpression query2 = null;
 
-            for (Club club : clubsThatUserIsMember){
-                query = query.or(root.club.id.eq(club.getId()));
+
+            if(clubsThatUserIsMember.size() > 0){
+                query3 = root.club.id.eq(clubsThatUserIsMember.get(0).getId());
+                for (Club club : clubsThatUserIsMember){
+                    query3 = query3.or(root.club.id.eq(club.getId()));
+                }
             }
 
+
             if(subClubsThatUserIsMember.size() > 0){
-                BooleanExpression query2 = root.subClub.id.eq(subClubsThatUserIsMember.get(0).getId());
+                query2 = root.subClub.id.eq(subClubsThatUserIsMember.get(0).getId());
 
                 for (SubClub subClub : subClubsThatUserIsMember){
                     query2 = query2.or(root.subClub.id.eq(subClub.getId()));
                 }
-                query = query.and(query2);
             }
 
+            if(query2 != null && query3 != null){
+                query2 = query2.or(query3);
+                query = query.and(query2);
+            }
+            else if(query2 == null){
+                query = query.and(query3);
+            }
+            else if(query3 == null){
+                query = query.and(query2);
+            }
         }
 
 

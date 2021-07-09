@@ -109,11 +109,15 @@ class SubClubChat extends Component {
         let message;
         if(data.response){
             if (data.response.data.status === 404) {
-                message = "Please enter a valid email address.";
+                this.setState({
+                    status: LoadingStates.LOADED,
+                })
                 return;
             }
             else if (data.response.data.status === 500) {
-                message = "This username and email exists.";
+                this.setState({
+                   status: LoadingStates.LOADED
+                })
                 return;
             }
         }
@@ -151,7 +155,7 @@ class SubClubChat extends Component {
         })
 
 
-        setTimeout(() => {this.messageEnd.scrollIntoView({ behavior: 'smooth' })}, 600);
+        //setTimeout(() => {this.messageEnd.scrollIntoView({ behavior: 'smooth' })}, 600);
     }
 
     handleHistoryMessages(data){
