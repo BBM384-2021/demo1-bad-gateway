@@ -1,0 +1,55 @@
+.auth-wrapper{
+    max-width: 500px;
+}
+
+.auth-container-wrapper{
+    padding-top: 60px;
+}
+
+.auth-container{
+    padding: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 5px
+}
+
+.no-space{
+    padding: 0;
+}
+
+.no-space .auth-container{
+    padding-top: 0;
+}
+
+.message-auth{
+    margin-top: 15px !important;
+}
+
+.loginHeader.ui.header {
+    font-family: "Ubuntu Mono" !important;
+}
+
+.carousel-container{
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.carousel-container .carousel {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0 !important;
+}
+
+.loginBox {
+    width: 50vw;
+    min-width: 500px;
+
+}

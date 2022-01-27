@@ -1,0 +1,67 @@
+.top-menu{
+    background: #7733FF;
+    display: flex;
+    border-bottom: solid 1px #333;
+    padding: 0 50px;
+    height: 110px;
+}
+
+.top-menu-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.top-menu-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-menu-right{
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+
+.nav-menu{
+    background: #efefef;
+    padding: 0 50px;
+}
+
+.user-right{
+    align-self: center;
+    padding-right: 10px;
+}
+
+.v-sidebar{
+    top: 101px !important;
+}
+
+.ui.sidebar{
+    max-height: 640px !important;
+}
+
+.profile-button-text{
+    margin-left: .5em;
+}
+
+#root>.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999999999999;
+}
+
+.body {
+    padding-top: 140px;
+}
+
+.body-public {
+    background-color: #EFF8F9;
+    padding-top: 110px;
+    height: 100vh;
+}

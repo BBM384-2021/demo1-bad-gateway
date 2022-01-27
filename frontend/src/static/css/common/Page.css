@@ -1,0 +1,47 @@
+.page {
+    margin: 0 20px;
+    position: relative;
+}
+
+.page .title {
+    margin-top: 10px !important;
+    margin-left: 40px !important;
+}
+
+.page table.ui {
+    margin-bottom: 0 !important;
+}
+
+.page table.pagination {
+    margin-top: 0 !important;
+}
+
+.page .navigateBack {
+    position: absolute;
+    top: 7px;
+    left: 0;
+}
+
+.page .filter-divider {
+    margin: 3px 0 !important;
+}
+
+.page>.segment {
+    margin: 5px 0 !important;
+}
+
+.page .table {
+    margin: 5px 0 !important;
+}
+
+.page>.content {
+    padding-bottom: 40px;
+}
+
+.page .bottomless {
+    padding-bottom: 0;
+}
+
+.body-public .segment {
+    margin: 30px auto !important;
+}
